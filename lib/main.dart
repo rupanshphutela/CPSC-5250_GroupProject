@@ -105,11 +105,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   matchEngine.currentMatch.like();
                 },
               ),
-              new RoundIconButton.small(
-                icon: Icons.lock,
-                iconColor: Colors.purple,
-                onPressed: () {},
-              ),
             ],
           ),
         ));
