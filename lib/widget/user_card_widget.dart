@@ -8,9 +8,9 @@ class UserCardWidget extends StatelessWidget {
   final bool isUserInFocus;
 
   const UserCardWidget({
-    @required this.user,
-    @required this.isUserInFocus,
-    Key key,
+    required this.user,
+    required this.isUserInFocus,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -60,7 +60,7 @@ class UserCardWidget extends StatelessWidget {
                 ],
               ),
             ),
-            if (isUserInFocus) buildLikeBadge(swipingDirection)
+            if (isUserInFocus) buildLikeBadge(swipingDirection!)
           ],
         ),
       ),
@@ -100,7 +100,7 @@ class UserCardWidget extends StatelessWidget {
     }
   }
 
-  Widget buildUserInfo({@required User user}) => Padding(
+  Widget buildUserInfo({required User user}) => Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -11,12 +11,32 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+buildAppBar(
+    {required bool centerTitle,
+    required Color backgroundColor,
+    required int elevation,
+    required List<Widget> actions,
+    required Icon leading}) {}
+
 class _HomePageState extends State<HomePage> {
   final List<User> users = testUsers;
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: buildAppBar(),
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text("Safe Zone"),
+          leading: const Icon(Icons.person),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(
+                Icons.chat,
+                color: Colors.white,
+              ),
+              onPressed: () {},
+            )
+          ],
+        ),
         body: Padding(
           padding: const EdgeInsets.all(8),
           child: Column(
@@ -29,17 +49,6 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-      );
-
-  Widget buildAppBar() => AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          Icon(Icons.chat, color: Colors.grey),
-          SizedBox(width: 16),
-        ],
-        leading: Icon(Icons.person, color: Colors.grey),
       );
 
   Widget buildUser(User user) {
