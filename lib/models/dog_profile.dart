@@ -1,34 +1,38 @@
-import 'package:Dig/model/dog_picture.dart';
-import 'package:Dig/model/favorite_activity.dart';
-import 'package:Dig/model/food_preference.dart';
-import 'package:Dig/model/left_swipe.dart';
-import 'package:Dig/model/other_fact.dart';
-import 'package:Dig/model/right_swipe.dart';
-import 'package:Dig/model/skill.dart';
+import 'package:floor/floor.dart';
 
+import 'dog_picture.dart';
+import 'favorite_activity.dart';
+import 'food_preference.dart';
+import 'left_swipe.dart';
+import 'other_fact.dart';
+import 'right_swipe.dart';
+import 'skill.dart';
+
+@Entity(tableName: 'dog_profile')
 class DogProfile {
+  @primaryKey
   int id;
   String fName;
   String lName;
-  String profilePicturePath;
-  List<DogPicture> dogPictures;
-  List<Skill> skills;
-  List<FoodPreference> foodPreferences;
-  List<RightSwipe> rightSwipes;
-  List<LeftSwipe> leftSwipes;
+  String? profilePicturePath;
+  List<DogPicture>? dogPictures;
+  List<Skill>? skills;
+  List<FoodPreference>? foodPreferences;
+  List<RightSwipe>? rightSwipes;
+  List<LeftSwipe>? leftSwipes;
   String ownerId;
-  String biography;
+  String? biography;
   String gender;
   String breed;
   String color;
-  List<FavoriteActivity> favoriteActivites;
+  List<FavoriteActivity>? favoriteActivites;
   bool isVaccinated;
   String registrationDate;
   bool isSpayed;
   bool isNeutered;
   String joiningDate;
   String dogSize;
-  List<OtherFact> otherFacts;
+  List<OtherFact>? otherFacts;
   DogProfile(
       {required this.id,
       required this.fName,
