@@ -59,8 +59,7 @@ class _HomePageState extends State<HomePage> {
       onPointerMove: (pointerEvent) {
         final provider =
             Provider.of<FeedbackPositionProvider>(context, listen: false);
-        provider.updatePosition(
-            pointerEvent.localDelta.dx, pointerEvent.localDelta.dy);
+        provider.updatePosition(pointerEvent.localDelta.dx);
       },
       onPointerCancel: (_) {
         final provider =
