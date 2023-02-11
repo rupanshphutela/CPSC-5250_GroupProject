@@ -60,7 +60,7 @@ class UserCardWidget extends StatelessWidget {
                 ],
               ),
             ),
-            if (isUserInFocus) buildLikeBadge(swipingDirection!)
+            if (isUserInFocus) buildLikeBadge(swipingDirection)
           ],
         ),
       ),
