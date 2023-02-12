@@ -5,8 +5,8 @@ import 'picture.dart';
 
 @dao
 abstract class PictureDao {
-  @Query("SELECT * FROM pictures WHERE dogId = :dogId")
-  Future<Picture> getPicturesById(String dogId);
+  @Query("SELECT * FROM pictures WHERE profileId = :profileId")
+  Future<Picture> getPicturesByProfileId(String profileId);
 
   @insert
   Future<void> insertPicture(Picture picture);

@@ -2,14 +2,14 @@ import 'package:floor/floor.dart';
 
 import 'profile.dart';
 
-@Entity(tableName: 'left_swipe', foreignKeys: [
+@Entity(tableName: 'top_swipe', foreignKeys: [
   ForeignKey(
       childColumns: ['profileId'], parentColumns: ['id'], entity: Profile)
 ])
-class LeftSwipe {
+class TopSwipe {
   int? profileId;
   int? ownerId;
   String? swipeDate;
   int? targetId;
-  LeftSwipe({this.profileId, this.ownerId, this.swipeDate, this.targetId});
+  TopSwipe({this.profileId, this.ownerId, this.swipeDate, this.targetId});
 }

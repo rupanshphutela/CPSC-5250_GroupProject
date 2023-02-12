@@ -1,6 +1,15 @@
+import 'package:floor/floor.dart';
+
+import 'profile.dart';
+
+@Entity(tableName: 'right_swipe', foreignKeys: [
+  ForeignKey(
+      childColumns: ['profileId'], parentColumns: ['id'], entity: Profile)
+])
 class RightSwipe {
-  int? dogId;
+  int? profileId;
   int? ownerId;
   String? swipeDate;
-  RightSwipe({this.dogId, this.ownerId, this.swipeDate});
+  int? targetId;
+  RightSwipe({this.profileId, this.ownerId, this.swipeDate, this.targetId});
 }

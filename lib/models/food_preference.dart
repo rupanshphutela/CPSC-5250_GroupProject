@@ -1,9 +1,17 @@
+import 'package:floor/floor.dart';
+
+import 'profile.dart';
+
+@Entity(tableName: 'food_preference', foreignKeys: [
+  ForeignKey(
+      childColumns: ['profileId'], parentColumns: ['id'], entity: Profile)
+])
 class FoodPreference {
-  int? dogId;
+  int? profileId;
   String? foodName;
   int? likingIndex;
   FoodPreference({
-    this.dogId,
+    this.profileId,
     this.foodName,
     this.likingIndex,
   });

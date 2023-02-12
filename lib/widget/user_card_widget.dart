@@ -60,7 +60,7 @@ class UserCardWidget extends StatelessWidget {
                 ],
               ),
             ),
-            if (isUserInFocus) buildLikeBadge(swipingDirection!)
+            if (isUserInFocus) buildLikeBadge(swipingDirection)
           ],
         ),
       ),
@@ -69,6 +69,7 @@ class UserCardWidget extends StatelessWidget {
 
   Widget buildLikeBadge(SwipingDirection swipingDirection) {
     final isSwipingRight = swipingDirection == SwipingDirection.right;
+    final isSwipingUp = swipingDirection == SwipingDirection.up;
     final color = isSwipingRight ? Colors.green : Colors.pink;
     final angle = isSwipingRight ? -0.5 : 0.5;
 
@@ -76,7 +77,7 @@ class UserCardWidget extends StatelessWidget {
       return Container();
     } else {
       return Positioned(
-        top: 20,
+        top: isSwipingUp ? null : 20,
         right: isSwipingRight ? null : 20,
         left: isSwipingRight ? 20 : null,
         child: Transform.rotate(
@@ -87,7 +88,7 @@ class UserCardWidget extends StatelessWidget {
               border: Border.all(color: color, width: 2),
             ),
             child: Text(
-              isSwipingRight ? 'LIKE' : 'NOPE',
+              _getMessage(isSwipingUp, isSwipingRight),
               style: TextStyle(
                 color: color,
                 fontSize: 20,
@@ -97,6 +98,16 @@ class UserCardWidget extends StatelessWidget {
           ),
         ),
       );
+    }
+  }
+
+  String _getMessage(bool isSwipingUp, bool isSwipingRight) {
+    if (isSwipingUp) {
+      return 'SUPER DIG';
+    } else if (isSwipingRight) {
+      return 'DIG';
+    } else {
+      return 'WOOF';
     }
   }
 
