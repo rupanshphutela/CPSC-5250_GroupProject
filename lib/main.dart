@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_dig_app/screens/chat.dart';
-import 'package:my_dig_app/screens/dog_profile.dart';
-import 'package:my_dig_app/screens/event.dart';
-import 'package:my_dig_app/screens/settings.dart';
+import 'package:the_dig_app/screens/chat.dart';
+import 'package:the_dig_app/screens/dog_profile.dart';
+import 'package:the_dig_app/screens/event.dart';
+import 'package:the_dig_app/screens/settings.dart';
 
 void main() {
   runApp(const MyApp());

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_dig_app/screens/chat.dart';
-import 'package:my_dig_app/screens/event.dart';
-import 'package:my_dig_app/screens/settings.dart';
-import 'package:my_dig_app/util/profile_card.dart';
+import 'package:the_dig_app/screens/chat.dart';
+import 'package:the_dig_app/screens/event.dart';
+import 'package:the_dig_app/screens/settings.dart';
+import 'package:the_dig_app/util/profile_card.dart';
 
 import '../models/profile_model.dart';
 // import '../util/profile_card.dart';
