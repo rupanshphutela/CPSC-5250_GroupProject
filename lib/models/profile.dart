@@ -1,4 +1,5 @@
 import 'package:floor/floor.dart';
+import 'package:sqflite/sqflite.dart';
 
 @Entity(tableName: 'profile')
 class Profile {
@@ -6,8 +7,8 @@ class Profile {
   int id;
   String fName;
   String lName;
-  String? profilePicture;
-  String ownerId;
+  String profilePicture;
+  int ownerId;
   String? biography;
   String gender;
   String breed;
@@ -22,7 +23,7 @@ class Profile {
     required this.id,
     required this.fName,
     required this.lName,
-    this.profilePicture,
+    required this.profilePicture,
     required this.ownerId,
     this.biography,
     required this.gender,
@@ -35,4 +36,31 @@ class Profile {
     required this.joiningDate,
     required this.size,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'fName': fName,
+      'lName': lName,
+      'profilePicture': profilePicture,
+      'ownerId': ownerId,
+      'biography': biography,
+      'gender': gender,
+      'breed': breed,
+      'color': color,
+      'isVaccinated': isVaccinated,
+      'registrationDate': registrationDate,
+      'isSpayed': isSpayed,
+      'isNeutered': isNeutered,
+      'joiningDate': joiningDate,
+      'size': size,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'Dog{id: $id, fName: $fName, lName: $lName, profilePicture: $profilePicture, ownerId: $ownerId, biography: $biography, gender: $gender}';
+  }
+
+
 }
