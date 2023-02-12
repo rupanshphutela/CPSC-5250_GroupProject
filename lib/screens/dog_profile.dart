@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/screens/chat.dart';
 import 'package:the_dig_app/screens/event.dart';
 import 'package:the_dig_app/screens/settings.dart';
 import 'package:the_dig_app/util/profile_card.dart';
+import 'package:the_dig_app/providers/digProvider.dart';
 
 import '../models/profile_model.dart';
 // import '../util/profile_card.dart';
@@ -42,12 +45,74 @@ class DogProfile extends StatefulWidget {
 }
 
 class _DogProfileState extends State<DogProfile> {
+  
   int counter = 4;
   final CardSwiperController controller = CardSwiperController();
 
-  final cards = candidates.map((candidate) => ProfileCard(card: candidate,)).toList();
+  @override
+  void initState() {
+    final digProvider = Provider.of<DigProvider>(context, listen: false);
+    super.initState();
+
+
+  //   for(var i = 14; i<17; i++){
+  //     digProvider.insertProfile(
+  //         Profile(
+  //     id: i,
+  //     fName: 'Bruno $i',
+  //     lName: 'dsf $i ',
+  //     profilePicture: 'assets/images/dog$i.jpg',
+  //     ownerId: 1,
+  //     gender: 'Male',
+  //     breed: 'Labrador',
+  //     color: 'Golden',
+  //     isVaccinated: true,
+  //     registrationDate: '2/12/23',
+  //     isSpayed: false,
+  //     isNeutered: true,
+  //     joiningDate: '2/12/23',
+  //     size: '10',
+  // )
+
+  //     );
+  // }
+  var cards;
+   void _allProfiles() async {
+    // final digProvider = Provider.of<DigProvider>(context, listen: false);
+    List<Profile>? profiles = await digProvider.getProfiles();
+    cards = await profiles!.map((candidate) => ProfileCard(card: candidate,)).toList();
+
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    final digProvider = Provider.of<DigProvider>(context, listen: false);
+      for(var i = 22; i<25; i++){
+      digProvider.insertProfile(
+          Profile(
+      id: i,
+      fName: 'Bruno $i',
+      lName: 'dsf $i ',
+      profilePicture: 'assets/images/dog$i.jpg',
+      ownerId: 1,
+      gender: 'Male',
+      breed: 'Labrador',
+      color: 'Golden',
+      isVaccinated: true,
+      registrationDate: '2/12/23',
+      isSpayed: false,
+      isNeutered: true,
+      joiningDate: '2/12/23',
+      size: '10',
+  )
+
+      );
+  }
+  print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+  print(digProvider.getProfiles());
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -64,20 +129,21 @@ class _DogProfileState extends State<DogProfile> {
             )
           ],
         ),
-        body: SafeArea(
-          child: Column(
-          children: [
-            Flexible(
-              child: CardSwiper(
-                controller: controller,
-                cards: cards,
-                onSwipe: _swipe,
-                padding: const EdgeInsets.all(24.0),
-              ),
-            ),
-          ],
-        ),
-      ),
+      //   body: SafeArea(
+      //     child: Column(
+      //     children: [
+      //       Flexible(
+      //         child: CardSwiper(
+      //           controller: controller,
+      //           cards: cards,
+      //           onSwipe: _swipe,
+      //           padding: const EdgeInsets.all(24.0),
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
+
       
 
       bottomNavigationBar: BottomNavigationBar(
