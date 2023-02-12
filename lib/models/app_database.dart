@@ -34,11 +34,11 @@ part 'app_database.g.dart'; // the generated code will be here
   TopSwipe,
   Behavior,
   FavoriteActivity
-]) // ,views: [DigDogProfiles]
+]) // ,views: [Profiles]
 abstract class AppDatabase extends FloorDatabase {
-  ProfileDao get dogProfileDao;
+  ProfileDao get profileDao;
   OwnerDao get ownerProfileDao;
-  PictureDao get dogPictureDao;
+  PictureDao get pictureDao;
   SkillDao get skillDao;
   FoodPreferenceDao get foodPreferenceDao;
   RightSwipeDao get rightSwipeDao;
