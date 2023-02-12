@@ -6,7 +6,7 @@ import 'behavior.dart';
 @dao
 abstract class BehaviorDao {
   @Query("SELECT * FROM behavior WHERE profileId = :profileId")
-  Future<Behavior> getBehaviorsByProfileId(String profileId);
+  Future<Behavior?> getBehaviorsByProfileId(String profileId);
 
   @insert
   Future<void> insertBehavior(Behavior behavior);

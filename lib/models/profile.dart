@@ -1,13 +1,5 @@
 import 'package:floor/floor.dart';
 
-import 'picture.dart';
-import 'favorite_activity.dart';
-import 'food_preference.dart';
-import 'left_swipe.dart';
-import 'behavior.dart';
-import 'right_swipe.dart';
-import 'skill.dart';
-
 @Entity(tableName: 'profile')
 class Profile {
   @primaryKey
@@ -15,45 +7,32 @@ class Profile {
   String fName;
   String lName;
   String? profilePicture;
-  List<Picture>? picture;
-  List<Skill>? skills;
-  List<FoodPreference>? foodPreferences;
-  List<RightSwipe>? rightSwipes;
-  List<LeftSwipe>? leftSwipes;
   String ownerId;
   String? biography;
   String gender;
   String breed;
   String color;
-  List<FavoriteActivity>? favoriteActivites;
   bool isVaccinated;
   String registrationDate;
   bool isSpayed;
   bool isNeutered;
   String joiningDate;
   String size;
-  List<Behavior>? otherFacts;
-  Profile(
-      {required this.id,
-      required this.fName,
-      required this.lName,
-      this.profilePicture,
-      this.picture,
-      this.skills,
-      this.foodPreferences,
-      this.rightSwipes,
-      this.leftSwipes,
-      required this.ownerId,
-      this.biography,
-      required this.gender,
-      required this.breed,
-      required this.color,
-      this.favoriteActivites,
-      required this.isVaccinated,
-      required this.registrationDate,
-      required this.isSpayed,
-      required this.isNeutered,
-      required this.joiningDate,
-      required this.size,
-      this.otherFacts});
+  Profile({
+    required this.id,
+    required this.fName,
+    required this.lName,
+    this.profilePicture,
+    required this.ownerId,
+    this.biography,
+    required this.gender,
+    required this.breed,
+    required this.color,
+    required this.isVaccinated,
+    required this.registrationDate,
+    required this.isSpayed,
+    required this.isNeutered,
+    required this.joiningDate,
+    required this.size,
+  });
 }

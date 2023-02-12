@@ -7,6 +7,7 @@ import 'profile.dart';
       childColumns: ['profileId'], parentColumns: ['id'], entity: Profile)
 ])
 class FoodPreference {
+  @primaryKey
   int? profileId;
   String? foodName;
   int? likingIndex;

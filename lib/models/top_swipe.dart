@@ -7,6 +7,7 @@ import 'profile.dart';
       childColumns: ['profileId'], parentColumns: ['id'], entity: Profile)
 ])
 class TopSwipe {
+  @primaryKey
   int? profileId;
   int? ownerId;
   String? swipeDate;

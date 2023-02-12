@@ -6,6 +6,7 @@ import 'profile.dart';
       childColumns: ['profileId'], parentColumns: ['id'], entity: Profile)
 ])
 class Picture {
+  @primaryKey
   int? profileId;
   int? ownerId;
   String? picturePath;

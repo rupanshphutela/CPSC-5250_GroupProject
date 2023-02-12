@@ -4,7 +4,7 @@ import 'owner.dart';
 @dao
 abstract class OwnerDao {
   @Query("SELECT * FROM owner WHERE id = :ownerId")
-  Future<Owner> getOwnerByOwnerId(String ownerId);
+  Future<Owner?> getOwnerByOwnerId(String ownerId);
 
   @insert
   Future<void> insertOwnerProfile(Owner ownerProfile);

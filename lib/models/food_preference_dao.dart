@@ -6,7 +6,7 @@ import 'food_preference.dart';
 @dao
 abstract class FoodPreferenceDao {
   @Query("SELECT * FROM food_preference WHERE profileId = :profileId")
-  Future<FoodPreference> getFoodPreferencesByProfileId(String profileId);
+  Future<FoodPreference?> getFoodPreferencesByProfileId(String profileId);
 
   @insert
   Future<void> insertFoodPreference(FoodPreference foodPreference);

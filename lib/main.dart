@@ -1,31 +1,70 @@
+import 'dart:io';
+
+import 'package:floor/floor.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:path/path.dart';
+import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:the_dig_app/models/app_database.dart';
+import 'package:the_dig_app/providers/digProvider.dart';
 import 'package:the_dig_app/screens/chat.dart';
 import 'package:the_dig_app/screens/dog_profile.dart';
 import 'package:the_dig_app/screens/event.dart';
 import 'package:the_dig_app/screens/settings.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (kDebugMode) {
+    print('initializing database');
+  }
+  await initializeDatabase();
+  if (kDebugMode) {
+    print('loading database');
+  }
+  final AppDatabase database =
+      await $FloorAppDatabase.databaseBuilder('dig.sqlite').build();
+
+  if (kDebugMode) {
+    print('running app');
+  }
+  runApp(MyApp(database));
+}
+
+Future<void> initializeDatabase() async {
+  final databaseFilename =
+      await sqfliteDatabaseFactory.getDatabasePath('dig.sqlite');
+
+  if (!(await databaseExists(databaseFilename))) {
+    try {
+      await Directory(dirname(databaseFilename)).create(recursive: true);
+    } catch (_) {}
+    ByteData data = await rootBundle.load(join('assets', 'dig.sqlite'));
+    List<int> bytes =
+        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    await File(databaseFilename).writeAsBytes(bytes, flush: true);
+  }
 }
 
 final _routes = [
-    GoRoute(
-      path: '/dogprofile',
-      builder: (context, state) => const DogProfile(),
-    ),
-    GoRoute(
-      path: '/chats',
-      builder: (context, state) => const Chat(),
-    ),
-    GoRoute(
-      path: '/events',
-      builder: (context, state) => const Event(),
-    ),
-    GoRoute(
-      path: '/settings',
-      builder: (context, state) => const Settings(),
-    ),
+  GoRoute(
+    path: '/dogprofile',
+    builder: (context, state) => const DogProfile(),
+  ),
+  GoRoute(
+    path: '/chats',
+    builder: (context, state) => const Chat(),
+  ),
+  GoRoute(
+    path: '/events',
+    builder: (context, state) => const Event(),
+  ),
+  GoRoute(
+    path: '/settings',
+    builder: (context, state) => const Settings(),
+  ),
 ];
 
 final _router = GoRouter(
@@ -34,17 +73,22 @@ final _router = GoRouter(
 );
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AppDatabase _database;
+
+  const MyApp(this._database, {super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
+    return ChangeNotifierProvider(
+      create: (_) => DigProvider(_database),
+      child: MaterialApp.router(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.teal,
+        ),
+        routerConfig: _router,
       ),
-      routerConfig: _router,
     );
   }
 }
@@ -53,7 +97,7 @@ class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("DIG"),
@@ -61,16 +105,20 @@ class MyHomePage extends StatelessWidget {
       body: const DogProfile(),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.teal), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat, color: Colors.teal), label: 'Chats'),
-          BottomNavigationBarItem(icon: Icon(Icons.event, color: Colors.teal), label: 'Events'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings, color: Colors.teal), label: 'Settings'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home, color: Colors.teal), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.chat, color: Colors.teal), label: 'Chats'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.event, color: Colors.teal), label: 'Events'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings, color: Colors.teal),
+              label: 'Settings'),
         ],
-        onTap: (index){
+        onTap: (index) {
           context.push(_routes[index].path);
         },
       ),
     );
   }
 }
-

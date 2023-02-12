@@ -6,7 +6,7 @@ import 'top_swipe.dart';
 @dao
 abstract class TopSwipeDao {
   @Query("SELECT * FROM top_swipe WHERE profileId = :profileId")
-  Future<TopSwipe> getTopSwipesByProfileId(String profileId);
+  Future<TopSwipe?> getTopSwipesByProfileId(String profileId);
 
   @insert
   Future<void> insertTopSwipe(TopSwipe topSwipe);

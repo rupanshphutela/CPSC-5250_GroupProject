@@ -7,6 +7,7 @@ import 'profile.dart';
       childColumns: ['profileId'], parentColumns: ['id'], entity: Profile)
 ])
 class Skill {
+  @primaryKey
   int? profileId;
   String? skillName;
   String? proficiency;

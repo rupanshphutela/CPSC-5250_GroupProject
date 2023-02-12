@@ -1,5 +1,8 @@
+library the_dig_app.models;
+
 import 'dart:async';
 import 'package:floor/floor.dart';
+import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:the_dig_app/models/behavior.dart';
 import 'package:the_dig_app/models/behavior_dao.dart';
 import 'package:the_dig_app/models/favorite_activity.dart';

@@ -6,7 +6,7 @@ import 'favorite_activity.dart';
 @dao
 abstract class FavoriteActivityDao {
   @Query("SELECT * FROM favorite_activity WHERE profileId = :profileId")
-  Future<FavoriteActivity> getFavoriteActivitiesByProfileId(String profileId);
+  Future<FavoriteActivity?> getFavoriteActivitiesByProfileId(String profileId);
 
   @insert
   Future<void> insertFavoriteActivity(FavoriteActivity favoriteActivity);

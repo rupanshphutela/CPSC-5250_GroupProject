@@ -6,6 +6,7 @@ import 'profile.dart';
       childColumns: ['profileId'], parentColumns: ['id'], entity: Profile)
 ])
 class Behavior {
+  @primaryKey
   int? profileId;
   int? socialIndexHumans;
   int? socialIndexDogs;

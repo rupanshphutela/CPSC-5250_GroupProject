@@ -6,7 +6,7 @@ import 'right_swipe.dart';
 @dao
 abstract class RightSwipeDao {
   @Query("SELECT * FROM right_swipe WHERE profileId = :profileId")
-  Future<RightSwipe> getRightSwipesByProfileId(String profileId);
+  Future<RightSwipe?> getRightSwipesByProfileId(String profileId);
 
   @insert
   Future<void> insertRightSwipe(RightSwipe rightSwipe);
