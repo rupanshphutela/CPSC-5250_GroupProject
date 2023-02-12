@@ -1,5 +1,9 @@
 import 'dart:async';
 import 'package:floor/floor.dart';
+import 'package:my_dig_app/models/behavior.dart';
+import 'package:my_dig_app/models/behavior_dao.dart';
+import 'package:my_dig_app/models/favorite_activity.dart';
+import 'package:my_dig_app/models/favorite_activity_dao.dart';
 import 'package:my_dig_app/models/left_swipe.dart';
 import 'package:my_dig_app/models/left_swipe_dao.dart';
 import 'package:my_dig_app/models/owner.dart';
@@ -27,7 +31,9 @@ part 'app_database.g.dart'; // the generated code will be here
   FoodPreference,
   RightSwipe,
   LeftSwipe,
-  TopSwipe
+  TopSwipe,
+  Behavior,
+  FavoriteActivity
 ]) // ,views: [DigDogProfiles]
 abstract class AppDatabase extends FloorDatabase {
   ProfileDao get dogProfileDao;
@@ -38,4 +44,6 @@ abstract class AppDatabase extends FloorDatabase {
   RightSwipeDao get rightSwipeDao;
   LeftSwipeDao get leftSwipeDao;
   TopSwipeDao get topSwipeDao;
+  BehaviorDao get behaviorDao;
+  FavoriteActivityDao get favoriteActivityDao;
 }

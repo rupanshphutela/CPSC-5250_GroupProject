@@ -1,13 +1,20 @@
-class OtherFact {
-  int? dogId;
+import 'package:floor/floor.dart';
+import 'profile.dart';
+
+@Entity(tableName: 'behavior', foreignKeys: [
+  ForeignKey(
+      childColumns: ['profileId'], parentColumns: ['id'], entity: Profile)
+])
+class Behavior {
+  int? profileId;
   int? socialIndexHumans;
   int? socialIndexDogs;
   bool? isFoodAggressive;
   bool? isNewHumanAggressive;
   bool? isNewDogAggressive;
 
-  OtherFact({
-    this.dogId,
+  Behavior({
+    this.profileId,
     this.socialIndexHumans,
     this.socialIndexDogs,
     this.isFoodAggressive,

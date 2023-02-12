@@ -4,7 +4,7 @@ import 'picture.dart';
 import 'favorite_activity.dart';
 import 'food_preference.dart';
 import 'left_swipe.dart';
-import 'other_fact.dart';
+import 'behavior.dart';
 import 'right_swipe.dart';
 import 'skill.dart';
 
@@ -32,7 +32,7 @@ class Profile {
   bool isNeutered;
   String joiningDate;
   String size;
-  List<OtherFact>? otherFacts;
+  List<Behavior>? otherFacts;
   Profile(
       {required this.id,
       required this.fName,
