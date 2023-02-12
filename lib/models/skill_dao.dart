@@ -4,7 +4,7 @@ import './skill.dart';
 @dao
 abstract class SkillDao {
   @Query("SELECT * FROM skill WHERE id = :profileId")
-  Future<Skill> getSkillByProfileId(String profileId);
+  Future<Skill> getSkillsByProfileId(String profileId);
 
   @insert
   Future<void> insertSkill(Skill skill);
