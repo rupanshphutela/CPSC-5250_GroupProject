@@ -1,5 +1,9 @@
-class OwnerProfile {
-  int ownerId;
+import 'package:floor/floor.dart';
+
+@Entity(tableName: 'owner_profile')
+class Owner {
+  @primaryKey
+  int id;
   String fName;
   String lName;
   String phone;
@@ -7,8 +11,8 @@ class OwnerProfile {
   String? addressText;
   String? addressCoordindates;
   String picture;
-  OwnerProfile({
-    required this.ownerId,
+  Owner({
+    required this.id,
     required this.fName,
     required this.lName,
     required this.phone,

@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-import 'dog_picture.dart';
+import 'picture.dart';
 import 'favorite_activity.dart';
 import 'food_preference.dart';
 import 'left_swipe.dart';
@@ -8,14 +8,14 @@ import 'other_fact.dart';
 import 'right_swipe.dart';
 import 'skill.dart';
 
-@Entity(tableName: 'dog_profile')
-class DogProfile {
+@Entity(tableName: 'profile')
+class Profile {
   @primaryKey
   int id;
   String fName;
   String lName;
-  String? profilePicturePath;
-  List<DogPicture>? dogPictures;
+  String? profilePicture;
+  List<Picture>? picture;
   List<Skill>? skills;
   List<FoodPreference>? foodPreferences;
   List<RightSwipe>? rightSwipes;
@@ -31,14 +31,14 @@ class DogProfile {
   bool isSpayed;
   bool isNeutered;
   String joiningDate;
-  String dogSize;
+  String size;
   List<OtherFact>? otherFacts;
-  DogProfile(
+  Profile(
       {required this.id,
       required this.fName,
       required this.lName,
-      this.profilePicturePath,
-      this.dogPictures,
+      this.profilePicture,
+      this.picture,
       this.skills,
       this.foodPreferences,
       this.rightSwipes,
@@ -54,6 +54,6 @@ class DogProfile {
       required this.isSpayed,
       required this.isNeutered,
       required this.joiningDate,
-      required this.dogSize,
+      required this.size,
       this.otherFacts});
 }
