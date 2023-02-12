@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../models/profile_model.dart';
+import 'package:the_dig_app/models/profile.dart';
 
 class ProfileCard extends StatelessWidget {
-  final ProfileModel card;
+  final Profile card;
 
   const ProfileCard({super.key, required this.card});
 
@@ -29,10 +29,9 @@ class ProfileCard extends StatelessWidget {
           Flexible(
             child: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: card.color,
+                image: DecorationImage(
+                  image: AssetImage(card.profilePicture),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -43,7 +42,7 @@ class ProfileCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  card.name,
+                  card.fName,
                   style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -59,10 +58,10 @@ class ProfileCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 5),
-                Text(
-                  card.location,
-                  style: const TextStyle(color: Colors.grey),
-                )
+                // Text(
+                //   card.location,
+                //   style: const TextStyle(color: Colors.grey),
+                // )
               ],
             ),
           ),
