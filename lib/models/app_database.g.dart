@@ -103,7 +103,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `profile` (`id` INTEGER NOT NULL, `fName` TEXT NOT NULL, `lName` TEXT NOT NULL, `profilePicture` TEXT, `ownerId` TEXT NOT NULL, `biography` TEXT, `gender` TEXT NOT NULL, `breed` TEXT NOT NULL, `color` TEXT NOT NULL, `isVaccinated` INTEGER NOT NULL, `registrationDate` TEXT NOT NULL, `isSpayed` INTEGER NOT NULL, `isNeutered` INTEGER NOT NULL, `joiningDate` TEXT NOT NULL, `size` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `profile` (`id` INTEGER NOT NULL, `fName` TEXT NOT NULL, `lName` TEXT NOT NULL, `profilePicture` TEXT NOT NULL, `ownerId` INTEGER NOT NULL, `biography` TEXT, `gender` TEXT NOT NULL, `breed` TEXT NOT NULL, `color` TEXT NOT NULL, `isVaccinated` INTEGER NOT NULL, `registrationDate` TEXT NOT NULL, `isSpayed` INTEGER NOT NULL, `isNeutered` INTEGER NOT NULL, `joiningDate` TEXT NOT NULL, `size` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `owner_profile` (`id` INTEGER NOT NULL, `fName` TEXT NOT NULL, `lName` TEXT NOT NULL, `phone` TEXT NOT NULL, `email` TEXT NOT NULL, `addressText` TEXT, `addressCoordindates` TEXT, `picture` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
@@ -269,8 +269,8 @@ class _$ProfileDao extends ProfileDao {
             id: row['id'] as int,
             fName: row['fName'] as String,
             lName: row['lName'] as String,
-            profilePicture: row['profilePicture'] as String?,
-            ownerId: row['ownerId'] as String,
+            profilePicture: row['profilePicture'] as String,
+            ownerId: row['ownerId'] as int,
             biography: row['biography'] as String?,
             gender: row['gender'] as String,
             breed: row['breed'] as String,
@@ -282,6 +282,28 @@ class _$ProfileDao extends ProfileDao {
             joiningDate: row['joiningDate'] as String,
             size: row['size'] as String),
         arguments: [profileId]);
+  }
+
+  @override
+  Future<List<Profile>> getAllProfiles() async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM profile where id not in (select profileId from right_swipe union select profileId from left_swipe)',
+        mapper: (Map<String, Object?> row) => Profile(
+            id: row['id'] as int,
+            fName: row['fName'] as String,
+            lName: row['lName'] as String,
+            profilePicture: row['profilePicture'] as String,
+            ownerId: row['ownerId'] as int,
+            biography: row['biography'] as String?,
+            gender: row['gender'] as String,
+            breed: row['breed'] as String,
+            color: row['color'] as String,
+            isVaccinated: (row['isVaccinated'] as int) != 0,
+            registrationDate: row['registrationDate'] as String,
+            isSpayed: (row['isSpayed'] as int) != 0,
+            isNeutered: (row['isNeutered'] as int) != 0,
+            joiningDate: row['joiningDate'] as String,
+            size: row['size'] as String));
   }
 
   @override
@@ -622,6 +644,16 @@ class _$RightSwipeDao extends RightSwipeDao {
   }
 
   @override
+  Future<List<RightSwipe>> getAllLikedProfiles() async {
+    return _queryAdapter.queryList('SELECT * FROM right_swipe',
+        mapper: (Map<String, Object?> row) => RightSwipe(
+            profileId: row['profileId'] as int?,
+            ownerId: row['ownerId'] as int?,
+            swipeDate: row['swipeDate'] as String?,
+            targetId: row['targetId'] as int?));
+  }
+
+  @override
   Future<void> insertRightSwipe(RightSwipe rightSwipe) async {
     await _rightSwipeInsertionAdapter.insert(
         rightSwipe, OnConflictStrategy.abort);
@@ -677,6 +709,16 @@ class _$LeftSwipeDao extends LeftSwipeDao {
             swipeDate: row['swipeDate'] as String?,
             targetId: row['targetId'] as int?),
         arguments: [profileId]);
+  }
+
+  @override
+  Future<List<LeftSwipe>> getAllDisLikedProfiles() async {
+    return _queryAdapter.queryList('SELECT * FROM left_swipe',
+        mapper: (Map<String, Object?> row) => LeftSwipe(
+            profileId: row['profileId'] as int?,
+            ownerId: row['ownerId'] as int?,
+            swipeDate: row['swipeDate'] as String?,
+            targetId: row['targetId'] as int?));
   }
 
   @override

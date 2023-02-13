@@ -4,13 +4,15 @@ class ProfileModel {
   String name;
   String breed;
   String location;
-  List<Color> color;
+  // List<Color> color;
+  AssetImage image;
 
   ProfileModel({
     required this.name,
     required this.breed,
     required this.location,
-    required this.color,
+    // required this.color,
+    required this.image,
   });
 }
 
@@ -19,24 +21,28 @@ final List<ProfileModel> candidates = [
     name: 'Bruno',
     breed: 'Golden Retriever',
     location: 'Areado',
-    color: const [Color(0xFFFF3868), Color(0xFFFFB49A)],
+    image: const AssetImage('assets/images/dog1.jpg'),
+    // color: const [Color(0xFFFF3868), Color(0xFFFFB49A)],
   ),
   ProfileModel(
     name: 'Tyson',
     breed: 'Pug',
     location: 'Seattle',
-    color: const [Color(0xFFFF3868), Color(0xFFFFB49A)],
+    image: const AssetImage('assets/images/dog2.jpg'), 
+    // color: const [Color(0xFFFF3868), Color(0xFFFFB49A)],
   ),
   ProfileModel(
-    name: 'Augy',
+    name: 'Augiee',
     breed: 'Sheepadoodle',
     location: 'Samammish',
-    color: const [Color(0xFF0BA4E0), Color(0xFFA9E4BD)],
+    image: const AssetImage('assets/images/dog3.jpg'),
+    // color: const [Color(0xFF0BA4E0), Color(0xFFA9E4BD)],
   ),
   ProfileModel(
     name: 'Junior',
     breed: 'saint bernard',
     location: 'Bellevue',
-    color: const [Color(0xFF0BA4E0), Color(0xFFA9E4BD)],
+    image: const AssetImage('assets/images/dog4.jpg'),
+    // color: const [Color(0xFF0BA4E0), Color(0xFFA9E4BD)],
   ),
 ];
