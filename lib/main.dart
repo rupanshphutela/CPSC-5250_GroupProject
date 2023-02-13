@@ -58,7 +58,7 @@ final _routes = [
   ),
   GoRoute(
     path: '/dogprofile',
-    builder: (context, state) => const DogProfile(),
+    builder: (context, state) => DogProfile(),
   ),
   GoRoute(
     path: '/chats',
@@ -110,7 +110,7 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("DIG"),
       ),
-      body: const DogProfile(),
+      body: DogProfile(),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(

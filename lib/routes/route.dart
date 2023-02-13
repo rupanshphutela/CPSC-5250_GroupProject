@@ -7,7 +7,7 @@ import '../screens/settings.dart';
 final _router = GoRouter(initialLocation: '/dogprofile', routes: [
   GoRoute(
     path: '/dogprofile',
-    builder: (context, state) => const DogProfile(),
+    builder: (context, state) => DogProfile(),
   ),
   GoRoute(
     path: '/chats',
@@ -19,6 +19,6 @@ final _router = GoRouter(initialLocation: '/dogprofile', routes: [
   ),
   GoRoute(
     path: '/settings',
-    builder: (context, state) => Settings(),
+    builder: (context, state) => const Settings(),
   ),
 ]);

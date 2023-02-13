@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:the_dig_app/firebase/auth.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +17,7 @@ import '../models/profile_model.dart';
 final _routes = [
   GoRoute(
     path: '/dogprofile',
-    builder: (context, state) => const DogProfile(),
+    builder: (context, state) => DogProfile(),
   ),
   GoRoute(
     path: '/chats',
@@ -37,7 +39,24 @@ final _router = GoRouter(
 );
 
 class DogProfile extends StatefulWidget {
-  const DogProfile({super.key});
+  DogProfile({super.key});
+
+  final User? user = Auth().currentUser;
+
+  Future<void> signOut() async {
+    await Auth().signOut();
+  }
+
+  Widget _userId() {
+    return Text(user?.email ?? 'User email');
+  }
+
+  Widget _signOutButton() {
+    return ElevatedButton(
+      onPressed: signOut,
+      child: const Text('Sign Out'),
+    );
+  }
 
   @override
   State<DogProfile> createState() => _DogProfileState();
@@ -124,6 +143,12 @@ class _DogProfileState extends State<DogProfile> {
             onPressed: () {},
           )
         ],
+      ),
+      body: Center(
+        child: Column(children: [
+          widget._userId(),
+          widget._signOutButton(),
+        ]),
       ),
       //   body: SafeArea(
       //     child: Column(
