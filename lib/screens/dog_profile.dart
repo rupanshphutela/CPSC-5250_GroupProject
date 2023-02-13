@@ -208,15 +208,15 @@ class _DogProfileState extends State<DogProfile> {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.teal), label: 'Home'),
+              icon: Icon(Icons.home, color: Colors.blue), label: 'Home'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.arrow_back, color: Colors.teal),
+              icon: Icon(Icons.arrow_back, color: Colors.blue),
               label: 'Left Swiped Profiles'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.arrow_forward, color: Colors.teal),
+              icon: Icon(Icons.arrow_forward, color: Colors.blue),
               label: 'Right Swiped Profiles'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings, color: Colors.teal),
+              icon: Icon(Icons.settings, color: Colors.blue),
               label: 'Settings'),
         ],
         onTap: (index) {
