@@ -286,7 +286,8 @@ class _$ProfileDao extends ProfileDao {
 
   @override
   Future<List<Profile>> getAllProfiles() async {
-    return _queryAdapter.queryList('SELECT * FROM profile',
+    return _queryAdapter.queryList(
+        'SELECT * FROM profile where id not in (select profileId from right_swipe union select profileId from left_swipe)',
         mapper: (Map<String, Object?> row) => Profile(
             id: row['id'] as int,
             fName: row['fName'] as String,
