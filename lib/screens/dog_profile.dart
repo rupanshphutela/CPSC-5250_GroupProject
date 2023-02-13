@@ -12,24 +12,23 @@ import 'package:the_dig_app/providers/digProvider.dart';
 import '../models/profile_model.dart';
 // import '../util/profile_card.dart';
 
-
 final _routes = [
-    GoRoute(
-      path: '/dogprofile',
-      builder: (context, state) => const DogProfile(),
-    ),
-    GoRoute(
-      path: '/chats',
-      builder: (context, state) => const Chat(),
-    ),
-    GoRoute(
-      path: '/events',
-      builder: (context, state) => const Event(),
-    ),
-    GoRoute(
-      path: '/settings',
-      builder: (context, state) => const Settings(),
-    ),
+  GoRoute(
+    path: '/dogprofile',
+    builder: (context, state) => const DogProfile(),
+  ),
+  GoRoute(
+    path: '/chats',
+    builder: (context, state) => const Chat(),
+  ),
+  GoRoute(
+    path: '/events',
+    builder: (context, state) => const Event(),
+  ),
+  GoRoute(
+    path: '/settings',
+    builder: (context, state) => Settings(),
+  ),
 ];
 
 final _router = GoRouter(
@@ -45,7 +44,6 @@ class DogProfile extends StatefulWidget {
 }
 
 class _DogProfileState extends State<DogProfile> {
-  
   int counter = 4;
   final CardSwiperController controller = CardSwiperController();
 
@@ -54,81 +52,79 @@ class _DogProfileState extends State<DogProfile> {
     final digProvider = Provider.of<DigProvider>(context, listen: false);
     super.initState();
 
+    //   for(var i = 14; i<17; i++){
+    //     digProvider.insertProfile(
+    //         Profile(
+    //     id: i,
+    //     fName: 'Bruno $i',
+    //     lName: 'dsf $i ',
+    //     profilePicture: 'assets/images/dog$i.jpg',
+    //     ownerId: 1,
+    //     gender: 'Male',
+    //     breed: 'Labrador',
+    //     color: 'Golden',
+    //     isVaccinated: true,
+    //     registrationDate: '2/12/23',
+    //     isSpayed: false,
+    //     isNeutered: true,
+    //     joiningDate: '2/12/23',
+    //     size: '10',
+    // )
 
-  //   for(var i = 14; i<17; i++){
-  //     digProvider.insertProfile(
-  //         Profile(
-  //     id: i,
-  //     fName: 'Bruno $i',
-  //     lName: 'dsf $i ',
-  //     profilePicture: 'assets/images/dog$i.jpg',
-  //     ownerId: 1,
-  //     gender: 'Male',
-  //     breed: 'Labrador',
-  //     color: 'Golden',
-  //     isVaccinated: true,
-  //     registrationDate: '2/12/23',
-  //     isSpayed: false,
-  //     isNeutered: true,
-  //     joiningDate: '2/12/23',
-  //     size: '10',
-  // )
-
-  //     );
-  // }
-  var cards;
-   void _allProfiles() async {
-    // final digProvider = Provider.of<DigProvider>(context, listen: false);
-    List<Profile>? profiles = await digProvider.getProfiles();
-    cards = await profiles!.map((candidate) => ProfileCard(card: candidate,)).toList();
-
+    //     );
+    // }
+    var cards;
+    void _allProfiles() async {
+      // final digProvider = Provider.of<DigProvider>(context, listen: false);
+      List<Profile>? profiles = await digProvider.getProfiles();
+      cards = await profiles!
+          .map((candidate) => ProfileCard(
+                card: candidate,
+              ))
+          .toList();
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
     final digProvider = Provider.of<DigProvider>(context, listen: false);
-      for(var i = 22; i<25; i++){
-      digProvider.insertProfile(
-          Profile(
-      id: i,
-      fName: 'Bruno $i',
-      lName: 'dsf $i ',
-      profilePicture: 'assets/images/dog$i.jpg',
-      ownerId: 1,
-      gender: 'Male',
-      breed: 'Labrador',
-      color: 'Golden',
-      isVaccinated: true,
-      registrationDate: '2/12/23',
-      isSpayed: false,
-      isNeutered: true,
-      joiningDate: '2/12/23',
-      size: '10',
-  )
-
-      );
-  }
-  print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-  print(digProvider.getProfiles());
+    for (var i = 22; i < 25; i++) {
+      digProvider.insertProfile(Profile(
+        id: i,
+        fName: 'Bruno $i',
+        lName: 'dsf $i ',
+        profilePicture: 'assets/images/dog$i.jpg',
+        ownerId: 1,
+        gender: 'Male',
+        breed: 'Labrador',
+        color: 'Golden',
+        isVaccinated: true,
+        registrationDate: '2/12/23',
+        isSpayed: false,
+        isNeutered: true,
+        joiningDate: '2/12/23',
+        size: '10',
+      ));
+    }
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    print(digProvider.getProfiles());
 
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text("Notch"),
-          backgroundColor: Colors.white,
-          leading: const Icon(Icons.person),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.chat,
-                color: Colors.white,
-              ),
-              onPressed: () {},
-            )
-          ],
-        ),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Notch"),
+        backgroundColor: Colors.white,
+        leading: const Icon(Icons.person),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.chat,
+              color: Colors.white,
+            ),
+            onPressed: () {},
+          )
+        ],
+      ),
       //   body: SafeArea(
       //     child: Column(
       //     children: [
@@ -144,23 +140,26 @@ class _DogProfileState extends State<DogProfile> {
       //   ),
       // ),
 
-      
-
       bottomNavigationBar: BottomNavigationBar(
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.teal), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat, color: Colors.teal), label: 'Chats'),
-          BottomNavigationBarItem(icon: Icon(Icons.event, color: Colors.teal), label: 'Events'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings, color: Colors.teal), label: 'Settings'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home, color: Colors.teal), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.chat, color: Colors.teal), label: 'Chats'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.event, color: Colors.teal), label: 'Events'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings, color: Colors.teal),
+              label: 'Settings'),
         ],
-        onTap: (index){
+        onTap: (index) {
           context.push(_routes[index].path);
         },
       ),
     );
   }
+
   void _swipe(int index, CardSwiperDirection direction) {
     debugPrint('the card $index was swiped to the: ${direction.name}');
   }
 }
-

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "142515761502",
+    "project_id": "digapp-4c802",
+    "storage_bucket": "digapp-4c802.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142515761502:android:c177d184e081433c9c1fcf",
+        "android_client_info": {
+          "package_name": "com.example.the_dig_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142515761502-h3m23vc0j70tocghe31656maoq066qg3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIekakLNtqWay6yTeTn9Xq10igJwi2NGQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142515761502-h3m23vc0j70tocghe31656maoq066qg3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

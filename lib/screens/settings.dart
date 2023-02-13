@@ -1,8 +1,26 @@
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:the_dig_app/firebase/auth.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({super.key});
+  Settings({super.key});
+
+  final User? user = Auth().currentUser;
+
+  Future<void> signOut() async {
+    await Auth().signOut();
+  }
+
+  Widget _userId() {
+    return Text(user?.email ?? 'User email');
+  }
+
+  Widget _signOutButton() {
+    return ElevatedButton(
+      onPressed: signOut,
+      child: const Text('Sign Out'),
+    );
+  }
 
   @override
   State<Settings> createState() => _SettingsState();
@@ -45,24 +63,42 @@ class _SettingsState extends State<Settings> {
         title: const Text('DIG'),
       ),
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: Column(
+          children: [
+            _widgetOptions.elementAt(_selectedIndex),
+            widget._userId(),
+            widget._signOutButton(),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Colors.teal,),
+            icon: Icon(
+              Icons.home,
+              color: Colors.teal,
+            ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat, color: Colors.teal,),
+            icon: Icon(
+              Icons.chat,
+              color: Colors.teal,
+            ),
             label: 'Chats',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.event, color: Colors.teal,),
+            icon: Icon(
+              Icons.event,
+              color: Colors.teal,
+            ),
             label: 'Events',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings, color: Colors.teal,),
+            icon: Icon(
+              Icons.settings,
+              color: Colors.teal,
+            ),
             label: 'Settings',
           ),
         ],

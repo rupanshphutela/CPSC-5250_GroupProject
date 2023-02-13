@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:the_dig_app/widget_tree.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:floor/floor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +17,9 @@ import 'package:the_dig_app/screens/dog_profile.dart';
 import 'package:the_dig_app/screens/event.dart';
 import 'package:the_dig_app/screens/settings.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   if (kDebugMode) {
     print('initializing database');
   }
@@ -50,6 +53,10 @@ Future<void> initializeDatabase() async {
 
 final _routes = [
   GoRoute(
+    path: '/widget_tree',
+    builder: (context, state) => const WidgetTree(),
+  ),
+  GoRoute(
     path: '/dogprofile',
     builder: (context, state) => const DogProfile(),
   ),
@@ -63,12 +70,13 @@ final _routes = [
   ),
   GoRoute(
     path: '/settings',
-    builder: (context, state) => const Settings(),
+    builder: (context, state) => Settings(),
   ),
 ];
 
 final _router = GoRouter(
-  initialLocation: '/dogprofile',
+  initialLocation: '/widget_tree',
+  // initialLocation: '/dogprofile',
   routes: _routes,
 );
 
