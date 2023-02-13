@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:floor/floor.dart';
 import 'left_swipe.dart';
 
