@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.teal,
+          primarySwatch: Colors.blue,
         ),
         routerConfig: _router,
       ),
@@ -106,13 +106,13 @@ class MyHomePage extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.teal), label: 'Home'),
+              icon: Icon(Icons.home, color: Colors.blue), label: 'Home'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.chat, color: Colors.teal), label: 'Chats'),
+              icon: Icon(Icons.chat, color: Colors.blue), label: 'Chats'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.event, color: Colors.teal), label: 'Events'),
+              icon: Icon(Icons.event, color: Colors.blue), label: 'Events'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings, color: Colors.teal),
+              icon: Icon(Icons.settings, color: Colors.blue),
               label: 'Settings'),
         ],
         onTap: (index) {
