@@ -25,7 +25,7 @@ void main() async {
     print('loading database');
   }
   final AppDatabase database =
-      await $FloorAppDatabase.databaseBuilder('digdb.sqlite').build();
+      await $FloorAppDatabase.databaseBuilder('dbdig.sqlite').build();
 
   if (kDebugMode) {
     print('running app');
@@ -35,13 +35,13 @@ void main() async {
 
 Future<void> initializeDatabase() async {
   final databaseFilename =
-      await sqfliteDatabaseFactory.getDatabasePath('digdb.sqlite');
+      await sqfliteDatabaseFactory.getDatabasePath('dbdig.sqlite');
 
   if (!(await databaseExists(databaseFilename))) {
     try {
       await Directory(dirname(databaseFilename)).create(recursive: true);
     } catch (_) {}
-    ByteData data = await rootBundle.load(join('assets', 'digdb.sqlite'));
+    ByteData data = await rootBundle.load(join('assets', 'dbdig.sqlite'));
     List<int> bytes =
         data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     await File(databaseFilename).writeAsBytes(bytes, flush: true);
