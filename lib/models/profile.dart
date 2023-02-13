@@ -1,5 +1,4 @@
 import 'package:floor/floor.dart';
-import 'package:sqflite/sqflite.dart';
 
 @Entity(tableName: 'profile')
 class Profile {
@@ -61,6 +60,4 @@ class Profile {
   String toString() {
     return 'Dog{id: $id, fName: $fName, lName: $lName, profilePicture: $profilePicture, ownerId: $ownerId, biography: $biography, gender: $gender}';
   }
-
-
 }
