@@ -15,24 +15,23 @@ import 'package:the_dig_app/providers/digProvider.dart';
 
 import '../models/profile_model.dart';
 
-
 final _routes = [
-    GoRoute(
-      path: '/dogprofile',
-      builder: (context, state) => const DogProfile(),
-    ),
-    GoRoute(
-      path: '/leftSwipe',
-      builder: (context, state) => const LeftSwipePage(),
-    ),
-    GoRoute(
-      path: '/events',
-      builder: (context, state) => const Event(),
-    ),
-    GoRoute(
-      path: '/settings',
-      builder: (context, state) => const Settings(),
-    ),
+  GoRoute(
+    path: '/dogprofile',
+    builder: (context, state) => const DogProfile(),
+  ),
+  GoRoute(
+    path: '/leftSwipe',
+    builder: (context, state) => const LeftSwipePage(),
+  ),
+  GoRoute(
+    path: '/events',
+    builder: (context, state) => const Event(),
+  ),
+  GoRoute(
+    path: '/settings',
+    builder: (context, state) => const Settings(),
+  ),
 ];
 
 final _router = GoRouter(
@@ -48,7 +47,7 @@ class DogProfile extends StatefulWidget {
 }
 
 class _DogProfileState extends State<DogProfile> {
-  late List<ProfileCard> cards;
+  late List<ProfileCard> cards = [];
   final CardSwiperController controller = CardSwiperController();
 
   @override
@@ -57,11 +56,11 @@ class _DogProfileState extends State<DogProfile> {
     super.initState();
     allProfiles();
     // digProvider.insertOwnerProfile(
-    //   Owner(id: 0, 
-    //         fName: 'Shahrukh', 
-    //         lName: 'Khan', 
-    //         phone: '4251112222', 
-    //         email: 'shah@gmail.com', 
+    //   Owner(id: 0,
+    //         fName: 'Shahrukh',
+    //         lName: 'Khan',
+    //         phone: '4251112222',
+    //         email: 'shah@gmail.com',
     //         picture: 'assets/images/owner1.jpg',
     //       )
     //   );
@@ -83,11 +82,11 @@ class _DogProfileState extends State<DogProfile> {
     //   size: '10',
     // ));
     // digProvider.insertOwnerProfile(
-    //   Owner(id: 1, 
-    //         fName: 'Salman', 
-    //         lName: 'Khan', 
-    //         phone: '4251112223', 
-    //         email: 'salman@gmail.com', 
+    //   Owner(id: 1,
+    //         fName: 'Salman',
+    //         lName: 'Khan',
+    //         phone: '4251112223',
+    //         email: 'salman@gmail.com',
     //         picture: 'assets/images/owner2.jpg',
     //       )
     //   );
@@ -107,14 +106,14 @@ class _DogProfileState extends State<DogProfile> {
     //   isNeutered: true,
     //   joiningDate: '2/12/23',
     //   size: '5',
-    // )); 
+    // ));
 
     // digProvider.insertOwnerProfile(
-    //   Owner(id: 2, 
-    //         fName: 'Virat', 
-    //         lName: 'Kohli', 
-    //         phone: '4251112224', 
-    //         email: 'virat@gmail.com', 
+    //   Owner(id: 2,
+    //         fName: 'Virat',
+    //         lName: 'Kohli',
+    //         phone: '4251112224',
+    //         email: 'virat@gmail.com',
     //         picture: 'assets/images/owner3.jpg',
     //       )
     //   );
@@ -134,14 +133,14 @@ class _DogProfileState extends State<DogProfile> {
     //   isNeutered: true,
     //   joiningDate: '2/12/23',
     //   size: '10',
-    // )); 
+    // ));
 
     // digProvider.insertOwnerProfile(
-    //   Owner(id: 3, 
-    //         fName: 'AB', 
-    //         lName: 'de', 
-    //         phone: '4251112225', 
-    //         email: 'ab@gmail.com', 
+    //   Owner(id: 3,
+    //         fName: 'AB',
+    //         lName: 'de',
+    //         phone: '4251112225',
+    //         email: 'ab@gmail.com',
     //         picture: 'assets/images/owner4.jpg',
     //       )
     //   );
@@ -162,36 +161,38 @@ class _DogProfileState extends State<DogProfile> {
     //   joiningDate: '2/12/23',
     //   size: '15',
     // ));
-
   }
 
-   void allProfiles() async {
+  void allProfiles() async {
     final digProvider = Provider.of<DigProvider>(context, listen: false);
     List<Profile> profiles = await digProvider.getProfiles();
-    cards = profiles.map((candidate) => ProfileCard(card: candidate,)).toList();
-
-    }
+    cards = profiles
+        .map((candidate) => ProfileCard(
+              card: candidate,
+            ))
+        .toList();
+  }
 
   @override
   Widget build(context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text("Notch"),
-          backgroundColor: Colors.white,
-          leading: const Icon(Icons.person),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.chat,
-                color: Colors.white,
-              ),
-              onPressed: () {},
-            )
-          ],
-        ),
-        body: SafeArea(
-          child: Column(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Notch"),
+        backgroundColor: Colors.white,
+        leading: const Icon(Icons.person),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.chat,
+              color: Colors.white,
+            ),
+            onPressed: () {},
+          )
+        ],
+      ),
+      body: SafeArea(
+        child: Column(
           children: [
             Flexible(
               child: CardSwiper(
@@ -204,43 +205,42 @@ class _DogProfileState extends State<DogProfile> {
           ],
         ),
       ),
-
-      
-
       bottomNavigationBar: BottomNavigationBar(
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.teal), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.arrow_back, color: Colors.teal), label: 'Left Swiped Profiles'),
-          BottomNavigationBarItem(icon: Icon(Icons.arrow_forward, color: Colors.teal), label: 'Right Swiped Profiles'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings, color: Colors.teal), label: 'Settings'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home, color: Colors.teal), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.arrow_back, color: Colors.teal),
+              label: 'Left Swiped Profiles'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.arrow_forward, color: Colors.teal),
+              label: 'Right Swiped Profiles'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings, color: Colors.teal),
+              label: 'Settings'),
         ],
-        onTap: (index){
+        onTap: (index) {
           context.push(_routes[index].path);
         },
       ),
     );
   }
+
   void _swipe(int index, CardSwiperDirection direction) {
     final digProvider = Provider.of<DigProvider>(context, listen: false);
     debugPrint('the card $index was swiped to the: ${direction.name}');
-    if(direction.name == 'right'){
-      digProvider.insertRightSwipe(
-        RightSwipe(
-          profileId: index, 
-          ownerId: index, 
-          swipeDate: '2/12/23', 
-          targetId: index)
-        );
-    }
-    else{
-      digProvider.insertLeftSwipe(
-        LeftSwipe(
-            profileId: index, 
-            ownerId: index, 
-            swipeDate: '2/12/23', 
-            targetId: index)
-          );
+    if (direction.name == 'right') {
+      digProvider.insertRightSwipe(RightSwipe(
+          profileId: index,
+          ownerId: index,
+          swipeDate: '2/12/23',
+          targetId: index));
+    } else {
+      digProvider.insertLeftSwipe(LeftSwipe(
+          profileId: index,
+          ownerId: index,
+          swipeDate: '2/12/23',
+          targetId: index));
     }
   }
 }
-
