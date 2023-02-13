@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class Settings extends StatefulWidget {
   const Settings({super.key});
 
@@ -11,7 +10,7 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.teal);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.blue);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
       'Index 0: Home',
@@ -50,24 +49,36 @@ class _SettingsState extends State<Settings> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Colors.teal,),
+            icon: Icon(
+              Icons.home,
+              color: Colors.blue,
+            ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat, color: Colors.teal,),
+            icon: Icon(
+              Icons.chat,
+              color: Colors.blue,
+            ),
             label: 'Chats',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.event, color: Colors.teal,),
+            icon: Icon(
+              Icons.event,
+              color: Colors.blue,
+            ),
             label: 'Events',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings, color: Colors.teal,),
+            icon: Icon(
+              Icons.settings,
+              color: Colors.blue,
+            ),
             label: 'Settings',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.teal,
+        selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),
