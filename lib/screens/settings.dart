@@ -36,6 +36,7 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,6 +54,7 @@ class _SettingsState extends State<Settings> {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
+
               icon: Icon(Icons.home, color: Colors.teal), label: 'Home'),
           BottomNavigationBarItem(
               icon: Icon(Icons.chat, color: Colors.teal), label: 'Chats'),

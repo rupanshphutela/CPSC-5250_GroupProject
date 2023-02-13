@@ -28,7 +28,7 @@ Future<void> main() async {
     print('loading database');
   }
   final AppDatabase database =
-      await $FloorAppDatabase.databaseBuilder('dig.sqlite').build();
+      await $FloorAppDatabase.databaseBuilder('dbdig.sqlite').build();
 
   if (kDebugMode) {
     print('running app');
@@ -38,13 +38,13 @@ Future<void> main() async {
 
 Future<void> initializeDatabase() async {
   final databaseFilename =
-      await sqfliteDatabaseFactory.getDatabasePath('dig.sqlite');
+      await sqfliteDatabaseFactory.getDatabasePath('dbdig.sqlite');
 
   if (!(await databaseExists(databaseFilename))) {
     try {
       await Directory(dirname(databaseFilename)).create(recursive: true);
     } catch (_) {}
-    ByteData data = await rootBundle.load(join('assets', 'dig.sqlite'));
+    ByteData data = await rootBundle.load(join('assets', 'dbdig.sqlite'));
     List<int> bytes =
         data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     await File(databaseFilename).writeAsBytes(bytes, flush: true);
@@ -93,7 +93,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.teal,
+          primarySwatch: Colors.blue,
         ),
         routerConfig: _router,
       ),
@@ -114,13 +114,13 @@ class MyHomePage extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.teal), label: 'Home'),
+              icon: Icon(Icons.home, color: Colors.blue), label: 'Home'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.chat, color: Colors.teal), label: 'Chats'),
+              icon: Icon(Icons.chat, color: Colors.blue), label: 'Chats'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.event, color: Colors.teal), label: 'Events'),
+              icon: Icon(Icons.event, color: Colors.blue), label: 'Events'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings, color: Colors.teal),
+              icon: Icon(Icons.settings, color: Colors.blue),
               label: 'Settings'),
         ],
         onTap: (index) {

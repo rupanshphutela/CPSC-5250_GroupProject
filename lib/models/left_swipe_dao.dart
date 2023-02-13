@@ -11,6 +11,9 @@ abstract class LeftSwipeDao {
   @insert
   Future<void> insertLeftSwipe(LeftSwipe leftSwipe);
 
+  @Query("SELECT * FROM left_swipe")
+  Future<List<LeftSwipe>> getAllDisLikedProfiles();
+
   @delete
   Future<void> deleteLeftSwipe(LeftSwipe leftSwipe);
 }

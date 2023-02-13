@@ -285,7 +285,7 @@ class _$ProfileDao extends ProfileDao {
   }
 
   @override
-  Future<List<Profile>?> getAllProfiles() async {
+  Future<List<Profile>> getAllProfiles() async {
     return _queryAdapter.queryList('SELECT * FROM profile',
         mapper: (Map<String, Object?> row) => Profile(
             id: row['id'] as int,
@@ -643,6 +643,16 @@ class _$RightSwipeDao extends RightSwipeDao {
   }
 
   @override
+  Future<List<RightSwipe>> getAllLikedProfiles() async {
+    return _queryAdapter.queryList('SELECT * FROM right_swipe',
+        mapper: (Map<String, Object?> row) => RightSwipe(
+            profileId: row['profileId'] as int?,
+            ownerId: row['ownerId'] as int?,
+            swipeDate: row['swipeDate'] as String?,
+            targetId: row['targetId'] as int?));
+  }
+
+  @override
   Future<void> insertRightSwipe(RightSwipe rightSwipe) async {
     await _rightSwipeInsertionAdapter.insert(
         rightSwipe, OnConflictStrategy.abort);
@@ -698,6 +708,16 @@ class _$LeftSwipeDao extends LeftSwipeDao {
             swipeDate: row['swipeDate'] as String?,
             targetId: row['targetId'] as int?),
         arguments: [profileId]);
+  }
+
+  @override
+  Future<List<LeftSwipe>> getAllDisLikedProfiles() async {
+    return _queryAdapter.queryList('SELECT * FROM left_swipe',
+        mapper: (Map<String, Object?> row) => LeftSwipe(
+            profileId: row['profileId'] as int?,
+            ownerId: row['ownerId'] as int?,
+            swipeDate: row['swipeDate'] as String?,
+            targetId: row['targetId'] as int?));
   }
 
   @override
