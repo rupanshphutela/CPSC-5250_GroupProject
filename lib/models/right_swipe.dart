@@ -1,16 +1,35 @@
 import 'package:floor/floor.dart';
+import 'package:the_dig_app/models/owner.dart';
 
 import 'profile.dart';
 
-@Entity(tableName: 'right_swipe', foreignKeys: [
+@Entity(tableName: 'left_swipe', foreignKeys: [
   ForeignKey(
-      childColumns: ['profileId'], parentColumns: ['id'], entity: Profile)
+      childColumns: ['swiperProfileId'],
+      parentColumns: ['id'],
+      entity: Profile),
+  ForeignKey(
+      childColumns: ['swipedProfileId'],
+      parentColumns: ['id'],
+      entity: Profile),
+  ForeignKey(
+      childColumns: ['swiperOwnerId'],
+      parentColumns: ['ownerId'],
+      entity: Profile),
+  ForeignKey(
+      childColumns: ['swiperOwnerId'], parentColumns: ['id'], entity: Owner),
 ])
 class RightSwipe {
   @primaryKey
-  int? profileId;
-  int? ownerId;
+  int? id;
+  int? swiperProfileId;
+  int? swiperOwnerId;
   String? swipeDate;
-  int? targetId;
-  RightSwipe({this.profileId, this.ownerId, this.swipeDate, this.targetId});
+  int? swipedProfileId;
+  RightSwipe(
+      {this.id,
+      this.swiperProfileId,
+      this.swiperOwnerId,
+      this.swipeDate,
+      this.swipedProfileId});
 }

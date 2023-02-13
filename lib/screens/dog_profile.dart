@@ -254,16 +254,18 @@ class _DogProfileState extends State<DogProfile> {
     debugPrint('the card $index was swiped to the: ${direction.name}');
     if (direction.name == 'right') {
       digProvider.insertRightSwipe(RightSwipe(
-          profileId: cards[index].card.id,
-          ownerId: cards[index].card.ownerId,
-          swipeDate: '2/12/23',
-          targetId: index));
+          id: UniqueKey().hashCode,
+          swiperProfileId: UniqueKey().hashCode,
+          swiperOwnerId: cards[index].card.ownerId,
+          swipeDate: DateTime.now().toString(),
+          swipedProfileId: cards[index].card.id));
     } else {
       digProvider.insertLeftSwipe(LeftSwipe(
-          profileId: cards[index].card.id,
-          ownerId: cards[index].card.ownerId,
-          swipeDate: '2/12/23',
-          targetId: index));
+          id: UniqueKey().hashCode,
+          swiperProfileId: UniqueKey().hashCode,
+          swiperOwnerId: cards[index].card.ownerId,
+          swipeDate: DateTime.now().toString(),
+          swipedProfileId: cards[index].card.id));
     }
   }
 
