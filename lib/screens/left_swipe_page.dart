@@ -13,24 +13,23 @@ import 'package:the_dig_app/screens/settings.dart';
 import 'package:the_dig_app/util/profile_card.dart';
 import 'package:the_dig_app/providers/digProvider.dart';
 
-
 final _routes = [
-    GoRoute(
-      path: '/dogprofile',
-      builder: (context, state) => const DogProfile(),
-    ),
-    GoRoute(
-      path: '/leftSwipe',
-      builder: (context, state) => const LeftSwipePage(),
-    ),
-    GoRoute(
-      path: '/events',
-      builder: (context, state) => const Event(),
-    ),
-    GoRoute(
-      path: '/settings',
-      builder: (context, state) => const Settings(),
-    ),
+  GoRoute(
+    path: '/dogprofile',
+    builder: (context, state) => const DogProfile(),
+  ),
+  GoRoute(
+    path: '/leftSwipe',
+    builder: (context, state) => const LeftSwipePage(),
+  ),
+  GoRoute(
+    path: '/events',
+    builder: (context, state) => const Event(),
+  ),
+  GoRoute(
+    path: '/settings',
+    builder: (context, state) => const Settings(),
+  ),
 ];
 
 final _router = GoRouter(
@@ -56,63 +55,67 @@ class _LeftSwipePageState extends State<LeftSwipePage> {
     allProfiles();
   }
 
-   void allProfiles() async {
+  void allProfiles() async {
     final digProvider = Provider.of<DigProvider>(context, listen: false);
     List<Profile> profiles = await digProvider.getProfiles();
-    cards = profiles.map((candidate) => ProfileCard(card: candidate,)).toList();
-
-    }
+    cards = profiles
+        .map((candidate) => ProfileCard(
+              card: candidate,
+            ))
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     final digProvider = Provider.of<DigProvider>(context, listen: false);
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text("Notch"),
-          backgroundColor: Colors.white,
-          leading: const Icon(Icons.person),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.chat,
-                color: Colors.white,
-              ),
-              onPressed: () {},
-            )
-          ],
-        ),
-        body: SafeArea(
-          child: Column(
-          children: [
-            Flexible(
-              
-              child: Card()
-              // child: CardSwiper(
-              //   controller: controller,
-              //   cards: cards,
-              //   onSwipe: _swipe,
-              //   padding: const EdgeInsets.all(24.0),
-              // ),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Notch"),
+        backgroundColor: Colors.white,
+        leading: const Icon(Icons.person),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.chat,
+              color: Colors.white,
             ),
+            onPressed: () {},
+          )
+        ],
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Flexible(child: Card()
+                // child: CardSwiper(
+                //   controller: controller,
+                //   cards: cards,
+                //   onSwipe: _swipe,
+                //   padding: const EdgeInsets.all(24.0),
+                // ),
+                ),
           ],
         ),
       ),
-
-      
-
       bottomNavigationBar: BottomNavigationBar(
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.teal), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.arrow_back, color: Colors.teal), label: 'Left Swiped Profiles'),
-          BottomNavigationBarItem(icon: Icon(Icons.arrow_forward, color: Colors.teal), label: 'Right Swiped Profiles'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings, color: Colors.teal), label: 'Settings'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home, color: Colors.blue), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.arrow_back, color: Colors.blue),
+              label: 'Left Swiped Profiles'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.arrow_forward, color: Colors.blue),
+              label: 'Right Swiped Profiles'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings, color: Colors.blue),
+              label: 'Settings'),
         ],
-        onTap: (index){
+        onTap: (index) {
           context.push(_routes[index].path);
         },
       ),
     );
   }
 }
-
