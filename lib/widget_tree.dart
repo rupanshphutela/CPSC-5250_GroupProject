@@ -1,6 +1,4 @@
 import 'package:the_dig_app/firebase/auth.dart';
-import 'package:the_dig_app/main.dart';
-import 'package:the_dig_app/screens/dog_profile.dart';
 import 'package:the_dig_app/screens/login_register.dart';
 import 'package:flutter/material.dart';
 import 'package:the_dig_app/screens/settings.dart';
