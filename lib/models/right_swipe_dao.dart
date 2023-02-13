@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:floor/floor.dart';
 import 'right_swipe.dart';
 
@@ -10,7 +8,7 @@ abstract class RightSwipeDao {
 
   @insert
   Future<void> insertRightSwipe(RightSwipe rightSwipe);
-  
+
   @Query("SELECT * FROM right_swipe")
   Future<List<RightSwipe>> getAllLikedProfiles();
 
