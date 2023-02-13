@@ -6,14 +6,11 @@ import 'package:the_dig_app/models/left_swipe.dart';
 import 'package:the_dig_app/models/owner.dart';
 import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/models/right_swipe.dart';
-import 'package:the_dig_app/screens/chat.dart';
 import 'package:the_dig_app/screens/event.dart';
 import 'package:the_dig_app/screens/left_swipe_page.dart';
 import 'package:the_dig_app/screens/settings.dart';
 import 'package:the_dig_app/util/profile_card.dart';
 import 'package:the_dig_app/providers/digProvider.dart';
-
-import '../models/profile_model.dart';
 
 final _routes = [
   GoRoute(
@@ -33,11 +30,6 @@ final _routes = [
     builder: (context, state) => const Settings(),
   ),
 ];
-
-final _router = GoRouter(
-  initialLocation: '/dogprofile',
-  routes: _routes,
-);
 
 class DogProfile extends StatefulWidget {
   const DogProfile({super.key});
@@ -124,13 +116,12 @@ class _DogProfileState extends State<DogProfile> {
       size: '5',
     ));
 
-
     // digProvider.insertOwnerProfile(
-    //   Owner(id: 3, 
-    //         fName: 'AB', 
-    //         lName: 'de', 
-    //         phone: '4251112225', 
-    //         email: 'ab@gmail.com', 
+    //   Owner(id: 3,
+    //         fName: 'AB',
+    //         lName: 'de',
+    //         phone: '4251112225',
+    //         email: 'ab@gmail.com',
     //         picture: 'assets/images/owner4.jpg',
     //       )
     //   );
@@ -151,7 +142,7 @@ class _DogProfileState extends State<DogProfile> {
     //   joiningDate: '2/12/23',
     //   size: '15',
     // ));
-    
+
     uniqueId = UniqueKey().hashCode;
     digProvider.insertOwnerProfile(Owner(
       id: uniqueId,
