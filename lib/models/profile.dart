@@ -1,8 +1,11 @@
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../util/profile_card.dart';
+
 @Entity(tableName: 'profile')
 class Profile {
+  List<ProfileCard>? cards;
   @primaryKey
   int id;
   String fName;
@@ -35,6 +38,7 @@ class Profile {
     required this.isNeutered,
     required this.joiningDate,
     required this.size,
+    this.cards,
   });
 
   Map<String, dynamic> toMap() {
@@ -62,5 +66,7 @@ class Profile {
     return 'Dog{id: $id, fName: $fName, lName: $lName, profilePicture: $profilePicture, ownerId: $ownerId, biography: $biography, gender: $gender}';
   }
 
-
+  void addCard(ProfileCard card) {
+    cards!.add(card);
+  }
 }
