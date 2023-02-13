@@ -36,7 +36,6 @@ class Event extends StatefulWidget {
 }
 
 class _EventState extends State<Event> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

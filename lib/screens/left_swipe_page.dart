@@ -16,7 +16,7 @@ import 'package:the_dig_app/providers/digProvider.dart';
 final _routes = [
   GoRoute(
     path: '/dogprofile',
-    builder: (context, state) => const DogProfile(),
+    builder: (context, state) => DogProfile(),
   ),
   GoRoute(
     path: '/leftSwipe',

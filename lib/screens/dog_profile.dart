@@ -19,7 +19,6 @@ import '../models/profile_model.dart';
 
 // import '../util/profile_card.dart';
 
-
 final _routes = [
   GoRoute(
     path: '/dogprofile',
@@ -28,7 +27,6 @@ final _routes = [
   GoRoute(
     path: '/chats',
     builder: (context, state) => const Chat(),
-    builder: (context, state) => const DogProfile(),
   ),
   GoRoute(
     path: '/leftSwipe',
@@ -74,7 +72,6 @@ class DogProfile extends StatefulWidget {
 }
 
 class _DogProfileState extends State<DogProfile> {
-
   int counter = 4;
   late List<ProfileCard> cards = [];
 
@@ -106,43 +103,43 @@ class _DogProfileState extends State<DogProfile> {
 
     //     );
     // }
-    var cards;
-    void _allProfiles() async {
-      // final digProvider = Provider.of<DigProvider>(context, listen: false);
-      List<Profile>? profiles = await digProvider.getProfiles();
-      cards = await profiles!
-          .map((candidate) => ProfileCard(
-                card: candidate,
-              ))
-          .toList();
-    }
-  }
+    //   var cards;
+    //   void _allProfiles() async {
+    //     // final digProvider = Provider.of<DigProvider>(context, listen: false);
+    //     List<Profile>? profiles = await digProvider.getProfiles();
+    //     cards = await profiles!
+    //         .map((candidate) => ProfileCard(
+    //               card: candidate,
+    //             ))
+    //         .toList();
+    //   }
+    // }
 
-  @override
-  Widget build(BuildContext context) {
-    final digProvider = Provider.of<DigProvider>(context, listen: false);
-    for (var i = 22; i < 25; i++) {
-      digProvider.insertProfile(Profile(
-        id: i,
-        fName: 'Bruno $i',
-        lName: 'dsf $i ',
-        profilePicture: 'assets/images/dog$i.jpg',
-        ownerId: 1,
-        gender: 'Male',
-        breed: 'Labrador',
-        color: 'Golden',
-        isVaccinated: true,
-        registrationDate: '2/12/23',
-        isSpayed: false,
-        isNeutered: true,
-        joiningDate: '2/12/23',
-        size: '10',
-      ));
-    }
-    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    print(digProvider.getProfiles());
+    // @override
+    // Widget build(BuildContext context) {
+    //   final digProvider = Provider.of<DigProvider>(context, listen: false);
+    //   for (var i = 22; i < 25; i++) {
+    //     digProvider.insertProfile(Profile(
+    //       id: i,
+    //       fName: 'Bruno $i',
+    //       lName: 'dsf $i ',
+    //       profilePicture: 'assets/images/dog$i.jpg',
+    //       ownerId: 1,
+    //       gender: 'Male',
+    //       breed: 'Labrador',
+    //       color: 'Golden',
+    //       isVaccinated: true,
+    //       registrationDate: '2/12/23',
+    //       isSpayed: false,
+    //       isNeutered: true,
+    //       joiningDate: '2/12/23',
+    //       size: '10',
+    //     ));
+    //   }
+    //   print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    //   print(digProvider.getProfiles());
 
-    allProfiles();
+    //   allProfiles();
     // digProvider.insertOwnerProfile(
     //   Owner(id: 0,
     //         fName: 'Shahrukh',
@@ -261,7 +258,6 @@ class _DogProfileState extends State<DogProfile> {
         .toList();
   }
 
-
   @override
   Widget build(context) {
     return Scaffold(
@@ -301,41 +297,39 @@ class _DogProfileState extends State<DogProfile> {
       //   ),
       // ),
 
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.teal), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.chat, color: Colors.teal), label: 'Chats'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.event, color: Colors.teal), label: 'Events'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.settings, color: Colors.teal),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: const [
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.home, color: Colors.teal), label: 'Home'),
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.chat, color: Colors.teal), label: 'Chats'),
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.event, color: Colors.teal), label: 'Events'),
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.settings, color: Colors.teal),
 
-      body: SafeArea(
-        child: Column(
-          children: [
-            Flexible(
-              child: CardSwiper(
-                controller: controller,
-                cards: cards,
-                onSwipe: _swipe,
-                padding: const EdgeInsets.all(24.0),
-              ),
-            ),
-          ],
-        ),
-      ),
+      // body: SafeArea(
+      //   child: Column(
+      //     children: [
+      //       Flexible(
+      //         child: CardSwiper(
+      //           controller: controller,
+      //           cards: cards,
+      //           onSwipe: _swipe,
+      //           padding: const EdgeInsets.all(24.0),
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
               icon: Icon(Icons.home, color: Colors.blue), label: 'Home'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.arrow_back, color: Colors.blue),
-              label: 'Left Swiped Profiles'),
+              icon: Icon(Icons.chat, color: Colors.blue), label: 'Chats'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.arrow_forward, color: Colors.blue),
-              label: 'Right Swiped Profiles'),
+              icon: Icon(Icons.event, color: Colors.blue), label: 'Events'),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings, color: Colors.blue),
               label: 'Settings'),
