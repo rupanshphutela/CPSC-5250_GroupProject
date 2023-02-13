@@ -41,7 +41,7 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.pets_outlined),
+        leading: const Icon(Icons.arrow_back),
         title: const Text('DIG'),
       ),
       body: Center(
