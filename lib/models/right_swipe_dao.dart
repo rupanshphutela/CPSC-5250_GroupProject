@@ -3,8 +3,11 @@ import 'right_swipe.dart';
 
 @dao
 abstract class RightSwipeDao {
-  @Query("SELECT * FROM right_swipe WHERE profileId = :profileId")
-  Future<RightSwipe?> getRightSwipesByProfileId(String profileId);
+  @Query("SELECT * FROM right_swipe WHERE swiperProfileId = :profileId")
+  Future<List<RightSwipe>> getRightSwipesBySwiperProfileId(String profileId);
+
+  @Query("SELECT * FROM right_swipe WHERE swipedProfileId = :profileId")
+  Future<List<RightSwipe>> getRightSwipesBySwipedProfileId(String profileId);
 
   @insert
   Future<void> insertRightSwipe(RightSwipe rightSwipe);

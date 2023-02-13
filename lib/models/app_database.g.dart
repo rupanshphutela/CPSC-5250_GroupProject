@@ -113,11 +113,11 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `food_preference` (`profileId` INTEGER, `foodName` TEXT, `likingIndex` INTEGER, FOREIGN KEY (`profileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`profileId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `left_swipe` (`id` INTEGER, `swiperProfileId` INTEGER, `swiperOwnerId` INTEGER, `swipeDate` TEXT, `swipedProfileId` INTEGER, FOREIGN KEY (`swiperProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swipedProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swiperOwnerId`) REFERENCES `profile` (`ownerId`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swiperOwnerId`) REFERENCES `owner_profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `right_swipe` (`id` INTEGER, `swiperProfileId` INTEGER, `swiperOwnerId` INTEGER, `swipeDate` TEXT, `swipedProfileId` INTEGER, FOREIGN KEY (`swiperProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swipedProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swiperOwnerId`) REFERENCES `profile` (`ownerId`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swiperOwnerId`) REFERENCES `owner_profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `left_swipe` (`id` INTEGER, `swiperProfileId` INTEGER, `swiperOwnerId` INTEGER, `swipeDate` TEXT, `swipedProfileId` INTEGER, FOREIGN KEY (`swiperProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swipedProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swiperOwnerId`) REFERENCES `profile` (`ownerId`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swiperOwnerId`) REFERENCES `owner_profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `top_swipe` (`profileId` INTEGER, `ownerId` INTEGER, `swipeDate` TEXT, `targetId` INTEGER, FOREIGN KEY (`profileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`profileId`))');
+            'CREATE TABLE IF NOT EXISTS `top_swipe` (`id` INTEGER, `swiperProfileId` INTEGER, `swiperOwnerId` INTEGER, `swipeDate` TEXT, `swipedProfileId` INTEGER, FOREIGN KEY (`swiperProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swipedProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swiperOwnerId`) REFERENCES `profile` (`ownerId`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swiperOwnerId`) REFERENCES `owner_profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `behavior` (`profileId` INTEGER, `socialIndexHumans` INTEGER, `socialIndexDogs` INTEGER, `isFoodAggressive` INTEGER, `isNewHumanAggressive` INTEGER, `isNewDogAggressive` INTEGER, FOREIGN KEY (`profileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`profileId`))');
         await database.execute(
@@ -604,7 +604,7 @@ class _$RightSwipeDao extends RightSwipeDao {
   )   : _queryAdapter = QueryAdapter(database),
         _rightSwipeInsertionAdapter = InsertionAdapter(
             database,
-            'left_swipe',
+            'right_swipe',
             (RightSwipe item) => <String, Object?>{
                   'id': item.id,
                   'swiperProfileId': item.swiperProfileId,
@@ -614,7 +614,7 @@ class _$RightSwipeDao extends RightSwipeDao {
                 }),
         _rightSwipeDeletionAdapter = DeletionAdapter(
             database,
-            'left_swipe',
+            'right_swipe',
             ['id'],
             (RightSwipe item) => <String, Object?>{
                   'id': item.id,
@@ -635,8 +635,24 @@ class _$RightSwipeDao extends RightSwipeDao {
   final DeletionAdapter<RightSwipe> _rightSwipeDeletionAdapter;
 
   @override
-  Future<RightSwipe?> getRightSwipesByProfileId(String profileId) async {
-    return _queryAdapter.query('SELECT * FROM right_swipe WHERE profileId = ?1',
+  Future<List<RightSwipe>> getRightSwipesBySwiperProfileId(
+      String profileId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM right_swipe WHERE swiperProfileId = ?1',
+        mapper: (Map<String, Object?> row) => RightSwipe(
+            id: row['id'] as int?,
+            swiperProfileId: row['swiperProfileId'] as int?,
+            swiperOwnerId: row['swiperOwnerId'] as int?,
+            swipeDate: row['swipeDate'] as String?,
+            swipedProfileId: row['swipedProfileId'] as int?),
+        arguments: [profileId]);
+  }
+
+  @override
+  Future<List<RightSwipe>> getRightSwipesBySwipedProfileId(
+      String profileId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM right_swipe WHERE swipedProfileId = ?1',
         mapper: (Map<String, Object?> row) => RightSwipe(
             id: row['id'] as int?,
             swiperProfileId: row['swiperProfileId'] as int?,
@@ -707,8 +723,24 @@ class _$LeftSwipeDao extends LeftSwipeDao {
   final DeletionAdapter<LeftSwipe> _leftSwipeDeletionAdapter;
 
   @override
-  Future<LeftSwipe?> getLeftSwipesByProfileId(String profileId) async {
-    return _queryAdapter.query('SELECT * FROM left_swipe WHERE profileId = ?1',
+  Future<List<LeftSwipe>> getLeftSwipesBySwiperProfileId(
+      String profileId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM left_swipe WHERE swiperProfileId = ?1',
+        mapper: (Map<String, Object?> row) => LeftSwipe(
+            id: row['id'] as int?,
+            swiperProfileId: row['swiperProfileId'] as int?,
+            swiperOwnerId: row['swiperOwnerId'] as int?,
+            swipeDate: row['swipeDate'] as String?,
+            swipedProfileId: row['swipedProfileId'] as int?),
+        arguments: [profileId]);
+  }
+
+  @override
+  Future<List<LeftSwipe>> getLeftSwipesBySwipedProfileId(
+      String profileId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM left_swipe WHERE swipedProfileId = ?1',
         mapper: (Map<String, Object?> row) => LeftSwipe(
             id: row['id'] as int?,
             swiperProfileId: row['swiperProfileId'] as int?,
@@ -750,20 +782,22 @@ class _$TopSwipeDao extends TopSwipeDao {
             database,
             'top_swipe',
             (TopSwipe item) => <String, Object?>{
-                  'profileId': item.profileId,
-                  'ownerId': item.ownerId,
+                  'id': item.id,
+                  'swiperProfileId': item.swiperProfileId,
+                  'swiperOwnerId': item.swiperOwnerId,
                   'swipeDate': item.swipeDate,
-                  'targetId': item.targetId
+                  'swipedProfileId': item.swipedProfileId
                 }),
         _topSwipeDeletionAdapter = DeletionAdapter(
             database,
             'top_swipe',
-            ['profileId'],
+            ['id'],
             (TopSwipe item) => <String, Object?>{
-                  'profileId': item.profileId,
-                  'ownerId': item.ownerId,
+                  'id': item.id,
+                  'swiperProfileId': item.swiperProfileId,
+                  'swiperOwnerId': item.swiperOwnerId,
                   'swipeDate': item.swipeDate,
-                  'targetId': item.targetId
+                  'swipedProfileId': item.swipedProfileId
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -777,14 +811,40 @@ class _$TopSwipeDao extends TopSwipeDao {
   final DeletionAdapter<TopSwipe> _topSwipeDeletionAdapter;
 
   @override
-  Future<TopSwipe?> getTopSwipesByProfileId(String profileId) async {
-    return _queryAdapter.query('SELECT * FROM top_swipe WHERE profileId = ?1',
+  Future<List<TopSwipe>> getTopSwipesBySwiperProfileId(String profileId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM top_swipe WHERE swiperProfileId = ?1',
         mapper: (Map<String, Object?> row) => TopSwipe(
-            profileId: row['profileId'] as int?,
-            ownerId: row['ownerId'] as int?,
+            id: row['id'] as int?,
+            swiperProfileId: row['swiperProfileId'] as int?,
+            swiperOwnerId: row['swiperOwnerId'] as int?,
             swipeDate: row['swipeDate'] as String?,
-            targetId: row['targetId'] as int?),
+            swipedProfileId: row['swipedProfileId'] as int?),
         arguments: [profileId]);
+  }
+
+  @override
+  Future<List<TopSwipe>> getTopSwipesBySwipedProfileId(String profileId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM top_swipe WHERE swipedProfileId = ?1',
+        mapper: (Map<String, Object?> row) => TopSwipe(
+            id: row['id'] as int?,
+            swiperProfileId: row['swiperProfileId'] as int?,
+            swiperOwnerId: row['swiperOwnerId'] as int?,
+            swipeDate: row['swipeDate'] as String?,
+            swipedProfileId: row['swipedProfileId'] as int?),
+        arguments: [profileId]);
+  }
+
+  @override
+  Future<List<TopSwipe>> getAllSuperlikedProfiles() async {
+    return _queryAdapter.queryList('SELECT * FROM top_swipe',
+        mapper: (Map<String, Object?> row) => TopSwipe(
+            id: row['id'] as int?,
+            swiperProfileId: row['swiperProfileId'] as int?,
+            swiperOwnerId: row['swiperOwnerId'] as int?,
+            swipeDate: row['swipeDate'] as String?,
+            swipedProfileId: row['swipedProfileId'] as int?));
   }
 
   @override

@@ -3,7 +3,7 @@ import 'package:the_dig_app/models/owner.dart';
 
 import 'profile.dart';
 
-@Entity(tableName: 'left_swipe', foreignKeys: [
+@Entity(tableName: 'right_swipe', foreignKeys: [
   ForeignKey(
       childColumns: ['swiperProfileId'],
       parentColumns: ['id'],

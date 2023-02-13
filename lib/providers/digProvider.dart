@@ -5,6 +5,7 @@ import 'package:the_dig_app/models/owner.dart';
 import 'package:the_dig_app/models/profile.dart';
 import 'dart:async';
 import 'package:the_dig_app/models/right_swipe.dart';
+import 'package:the_dig_app/models/top_swipe.dart';
 
 class DigProvider extends ChangeNotifier {
   final AppDatabase _database;
@@ -28,6 +29,11 @@ class DigProvider extends ChangeNotifier {
 
   Future<void> insertRightSwipe(RightSwipe rightSwipe) async {
     await _database.rightSwipeDao.insertRightSwipe(rightSwipe);
+    notifyListeners();
+  }
+
+  Future<void> insertTopSwipe(TopSwipe topSwipe) async {
+    await _database.topSwipeDao.insertTopSwipe(topSwipe);
     notifyListeners();
   }
 

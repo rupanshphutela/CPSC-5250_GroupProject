@@ -6,6 +6,7 @@ import 'package:the_dig_app/models/left_swipe.dart';
 import 'package:the_dig_app/models/owner.dart';
 import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/models/right_swipe.dart';
+import 'package:the_dig_app/models/top_swipe.dart';
 import 'package:the_dig_app/screens/event.dart';
 import 'package:the_dig_app/screens/left_swipe_page.dart';
 import 'package:the_dig_app/screens/settings.dart';
@@ -259,8 +260,15 @@ class _DogProfileState extends State<DogProfile> {
           swiperOwnerId: cards[index].card.ownerId,
           swipeDate: DateTime.now().toString(),
           swipedProfileId: cards[index].card.id));
-    } else {
+    } else if (direction.name == 'left') {
       digProvider.insertLeftSwipe(LeftSwipe(
+          id: UniqueKey().hashCode,
+          swiperProfileId: UniqueKey().hashCode,
+          swiperOwnerId: cards[index].card.ownerId,
+          swipeDate: DateTime.now().toString(),
+          swipedProfileId: cards[index].card.id));
+    } else if (direction.name == 'top') {
+      digProvider.insertTopSwipe(TopSwipe(
           id: UniqueKey().hashCode,
           swiperProfileId: UniqueKey().hashCode,
           swiperOwnerId: cards[index].card.ownerId,
