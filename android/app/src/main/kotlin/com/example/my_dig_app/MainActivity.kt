@@ -1,4 +1,4 @@
-package com.example.the_dig_app
+package com.example.my_dig_app
 
 import io.flutter.embedding.android.FlutterActivity
 

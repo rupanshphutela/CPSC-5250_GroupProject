@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.the_dig_app">
+    package="com.example.my_dig_app">
    <application
-        android:label="the_dig_app"
+        android:label="my_dig_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
