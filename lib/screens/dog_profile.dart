@@ -162,7 +162,7 @@ class _DogProfileState extends State<DogProfile> {
     //   joiningDate: '2/12/23',
     //   size: '15',
     // ));
-
+    
   }
 
    void allProfiles() async {
