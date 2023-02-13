@@ -145,7 +145,7 @@ class _DogProfileState extends State<DogProfile> {
         ],
       ),
       body: Center(
-        child: Column(children: [
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           widget._userId(),
           widget._signOutButton(),
         ]),
