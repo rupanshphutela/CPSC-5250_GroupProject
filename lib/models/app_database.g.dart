@@ -285,7 +285,11 @@ class _$ProfileDao extends ProfileDao {
   }
 
   @override
+<<<<<<< HEAD
   Future<List<Profile>> getAllProfiles() async {
+=======
+  Future<List<Profile>?> getAllProfiles() async {
+>>>>>>> 8bd6b3df7fc085f5ec669aa675b19ac57747de61
     return _queryAdapter.queryList('SELECT * FROM profile',
         mapper: (Map<String, Object?> row) => Profile(
             id: row['id'] as int,
