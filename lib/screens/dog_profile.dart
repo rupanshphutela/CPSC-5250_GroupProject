@@ -42,22 +42,24 @@ class DogProfile extends StatefulWidget {
 class _DogProfileState extends State<DogProfile> {
   List<ProfileCard> cards = [
     ProfileCard(
-        card: Profile(
-      id: 4,
-      fName: 'Junior',
-      lName: 'juno',
-      profilePicture: 'assets/images/dog4.jpg',
-      ownerId: 3,
-      gender: 'Male',
-      breed: 'Saint Bernard',
-      color: 'White',
-      isVaccinated: true,
-      registrationDate: '2/12/23',
-      isSpayed: false,
-      isNeutered: true,
-      joiningDate: '2/12/23',
-      size: '15',
-    ))
+      card: Profile(
+        id: 4,
+        fName: 'Junior',
+        lName: 'juno',
+        profilePicture: 'assets/images/dog4.jpg',
+        ownerId: 3,
+        gender: 'Male',
+        breed: 'Saint Bernard',
+        color: 'White',
+        isVaccinated: true,
+        registrationDate: '2/12/23',
+        isSpayed: false,
+        isNeutered: true,
+        joiningDate: '2/12/23',
+        size: '15',
+      ),
+      isUserinFocus: false,
+    )
   ];
   final CardSwiperController controller = CardSwiperController();
 
@@ -286,6 +288,7 @@ class _DogProfileState extends State<DogProfile> {
         cards = profiles
             .map((candidate) => ProfileCard(
                   card: candidate,
+                  isUserinFocus: false,
                 ))
             .toList();
       } else {
