@@ -14,6 +14,7 @@ import 'package:the_dig_app/screens/chat.dart';
 import 'package:the_dig_app/screens/dog_profile.dart';
 import 'package:the_dig_app/screens/event.dart';
 import 'package:the_dig_app/screens/settings.dart';
+import 'package:the_dig_app/providers/feedback_position_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -80,8 +81,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => DigProvider(_database),
+    return MultiProvider(
+      providers: [
+        // First NotifierProvider
+        ChangeNotifierProvider(create: (_) => DigProvider(_database)),
+        // Second NotifierProvider
+        ChangeNotifierProvider(create: (context) => FeedbackPositionProvider()),
+      ],
       child: MaterialApp.router(
         title: 'Flutter Demo',
         theme: ThemeData(
