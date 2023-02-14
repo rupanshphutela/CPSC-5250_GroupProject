@@ -7,8 +7,8 @@ import 'package:the_dig_app/models/owner.dart';
 import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/models/right_swipe.dart';
 import 'package:the_dig_app/models/top_swipe.dart';
+import 'package:the_dig_app/screens/chat.dart';
 import 'package:the_dig_app/screens/event.dart';
-import 'package:the_dig_app/screens/left_swipe_page.dart';
 import 'package:the_dig_app/screens/settings.dart';
 import 'package:the_dig_app/util/profile_card.dart';
 import 'package:the_dig_app/providers/digProvider.dart';
@@ -19,8 +19,8 @@ final _routes = [
     builder: (context, state) => const DogProfile(),
   ),
   GoRoute(
-    path: '/leftSwipe',
-    builder: (context, state) => const LeftSwipePage(),
+    path: '/chats',
+    builder: (context, state) => const Chat(),
   ),
   GoRoute(
     path: '/events',
@@ -40,7 +40,6 @@ class DogProfile extends StatefulWidget {
 }
 
 class _DogProfileState extends State<DogProfile> {
-
   Future<void> _showMyDialog() async {
     return showDialog<void>(
       context: context,
@@ -290,16 +289,33 @@ class _DogProfileState extends State<DogProfile> {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.teal), label: 'Home'),
+            icon: Icon(
+              Icons.home,
+              color: Colors.teal,
+            ),
+            label: 'Home',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.arrow_back, color: Colors.teal),
-              label: 'Left Swiped Profiles'),
+            icon: Icon(
+              Icons.chat,
+              color: Colors.teal,
+            ),
+            label: 'Chats',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.arrow_forward, color: Colors.teal),
-              label: 'Right Swiped Profiles'),
+            icon: Icon(
+              Icons.event,
+              color: Colors.teal,
+            ),
+            label: 'Events',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings, color: Colors.teal),
-              label: 'Settings'),
+            icon: Icon(
+              Icons.settings,
+              color: Colors.teal,
+            ),
+            label: 'Settings',
+          ),
         ],
         onTap: (index) {
           context.push(_routes[index].path);
