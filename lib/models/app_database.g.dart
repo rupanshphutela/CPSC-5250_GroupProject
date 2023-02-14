@@ -113,11 +113,11 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `food_preference` (`profileId` INTEGER, `foodName` TEXT, `likingIndex` INTEGER, FOREIGN KEY (`profileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`profileId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `right_swipe` (`id` INTEGER, `swiperProfileId` INTEGER, `swiperOwnerId` INTEGER, `swipeDate` TEXT, `swipedProfileId` INTEGER, FOREIGN KEY (`swiperProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swipedProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swiperOwnerId`) REFERENCES `profile` (`ownerId`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swiperOwnerId`) REFERENCES `owner_profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `right_swipe` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `swiperProfileId` INTEGER, `swiperOwnerId` INTEGER, `swipeDate` TEXT, `swipedProfileId` INTEGER, FOREIGN KEY (`swipedProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `left_swipe` (`id` INTEGER, `swiperProfileId` INTEGER, `swiperOwnerId` INTEGER, `swipeDate` TEXT, `swipedProfileId` INTEGER, FOREIGN KEY (`swiperProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swipedProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swiperOwnerId`) REFERENCES `profile` (`ownerId`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swiperOwnerId`) REFERENCES `owner_profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `left_swipe` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `swiperProfileId` INTEGER, `swiperOwnerId` INTEGER, `swipeDate` TEXT, `swipedProfileId` INTEGER, FOREIGN KEY (`swipedProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `top_swipe` (`id` INTEGER, `swiperProfileId` INTEGER, `swiperOwnerId` INTEGER, `swipeDate` TEXT, `swipedProfileId` INTEGER, FOREIGN KEY (`swiperProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swipedProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swiperOwnerId`) REFERENCES `profile` (`ownerId`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`swiperOwnerId`) REFERENCES `owner_profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `top_swipe` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `swiperProfileId` INTEGER, `swiperOwnerId` INTEGER, `swipeDate` TEXT, `swipedProfileId` INTEGER, FOREIGN KEY (`swipedProfileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `behavior` (`profileId` INTEGER, `socialIndexHumans` INTEGER, `socialIndexDogs` INTEGER, `isFoodAggressive` INTEGER, `isNewHumanAggressive` INTEGER, `isNewDogAggressive` INTEGER, FOREIGN KEY (`profileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`profileId`))');
         await database.execute(
@@ -287,7 +287,7 @@ class _$ProfileDao extends ProfileDao {
   @override
   Future<List<Profile>> getAllProfiles() async {
     return _queryAdapter.queryList(
-        'SELECT * FROM profile where id not in (select profileId from right_swipe union select profileId from left_swipe)',
+        'SELECT * FROM profile where id not in (select swipedProfileId from right_swipe union select swipedProfileId from left_swipe union select swipedProfileId from top_swipe)',
         mapper: (Map<String, Object?> row) => Profile(
             id: row['id'] as int,
             fName: row['fName'] as String,
