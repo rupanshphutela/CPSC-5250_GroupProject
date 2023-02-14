@@ -40,6 +40,35 @@ class DogProfile extends StatefulWidget {
 }
 
 class _DogProfileState extends State<DogProfile> {
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('No dogs in your area!'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Swiping disabled.'),
+                Text('Would you like to approve of this message?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Approve'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   List<ProfileCard> cards = [
     ProfileCard(
       card: Profile(
@@ -59,9 +88,29 @@ class _DogProfileState extends State<DogProfile> {
         size: '15',
       ),
       isUserinFocus: false,
+    ),
+    ProfileCard(
+      card: Profile(
+        id: 4,
+        fName: 'Junior',
+        lName: 'juno',
+        profilePicture: 'assets/images/dog1.jpg',
+        ownerId: 3,
+        gender: 'Male',
+        breed: 'Saint Bernard',
+        color: 'White',
+        isVaccinated: true,
+        registrationDate: '2/12/23',
+        isSpayed: false,
+        isNeutered: true,
+        joiningDate: '2/12/23',
+        size: '15',
+      ),
+      isUserinFocus: false,
     )
   ];
   final CardSwiperController controller = CardSwiperController();
+  bool _isEmpty = false;
 
   @override
   void initState() {
@@ -224,6 +273,13 @@ class _DogProfileState extends State<DogProfile> {
               child: CardSwiper(
                 controller: controller,
                 cards: cards,
+                isDisabled: _isEmpty,
+                onEnd: () {
+                  _showMyDialog();
+                  setState(() {
+                    _isEmpty = true;
+                  });
+                },
                 onSwipe: _load,
                 padding: const EdgeInsets.all(24.0),
               ),
