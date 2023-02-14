@@ -7,30 +7,12 @@ import 'package:the_dig_app/models/owner.dart';
 import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/models/right_swipe.dart';
 import 'package:the_dig_app/models/top_swipe.dart';
+import 'package:the_dig_app/routes/routes.dart';
 import 'package:the_dig_app/screens/chat.dart';
 import 'package:the_dig_app/screens/event.dart';
 import 'package:the_dig_app/screens/settings.dart';
 import 'package:the_dig_app/util/profile_card.dart';
 import 'package:the_dig_app/providers/digProvider.dart';
-
-final _routes = [
-  GoRoute(
-    path: '/dogprofile',
-    builder: (context, state) => const DogProfile(),
-  ),
-  GoRoute(
-    path: '/chats',
-    builder: (context, state) => const Chat(),
-  ),
-  GoRoute(
-    path: '/events',
-    builder: (context, state) => const Event(),
-  ),
-  GoRoute(
-    path: '/settings',
-    builder: (context, state) => const Settings(),
-  ),
-];
 
 class DogProfile extends StatefulWidget {
   const DogProfile({super.key});
@@ -318,7 +300,7 @@ class _DogProfileState extends State<DogProfile> {
           ),
         ],
         onTap: (index) {
-          context.push(_routes[index].path);
+          context.push(routes[index].path);
         },
       ),
     );

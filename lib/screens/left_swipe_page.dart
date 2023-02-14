@@ -3,30 +3,12 @@ import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:the_dig_app/models/profile.dart';
+import 'package:the_dig_app/routes/routes.dart';
 import 'package:the_dig_app/screens/dog_profile.dart';
 import 'package:the_dig_app/screens/event.dart';
 import 'package:the_dig_app/screens/settings.dart';
 import 'package:the_dig_app/util/profile_card.dart';
 import 'package:the_dig_app/providers/digProvider.dart';
-
-final _routes = [
-  GoRoute(
-    path: '/dogprofile',
-    builder: (context, state) => const DogProfile(),
-  ),
-  GoRoute(
-    path: '/leftSwipe',
-    builder: (context, state) => const LeftSwipePage(),
-  ),
-  GoRoute(
-    path: '/events',
-    builder: (context, state) => const Event(),
-  ),
-  GoRoute(
-    path: '/settings',
-    builder: (context, state) => const Settings(),
-  ),
-];
 
 class LeftSwipePage extends StatefulWidget {
   const LeftSwipePage({super.key});
@@ -103,7 +85,7 @@ class _LeftSwipePageState extends State<LeftSwipePage> {
               label: 'Settings'),
         ],
         onTap: (index) {
-          context.push(_routes[index].path);
+          context.push(routes[index].path);
         },
       ),
     );
