@@ -51,6 +51,7 @@ class _LeftSwipePageState extends State<LeftSwipePage> {
     cards = profiles
         .map((candidate) => ProfileCard(
               card: candidate,
+              isUserinFocus: false,
             ))
         .toList();
   }
