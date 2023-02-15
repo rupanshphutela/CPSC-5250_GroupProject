@@ -58,7 +58,6 @@ class _DogProfileState extends State<DogProfile> {
         joiningDate: '2/12/23',
         size: '15',
       ),
-      isUserinFocus: false,
     )
   ];
   final CardSwiperController controller = CardSwiperController();
@@ -288,7 +287,6 @@ class _DogProfileState extends State<DogProfile> {
         cards = profiles
             .map((candidate) => ProfileCard(
                   card: candidate,
-                  isUserinFocus: false,
                 ))
             .toList();
       } else {
