@@ -68,29 +68,6 @@ class _DogProfileState extends State<DogProfile> {
         joiningDate: '2/12/23',
         size: '15',
       ),
-<<<<<<< HEAD
-=======
-      isUserinFocus: false,
-    ),
-    ProfileCard(
-      card: Profile(
-        id: 4,
-        fName: 'Junior',
-        lName: 'juno',
-        profilePicture: 'assets/images/dog1.jpg',
-        ownerId: 3,
-        gender: 'Male',
-        breed: 'Saint Bernard',
-        color: 'White',
-        isVaccinated: true,
-        registrationDate: '2/12/23',
-        isSpayed: false,
-        isNeutered: true,
-        joiningDate: '2/12/23',
-        size: '15',
-      ),
-      isUserinFocus: false,
->>>>>>> a40092723f2b8a8742e5c573a2660e683e516784
     )
   ];
   final CardSwiperController controller = CardSwiperController();
