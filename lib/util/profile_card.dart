@@ -145,7 +145,7 @@ class ProfileCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              '${card.gender}, ${card.breed}',
+              '${card.breed}, ${card.gender}',
               style: const TextStyle(color: Colors.white),
             ),
             const SizedBox(height: 4),
