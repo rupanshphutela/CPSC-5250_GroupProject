@@ -1,48 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:the_dig_app/routes/routes.dart';
 
-class Settings extends StatefulWidget {
-  const Settings({super.key});
-
-  @override
-  State<Settings> createState() => _SettingsState();
-}
-
-class _SettingsState extends State<Settings> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.teal);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Chats',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Events',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('DIG'),
+        centerTitle: true,
+        title: const Text("To be done later..."),
       ),
       body: SettingsList(
         sections: [
@@ -53,21 +21,21 @@ class _SettingsState extends State<Settings> {
                 title: const Text('Rejects'),
                 leading: const Icon(Icons.arrow_back_ios),
                 onPressed: (BuildContext context) {
-                  context.push('/left_swipe');
+                  // context.push('/left_swipe');
                 },
               ),
               SettingsTile(
                 title: const Text('Likes'),
                 leading: const Icon(Icons.arrow_forward_ios),
                 onPressed: (BuildContext context) {
-                  context.push('/right_swipe');
+                  // context.push('/right_swipe');
                 },
               ),
               SettingsTile(
                 title: const Text('Superlikes'),
                 leading: const Icon(Icons.arrow_upward_outlined),
                 onPressed: (BuildContext context) {
-                  context.push('/top_swipe');
+                  // context.push('/top_swipe');
                 },
               ),
             ],
@@ -115,10 +83,9 @@ class _SettingsState extends State<Settings> {
             label: 'Settings',
           ),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.teal,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
+        onTap: (index) {
+          context.push(routes[index].path);
+        },
       ),
     );
   }

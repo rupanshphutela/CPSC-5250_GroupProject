@@ -1,49 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:the_dig_app/routes/routes.dart';
 
-class Event extends StatefulWidget {
-  const Event({super.key});
-
-  @override
-  State<Event> createState() => _EventState();
-}
-
-class _EventState extends State<Event> {
-  int _selectedIndex = 0;
+class Event extends StatelessWidget {
   static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.teal);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Chats',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Events',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Settings',
+      'To be done later...',
       style: optionStyle,
     ),
   ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('DIG'),
+        centerTitle: true,
+        title: const Icon(Icons.pets_outlined),
       ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body: const Center(
+        child:  Text(
+            'To be done later...',
+            style: optionStyle,
+            )
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -76,10 +56,9 @@ class _EventState extends State<Event> {
             label: 'Settings',
           ),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.teal,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
+        onTap: (index) {
+          context.push(routes[index].path);
+        },
       ),
     );
   }

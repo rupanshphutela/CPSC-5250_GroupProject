@@ -214,19 +214,9 @@ class _DogProfileState extends State<DogProfile> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Notch"),
-        backgroundColor: Colors.white,
-        leading: const Icon(Icons.person),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.chat,
-              color: Colors.white,
-            ),
-            onPressed: () {},
-          )
-        ],
-      ),
+        title: 
+            const Icon(Icons.pets_outlined),
+        ),
       body: SafeArea(
         child: Column(
           children: [
