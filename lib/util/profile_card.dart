@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:the_dig_app/models/profile.dart';
-import 'package:the_dig_app/screens/dog_profile.dart';
 
 class ProfileCard extends StatelessWidget {
   final Profile card;

@@ -4,11 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/routes/routes.dart';
-import 'package:the_dig_app/screens/dog_profile.dart';
-import 'package:the_dig_app/screens/event.dart';
-import 'package:the_dig_app/screens/settings.dart';
 import 'package:the_dig_app/util/profile_card.dart';
-import 'package:the_dig_app/providers/digProvider.dart';
+import 'package:the_dig_app/providers/dig_provider.dart';
 
 class LeftSwipePage extends StatefulWidget {
   const LeftSwipePage({super.key});
@@ -28,13 +25,16 @@ class _LeftSwipePageState extends State<LeftSwipePage> {
   }
 
   void allProfiles() async {
-    final digProvider = Provider.of<DigProvider>(context, listen: false);
-    List<Profile> profiles = await digProvider.getProfiles();
-    cards = profiles
-        .map((candidate) => ProfileCard(
-              card: candidate,
-            ))
-        .toList();
+    List<Profile> profiles = context.watch<DigProvider>().profiles;
+    if (profiles.isNotEmpty) {
+      cards = profiles
+          .map((candidate) => ProfileCard(
+                card: candidate,
+              ))
+          .toList();
+    } else {
+      const CircularProgressIndicator();
+    }
   }
 
   @override

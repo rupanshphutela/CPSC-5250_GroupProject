@@ -9,12 +9,9 @@ import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:the_dig_app/models/app_database.dart';
-import 'package:the_dig_app/providers/digProvider.dart';
+import 'package:the_dig_app/providers/dig_provider.dart';
 import 'package:the_dig_app/routes/routes.dart';
-import 'package:the_dig_app/screens/chat.dart';
 import 'package:the_dig_app/screens/dog_profile.dart';
-import 'package:the_dig_app/screens/event.dart';
-import 'package:the_dig_app/screens/settings.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

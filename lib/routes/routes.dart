@@ -12,15 +12,15 @@ final routes = [
   ),
   GoRoute(
     path: '/chats',
-    builder: (context, state) => Chat(),
+    builder: (context, state) => const Chat(),
   ),
   GoRoute(
     path: '/events',
-    builder: (context, state) => Event(),
+    builder: (context, state) => const Event(),
   ),
   GoRoute(
     path: '/settings',
-    builder: (context, state) => Settings(),
+    builder: (context, state) => const Settings(),
   ),
   GoRoute(
     path: '/left_swipe',

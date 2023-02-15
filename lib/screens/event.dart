@@ -5,12 +5,14 @@ import 'package:the_dig_app/routes/routes.dart';
 class Event extends StatelessWidget {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'To be done later...',
-      style: optionStyle,
-    ),
-  ];
+
+  const Event({super.key});
+  // static const List<Widget> _widgetOptions = <Widget>[
+  //   Text(
+  //     'To be done later...',
+  //     style: optionStyle,
+  //   ),
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +22,10 @@ class Event extends StatelessWidget {
         title: const Icon(Icons.pets_outlined),
       ),
       body: const Center(
-        child:  Text(
-            'To be done later...',
-            style: optionStyle,
-            )
-      ),
+          child: Text(
+        'To be done later...',
+        style: optionStyle,
+      )),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

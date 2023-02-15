@@ -5,8 +5,10 @@ import 'package:the_dig_app/routes/routes.dart';
 class Chat extends StatelessWidget {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black);
-  static const List<Widget> _widgetOptions = <Widget>[
-  ];
+  // static const List<Widget> _widgetOptions = <Widget>[
+  // ];
+
+  const Chat({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +18,10 @@ class Chat extends StatelessWidget {
         title: const Icon(Icons.pets_outlined),
       ),
       body: const Center(
-        child:  Text(
-            'To be done later...',
-            style: optionStyle,
-            )
-      ),
+          child: Text(
+        'To be done later...',
+        style: optionStyle,
+      )),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
