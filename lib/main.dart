@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:the_dig_app/models/app_database.dart';
 import 'package:the_dig_app/providers/digProvider.dart';
+import 'package:the_dig_app/routes/routes.dart';
 import 'package:the_dig_app/screens/chat.dart';
 import 'package:the_dig_app/screens/dog_profile.dart';
 import 'package:the_dig_app/screens/event.dart';
@@ -48,28 +49,9 @@ Future<void> initializeDatabase() async {
   }
 }
 
-final _routes = [
-  GoRoute(
-    path: '/dogprofile',
-    builder: (context, state) => const DogProfile(),
-  ),
-  GoRoute(
-    path: '/chats',
-    builder: (context, state) => const Chat(),
-  ),
-  GoRoute(
-    path: '/events',
-    builder: (context, state) => const Event(),
-  ),
-  GoRoute(
-    path: '/settings',
-    builder: (context, state) => const Settings(),
-  ),
-];
-
 final _router = GoRouter(
   initialLocation: '/dogprofile',
-  routes: _routes,
+  routes: routes,
 );
 
 class MyApp extends StatelessWidget {
@@ -116,7 +98,7 @@ class MyHomePage extends StatelessWidget {
               label: 'Settings'),
         ],
         onTap: (index) {
-          context.push(_routes[index].path);
+          context.push(routes[index].path);
         },
       ),
     );

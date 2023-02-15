@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class Event extends StatefulWidget {
   const Event({super.key});
 
@@ -41,7 +40,6 @@ class _EventState extends State<Event> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.arrow_back),
         title: const Text('DIG'),
       ),
       body: Center(
@@ -50,19 +48,31 @@ class _EventState extends State<Event> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Colors.teal,),
+            icon: Icon(
+              Icons.home,
+              color: Colors.teal,
+            ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat, color: Colors.teal,),
+            icon: Icon(
+              Icons.chat,
+              color: Colors.teal,
+            ),
             label: 'Chats',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.event, color: Colors.teal,),
+            icon: Icon(
+              Icons.event,
+              color: Colors.teal,
+            ),
             label: 'Events',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings, color: Colors.teal,),
+            icon: Icon(
+              Icons.settings,
+              color: Colors.teal,
+            ),
             label: 'Settings',
           ),
         ],

@@ -7,7 +7,7 @@ abstract class ProfileDao {
   Future<Profile?> getProfileByProfileId(String profileId);
 
   @Query(
-      "SELECT * FROM profile where id not in (select profileId from right_swipe union select profileId from left_swipe) ")
+      "SELECT * FROM profile where id not in (select swipedProfileId from right_swipe union select swipedProfileId from left_swipe union select swipedProfileId from top_swipe) ")
   Future<List<Profile>> getAllProfiles();
 
   @insert

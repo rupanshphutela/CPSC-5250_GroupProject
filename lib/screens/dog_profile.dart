@@ -7,30 +7,12 @@ import 'package:the_dig_app/models/owner.dart';
 import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/models/right_swipe.dart';
 import 'package:the_dig_app/models/top_swipe.dart';
+import 'package:the_dig_app/routes/routes.dart';
+import 'package:the_dig_app/screens/chat.dart';
 import 'package:the_dig_app/screens/event.dart';
-import 'package:the_dig_app/screens/left_swipe_page.dart';
 import 'package:the_dig_app/screens/settings.dart';
 import 'package:the_dig_app/util/profile_card.dart';
 import 'package:the_dig_app/providers/digProvider.dart';
-
-final _routes = [
-  GoRoute(
-    path: '/dogprofile',
-    builder: (context, state) => const DogProfile(),
-  ),
-  GoRoute(
-    path: '/leftSwipe',
-    builder: (context, state) => const LeftSwipePage(),
-  ),
-  GoRoute(
-    path: '/events',
-    builder: (context, state) => const Event(),
-  ),
-  GoRoute(
-    path: '/settings',
-    builder: (context, state) => const Settings(),
-  ),
-];
 
 class DogProfile extends StatefulWidget {
   const DogProfile({super.key});
@@ -40,6 +22,34 @@ class DogProfile extends StatefulWidget {
 }
 
 class _DogProfileState extends State<DogProfile> {
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('No dogs in your area!'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Swiping disabled.'),
+                Text('Would you like to approve of this message?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Approve'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   List<ProfileCard> cards = [
     ProfileCard(
       card: Profile(
@@ -58,9 +68,33 @@ class _DogProfileState extends State<DogProfile> {
         joiningDate: '2/12/23',
         size: '15',
       ),
+<<<<<<< HEAD
+=======
+      isUserinFocus: false,
+    ),
+    ProfileCard(
+      card: Profile(
+        id: 4,
+        fName: 'Junior',
+        lName: 'juno',
+        profilePicture: 'assets/images/dog1.jpg',
+        ownerId: 3,
+        gender: 'Male',
+        breed: 'Saint Bernard',
+        color: 'White',
+        isVaccinated: true,
+        registrationDate: '2/12/23',
+        isSpayed: false,
+        isNeutered: true,
+        joiningDate: '2/12/23',
+        size: '15',
+      ),
+      isUserinFocus: false,
+>>>>>>> a40092723f2b8a8742e5c573a2660e683e516784
     )
   ];
   final CardSwiperController controller = CardSwiperController();
+  bool _isEmpty = false;
 
   @override
   void initState() {
@@ -223,6 +257,13 @@ class _DogProfileState extends State<DogProfile> {
               child: CardSwiper(
                 controller: controller,
                 cards: cards,
+                isDisabled: _isEmpty,
+                onEnd: () {
+                  _showMyDialog();
+                  setState(() {
+                    _isEmpty = true;
+                  });
+                },
                 onSwipe: _load,
                 padding: const EdgeInsets.all(24.0),
               ),
@@ -233,19 +274,36 @@ class _DogProfileState extends State<DogProfile> {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.teal), label: 'Home'),
+            icon: Icon(
+              Icons.home,
+              color: Colors.teal,
+            ),
+            label: 'Home',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.arrow_back, color: Colors.teal),
-              label: 'Left Swiped Profiles'),
+            icon: Icon(
+              Icons.chat,
+              color: Colors.teal,
+            ),
+            label: 'Chats',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.arrow_forward, color: Colors.teal),
-              label: 'Right Swiped Profiles'),
+            icon: Icon(
+              Icons.event,
+              color: Colors.teal,
+            ),
+            label: 'Events',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings, color: Colors.teal),
-              label: 'Settings'),
+            icon: Icon(
+              Icons.settings,
+              color: Colors.teal,
+            ),
+            label: 'Settings',
+          ),
         ],
         onTap: (index) {
-          context.push(_routes[index].path);
+          context.push(routes[index].path);
         },
       ),
     );
@@ -256,21 +314,18 @@ class _DogProfileState extends State<DogProfile> {
     debugPrint('the card $index was swiped to the: ${direction.name}');
     if (direction.name == 'right') {
       digProvider.insertRightSwipe(RightSwipe(
-          id: UniqueKey().hashCode,
           swiperProfileId: UniqueKey().hashCode,
           swiperOwnerId: cards[index].card.ownerId,
           swipeDate: DateTime.now().toString(),
           swipedProfileId: cards[index].card.id));
     } else if (direction.name == 'left') {
       digProvider.insertLeftSwipe(LeftSwipe(
-          id: UniqueKey().hashCode,
           swiperProfileId: UniqueKey().hashCode,
           swiperOwnerId: cards[index].card.ownerId,
           swipeDate: DateTime.now().toString(),
           swipedProfileId: cards[index].card.id));
     } else if (direction.name == 'top') {
       digProvider.insertTopSwipe(TopSwipe(
-          id: UniqueKey().hashCode,
           swiperProfileId: UniqueKey().hashCode,
           swiperOwnerId: cards[index].card.ownerId,
           swipeDate: DateTime.now().toString(),
