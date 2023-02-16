@@ -10,44 +10,10 @@ import 'package:the_dig_app/routes/routes.dart';
 import 'package:the_dig_app/util/profile_card.dart';
 import 'package:the_dig_app/providers/dig_provider.dart';
 
-class DogProfile extends StatefulWidget {
-  const DogProfile({super.key});
+class DogProfile extends StatelessWidget {
+  final BuildContext context;
+  DogProfile({super.key, required this.context});
 
-  @override
-  State<DogProfile> createState() => _DogProfileState();
-}
-
-class _DogProfileState extends State<DogProfile> {
-  Future<void> _showMyDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('No dogs in your area!'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: const <Widget>[
-                Text('Swiping disabled.'),
-                Text('Would you like to approve of this message?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Approve'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  final CardSwiperController controller = CardSwiperController();
-  bool _isEmpty = false;
   List<ProfileCard> cards = [];
   @override
   Widget build(context) {
@@ -71,15 +37,8 @@ class _DogProfileState extends State<DogProfile> {
             children: [
               Flexible(
                 child: CardSwiper(
-                  controller: controller,
                   cards: cards,
-                  isDisabled: _isEmpty,
-                  onEnd: () {
-                    _showMyDialog();
-                    setState(() {
-                      _isEmpty = true;
-                    });
-                  },
+                  isDisabled: context.watch<DigProvider>().areCardsEmpty,
                   onSwipe: _swipe,
                   padding: const EdgeInsets.all(24.0),
                 ),
@@ -125,7 +84,61 @@ class _DogProfileState extends State<DogProfile> {
       );
     } else {
       context.read<DigProvider>().createDummyProfiles();
-      return const CircularProgressIndicator();
+      return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Icon(Icons.pets_outlined),
+        ),
+        body: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Flexible(
+                    child: Text(
+                  'No More dogs found in your area',
+                  style: TextStyle(fontSize: 24),
+                )),
+              ],
+            ),
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                color: Colors.teal,
+              ),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.chat,
+                color: Colors.teal,
+              ),
+              label: 'Chats',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.event,
+                color: Colors.teal,
+              ),
+              label: 'Events',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.settings,
+                color: Colors.teal,
+              ),
+              label: 'Settings',
+            ),
+          ],
+          onTap: (index) {
+            context.push(routes[index].path);
+          },
+        ),
+      );
     }
   }
 

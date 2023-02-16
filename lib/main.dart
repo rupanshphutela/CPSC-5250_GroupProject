@@ -81,7 +81,7 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("DIG"),
       ),
-      body: const DogProfile(),
+      body: DogProfile(context: context),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(

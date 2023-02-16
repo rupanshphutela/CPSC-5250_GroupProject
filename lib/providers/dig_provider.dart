@@ -16,6 +16,13 @@ class DigProvider extends ChangeNotifier {
 
   bool created = false;
 
+  bool get areCardsEmpty {
+    if (_profiles.isEmpty) {
+      return true;
+    }
+    return false;
+  }
+
   List<Profile> get profiles {
     getProfiles();
     return _profiles.toList();
@@ -54,7 +61,6 @@ class DigProvider extends ChangeNotifier {
   void createDummyProfiles() async {
     int uniqueId = UniqueKey().hashCode;
     if (created == false) {
-      created = true;
       await insertOwnerProfile(Owner(
         id: uniqueId,
         fName: 'Shahrukh $uniqueId',
@@ -157,6 +163,7 @@ class DigProvider extends ChangeNotifier {
         joiningDate: '2/12/23',
         size: '10',
       ));
+      created = true;
     }
   }
 }

@@ -8,7 +8,7 @@ import '../screens/settings.dart';
 final routes = [
   GoRoute(
     path: '/dogprofile',
-    builder: (context, state) => const DogProfile(),
+    builder: (context, state) => DogProfile(context: context),
   ),
   GoRoute(
     path: '/chats',
