@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:the_dig_app/models/app_database.dart';
 import 'package:the_dig_app/models/left_swipe.dart';
 import 'package:the_dig_app/models/owner.dart';
@@ -6,6 +7,7 @@ import 'package:the_dig_app/models/profile.dart';
 import 'dart:async';
 import 'package:the_dig_app/models/right_swipe.dart';
 import 'package:the_dig_app/models/top_swipe.dart';
+import 'package:the_dig_app/util/profile_card.dart';
 
 class DigProvider extends ChangeNotifier {
   final AppDatabase _database;
@@ -13,65 +15,34 @@ class DigProvider extends ChangeNotifier {
   DigProvider(this._database);
 
   List<Profile> _profiles = [];
+  List<ProfileCard> _cards = [];
 
   bool created = false;
+  bool isLastCard = false;
 
-  bool get areCardsEmpty {
-    if (_profiles.isEmpty) {
-      return true;
-    }
-    return false;
+  void onLastSwipe() {
+    isLastCard = true;
+    _profiles.clear();
+    _cards.clear();
+    notifyListeners();
   }
 
   List<Profile> get profiles {
-    getProfiles();
+    // getProfiles();
     return _profiles.toList();
   }
 
-  Future<void> insertOwnerProfile(Owner owner) async {
-    await _database.ownerProfileDao.insertOwnerProfile(owner);
-    notifyListeners();
-  }
-
-  Future<void> insertProfile(Profile profile) async {
-    await _database.profileDao.insertProfile(profile);
-    notifyListeners();
-  }
-
-  Future<void> insertLeftSwipe(LeftSwipe leftSwipe) async {
-    await _database.leftSwipeDao.insertLeftSwipe(leftSwipe);
-    notifyListeners();
-  }
-
-  Future<void> insertRightSwipe(RightSwipe rightSwipe) async {
-    await _database.rightSwipeDao.insertRightSwipe(rightSwipe);
-    notifyListeners();
-  }
-
-  Future<void> insertTopSwipe(TopSwipe topSwipe) async {
-    await _database.topSwipeDao.insertTopSwipe(topSwipe);
-    notifyListeners();
+  List<ProfileCard> get cards {
+    return _cards.toList();
   }
 
   void getProfiles() async {
-    _profiles = await _database.profileDao.getAllProfiles();
-    notifyListeners();
-  }
-
-  void createDummyProfiles() async {
-    int uniqueId = UniqueKey().hashCode;
     if (created == false) {
-      await insertOwnerProfile(Owner(
-        id: uniqueId,
-        fName: 'Shahrukh $uniqueId',
-        lName: 'Khan',
-        phone: '4251112222',
-        email: 'shah@gmail.com',
-        picture: 'assets/images/owner1.jpg',
-      ));
+      created = true;
+      int uniqueId = UniqueKey().hashCode;
       await insertProfile(Profile(
-        id: uniqueId + 1,
-        fName: 'Bruno ${uniqueId + 1}',
+        id: uniqueId,
+        fName: 'Bruno $uniqueId',
         lName: 'bruzo',
         profilePicture: 'assets/images/dog1.jpg',
         ownerId: uniqueId,
@@ -87,17 +58,9 @@ class DigProvider extends ChangeNotifier {
       ));
 
       uniqueId = UniqueKey().hashCode;
-      await insertOwnerProfile(Owner(
-        id: uniqueId,
-        fName: 'Salman $uniqueId',
-        lName: 'Khan',
-        phone: '4251112223',
-        email: 'salman@gmail.com',
-        picture: 'assets/images/owner2.jpg',
-      ));
       await insertProfile(Profile(
-        id: uniqueId + 1,
-        fName: 'Tyson ${uniqueId + 1}',
+        id: uniqueId,
+        fName: 'Tyson $uniqueId',
         lName: 'tyso',
         profilePicture: 'assets/images/dog2.jpg',
         ownerId: uniqueId,
@@ -113,20 +76,12 @@ class DigProvider extends ChangeNotifier {
       ));
 
       uniqueId = UniqueKey().hashCode;
-      await insertOwnerProfile(Owner(
-        id: uniqueId,
-        fName: 'AB',
-        lName: 'de',
-        phone: '4251112225',
-        email: 'ab@gmail.com',
-        picture: 'assets/images/owner4.jpg',
-      ));
       await insertProfile(Profile(
-        id: uniqueId + 1,
+        id: uniqueId,
         fName: 'Junior $uniqueId',
         lName: 'juno',
         profilePicture: 'assets/images/dog4.jpg',
-        ownerId: 3,
+        ownerId: uniqueId,
         gender: 'Male',
         breed: 'Saint Bernard',
         color: 'White',
@@ -139,17 +94,9 @@ class DigProvider extends ChangeNotifier {
       ));
 
       uniqueId = UniqueKey().hashCode;
-      await insertOwnerProfile(Owner(
-        id: uniqueId,
-        fName: 'Virat $uniqueId',
-        lName: 'Kohli',
-        phone: '4251112224',
-        email: 'virat@gmail.com',
-        picture: 'assets/images/owner3.jpg',
-      ));
       await insertProfile(Profile(
-        id: uniqueId + 1,
-        fName: 'Auggie ${uniqueId + 1}',
+        id: uniqueId,
+        fName: 'Auggie $uniqueId',
         lName: 'auggy',
         profilePicture: 'assets/images/dog3.jpg',
         ownerId: uniqueId,
@@ -163,7 +110,46 @@ class DigProvider extends ChangeNotifier {
         joiningDate: '2/12/23',
         size: '10',
       ));
-      created = true;
     }
+    _profiles = await _database.profileDao.getAllProfiles();
+    _cards = _profiles
+        .map((candidate) => ProfileCard(
+              card: candidate,
+            ))
+        .toList();
+    notifyListeners();
+  }
+
+  Future<void> insertOwnerProfile(Owner owner) async {
+    await _database.ownerProfileDao.insertOwnerProfile(owner);
+    notifyListeners();
+  }
+
+  Future<void> insertProfile(Profile profile) async {
+    await _database.profileDao.insertProfile(profile);
+    notifyListeners();
+  }
+
+  Future<void> insertSwipe(int index, CardSwiperDirection direction) async {
+    if (direction.name == 'right') {
+      await _database.rightSwipeDao.insertRightSwipe(RightSwipe(
+          swiperProfileId: UniqueKey().hashCode,
+          swiperOwnerId: _cards[index].card.ownerId,
+          swipeDate: DateTime.now().toString(),
+          swipedProfileId: _cards[index].card.id));
+    } else if (direction.name == 'left') {
+      await _database.leftSwipeDao.insertLeftSwipe(LeftSwipe(
+          swiperProfileId: UniqueKey().hashCode,
+          swiperOwnerId: _cards[index].card.ownerId,
+          swipeDate: DateTime.now().toString(),
+          swipedProfileId: _cards[index].card.id));
+    } else if (direction.name == 'top') {
+      await _database.topSwipeDao.insertTopSwipe(TopSwipe(
+          swiperProfileId: UniqueKey().hashCode,
+          swiperOwnerId: _cards[index].card.ownerId,
+          swipeDate: DateTime.now().toString(),
+          swipedProfileId: _cards[index].card.id));
+    }
+    notifyListeners();
   }
 }
