@@ -13,11 +13,22 @@ import 'package:the_dig_app/providers/dig_provider.dart';
 import 'package:the_dig_app/routes/routes.dart';
 import 'package:the_dig_app/screens/dog_profile.dart';
 
+//firebase
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kDebugMode) {
     print('initializing database');
   }
+
+  //Initialize firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  //initialize SQLite DB
   await initializeDatabase();
   if (kDebugMode) {
     print('loading database');

@@ -47,7 +47,7 @@ android {
         applicationId "com.example.the_dig_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 19 //flutter.minSdkVersion - The default value of DEFAULT_MIN_SDK_VERSION is set to 16, which corresponds to Android 4.1 (Jelly Bean).
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
