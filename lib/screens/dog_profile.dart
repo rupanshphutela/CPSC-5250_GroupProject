@@ -31,6 +31,7 @@ class DogProfile extends StatelessWidget {
             children: [
               Flexible(
                 child: CardSwiper(
+                  scale: 0,
                   cards: context.watch<DigProvider>().cards,
                   isDisabled: context.watch<DigProvider>().isLastCard,
                   onSwipe: _swipe,
