@@ -58,7 +58,7 @@ Future<void> initializeDatabase() async {
 }
 
 final _router = GoRouter(
-  initialLocation: '/dogprofile',
+  initialLocation: '/addprofile',
   routes: routes,
 );
 
