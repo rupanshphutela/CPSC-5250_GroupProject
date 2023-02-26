@@ -16,7 +16,7 @@ class AddProfile extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          context.push('/dogprofile');
+          context.push('/addprofileform');
         },
         label: const Text("Add Profiles"),
       ),

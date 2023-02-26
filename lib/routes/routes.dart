@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:the_dig_app/screens/add_profile.dart';
+import 'package:the_dig_app/screens/add_profile_form.dart';
 import 'package:the_dig_app/screens/left_swipe_page.dart';
 import '../screens/dog_profile.dart';
 import '../screens/chat.dart';
@@ -14,6 +15,10 @@ final routes = [
   GoRoute(
     path: '/addprofile',
     builder: (context, state) => AddProfile(),
+  ),
+    GoRoute(
+    path: '/addprofileform',
+    builder: (context, state) => AddProfileForm(),
   ),
   GoRoute(
     path: '/chats',
