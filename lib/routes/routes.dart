@@ -5,9 +5,14 @@ import 'package:the_dig_app/screens/left_swipe_page.dart';
 import '../screens/dog_profile.dart';
 import '../screens/chat.dart';
 import '../screens/event.dart';
+import '../screens/login_page.dart';
 import '../screens/settings.dart';
 
 final routes = [
+  GoRoute(
+    path: '/login',
+    builder: (context, state) => const LoginPage(),
+  ),
   GoRoute(
     path: '/dogprofile',
     builder: (context, state) => DogProfile(context: context),
@@ -16,7 +21,7 @@ final routes = [
     path: '/addprofile',
     builder: (context, state) => AddProfile(),
   ),
-    GoRoute(
+  GoRoute(
     path: '/addprofileform',
     builder: (context, state) => AddProfileForm(),
   ),

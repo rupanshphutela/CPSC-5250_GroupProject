@@ -28,7 +28,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
+  FirebaseFirestore.instance.settings = const Settings(
+      persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
 
   //initialize SQLite DB
   await initializeDatabase();
@@ -60,7 +61,7 @@ Future<void> initializeDatabase() async {
 }
 
 final _router = GoRouter(
-  initialLocation: '/addprofile',
+  initialLocation: '/login',
   routes: routes,
 );
 
