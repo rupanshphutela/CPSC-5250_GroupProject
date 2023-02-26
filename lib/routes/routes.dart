@@ -11,7 +11,7 @@ import '../screens/settings.dart';
 final routes = [
   GoRoute(
     path: '/login',
-    builder: (context, state) => const LoginPage(),
+    builder: (context, state) => const LoginScreen(),
   ),
   GoRoute(
     path: '/dogprofile',
