@@ -105,7 +105,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `profile` (`id` INTEGER NOT NULL, `fName` TEXT NOT NULL, `lName` TEXT NOT NULL, `profilePicture` TEXT NOT NULL, `ownerId` INTEGER NOT NULL, `biography` TEXT, `gender` TEXT NOT NULL, `breed` TEXT NOT NULL, `color` TEXT NOT NULL, `isVaccinated` INTEGER NOT NULL, `registrationDate` TEXT NOT NULL, `isSpayed` INTEGER NOT NULL, `isNeutered` INTEGER NOT NULL, `joiningDate` TEXT NOT NULL, `size` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `owner_profile` (`id` INTEGER NOT NULL, `fName` TEXT NOT NULL, `lName` TEXT NOT NULL, `phone` TEXT NOT NULL, `email` TEXT NOT NULL, `addressText` TEXT, `addressCoordindates` TEXT, `picture` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `owner_profile` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `fName` TEXT NOT NULL, `lName` TEXT NOT NULL, `phone` TEXT NOT NULL, `email` TEXT NOT NULL, `addressText` TEXT, `addressCoordindates` TEXT, `picture` TEXT NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `picture` (`profileId` INTEGER, `ownerId` INTEGER, `picturePath` TEXT, FOREIGN KEY (`profileId`) REFERENCES `profile` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`profileId`))');
         await database.execute(
@@ -385,7 +385,7 @@ class _$OwnerDao extends OwnerDao {
   Future<Owner?> getOwnerByOwnerId(String ownerId) async {
     return _queryAdapter.query('SELECT * FROM owner WHERE id = ?1',
         mapper: (Map<String, Object?> row) => Owner(
-            id: row['id'] as int,
+            id: row['id'] as int?,
             fName: row['fName'] as String,
             lName: row['lName'] as String,
             phone: row['phone'] as String,

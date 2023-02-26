@@ -2,8 +2,8 @@ import 'package:floor/floor.dart';
 
 @Entity(tableName: 'owner_profile')
 class Owner {
-  @primaryKey
-  int id;
+  @PrimaryKey(autoGenerate: true)
+  int? id;
   String fName;
   String lName;
   String phone;
@@ -12,7 +12,7 @@ class Owner {
   String? addressCoordindates;
   String picture;
   Owner({
-    required this.id,
+    this.id,
     required this.fName,
     required this.lName,
     required this.phone,
@@ -21,4 +21,14 @@ class Owner {
     this.addressCoordindates,
     required this.picture,
   });
+
+  toJson(){
+    return {
+      "fName": fName,
+      "lName": lName,
+      "phone": phone,
+      "email": email,
+      "addressText": addressText,
+    };
+  }
 }
