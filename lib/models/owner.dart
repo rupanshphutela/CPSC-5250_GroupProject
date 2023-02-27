@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:floor/floor.dart';
 
 @Entity(tableName: 'owner_profile')
@@ -22,7 +23,7 @@ class Owner {
     required this.picture,
   });
 
-  toJson(){
+  toJson() {
     return {
       "fName": fName,
       "lName": lName,
@@ -30,5 +31,16 @@ class Owner {
       "email": email,
       "addressText": addressText,
     };
+  }
+
+  static Owner fromJson(QueryDocumentSnapshot data) {
+    return Owner(
+        id: data['id'],
+        addressText: data['addressText'],
+        email: data['email'],
+        fName: data['fName'],
+        lName: data['lName'],
+        phone: data['phone'],
+        picture: data['picture']);
   }
 }
