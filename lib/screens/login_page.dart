@@ -111,142 +111,141 @@ class _LoginScreen extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final disableButtons = _email == null || _password == null;
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Icon(
-          Icons.pets_outlined,
+    if (!_isLoggedIn) {
+      return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Icon(
+            Icons.pets_outlined,
+          ),
+          actions: [
+            if (_isLoggedIn)
+              IconButton(
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut();
+                    _googleSignIn.signOut();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            'User: ${FirebaseAuth.instance.currentUser!.email} logged out')));
+                  },
+                  icon: const Icon(Icons.power_settings_new_outlined))
+          ],
         ),
-        actions: [
-          if (_isLoggedIn)
-            IconButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  _googleSignIn.signOut();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                          'User: ${FirebaseAuth.instance.currentUser!.email} logged out')));
-                },
-                icon: const Icon(Icons.power_settings_new_outlined))
-        ],
-      ),
-      body: Center(
-        child: _isLoggedIn
-            ? AddProfileForm()
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        TextFormField(
-                          maxLines: 1,
-                          maxLength: 40,
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(40)
-                          ],
-                          decoration: const InputDecoration(
-                            labelText: 'Email address',
-                            hintText: 'Enter Email address',
-                          ),
-                          onChanged: (email) => {
-                            setState(() => {_email = email})
-                          },
-                        ),
-                        TextFormField(
-                          obscureText: true,
-                          maxLines: 1,
-                          maxLength: 15,
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(15)
-                          ],
-                          decoration: const InputDecoration(
-                            labelText: 'Password',
-                            hintText: 'Enter Password',
-                          ),
-                          onChanged: (password) => {
-                            setState(() => {_password = password})
-                          },
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(
-                              (MediaQuery.of(context).size.width).toDouble() *
-                                  0.07),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                ElevatedButton(
-                                  onPressed: disableButtons ? null : _register,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Colors.blue, // set the button color
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          10), // set the button shape
-                                    ),
-                                  ),
-                                  child: const Text(
-                                    'Register',
-                                    style: TextStyle(
-                                      color: Colors.white, // set the text color
-                                      fontSize: 25, // set the text size
-                                    ),
-                                  ),
-                                ),
-                                ElevatedButton(
-                                  onPressed: disableButtons ? null : _logIn,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Colors.teal, // set the button color
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          10), // set the button shape
-                                    ),
-                                  ),
-                                  child: const Text(
-                                    'Log in',
-                                    style: TextStyle(
-                                      color: Colors.white, // set the text color
-                                      fontSize: 25, // set the text size
-                                    ),
-                                  ),
-                                )
-                              ]),
-                        ),
-                        Text(
-                          _errorMessage ?? '',
-                          style: const TextStyle(color: Colors.red),
-                        ),
-                        const Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 20),
-                            child: Text('or'),
-                          ),
-                        ),
-                        Center(
-                          child: SignInButton(Buttons.Google,
-                              text: "Sign in with Google",
-                              elevation: 10.0,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
-                              padding: const EdgeInsets.only(
-                                  left: 25,
-                                  top: 10,
-                                  bottom: 10), onPressed: () async {
-                            debugPrint('signing in with Google');
-                            final UserCredential userCredential =
-                                await signInWithGoogle();
-                          }),
-                        ),
-                      ],
+        body: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    TextFormField(
+                      maxLines: 1,
+                      maxLength: 40,
+                      inputFormatters: [LengthLimitingTextInputFormatter(40)],
+                      decoration: const InputDecoration(
+                        labelText: 'Email address',
+                        hintText: 'Enter Email address',
+                      ),
+                      onChanged: (email) => {
+                        setState(() => {_email = email})
+                      },
                     ),
-                  ),
-                ],
+                    TextFormField(
+                      obscureText: true,
+                      maxLines: 1,
+                      maxLength: 15,
+                      inputFormatters: [LengthLimitingTextInputFormatter(15)],
+                      decoration: const InputDecoration(
+                        labelText: 'Password',
+                        hintText: 'Enter Password',
+                      ),
+                      onChanged: (password) => {
+                        setState(() => {_password = password})
+                      },
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(
+                          (MediaQuery.of(context).size.width).toDouble() *
+                              0.07),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              onPressed: disableButtons ? null : _register,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Colors.blue, // set the button color
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      10), // set the button shape
+                                ),
+                              ),
+                              child: const Text(
+                                'Register',
+                                style: TextStyle(
+                                  color: Colors.white, // set the text color
+                                  fontSize: 25, // set the text size
+                                ),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: disableButtons ? null : _logIn,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Colors.teal, // set the button color
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      10), // set the button shape
+                                ),
+                              ),
+                              child: const Text(
+                                'Log in',
+                                style: TextStyle(
+                                  color: Colors.white, // set the text color
+                                  fontSize: 25, // set the text size
+                                ),
+                              ),
+                            )
+                          ]),
+                    ),
+                    Text(
+                      _errorMessage ?? '',
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                    const Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 20),
+                        child: Text('or'),
+                      ),
+                    ),
+                    Center(
+                      child: SignInButton(Buttons.Google,
+                          text: "Sign in with Google",
+                          elevation: 10.0,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          padding: const EdgeInsets.only(
+                              left: 25,
+                              top: 10,
+                              bottom: 10), onPressed: () async {
+                        debugPrint('signing in with Google');
+                        final UserCredential userCredential =
+                            await signInWithGoogle();
+                      }),
+                    ),
+                  ],
+                ),
               ),
-      ),
-    );
+            ],
+          ),
+        ),
+      );
+    } else {
+      const CircularProgressIndicator();
+      return AddProfileForm();
+    }
   }
 }
