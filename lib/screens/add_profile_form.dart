@@ -9,7 +9,8 @@ import 'package:the_dig_app/models/owner.dart';
 import 'package:the_dig_app/providers/dig_provider_firebase.dart';
 
 class AddProfileForm extends StatelessWidget {
-  AddProfileForm({super.key});
+  final String email;
+  AddProfileForm({required this.email, super.key});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _fNameController = TextEditingController();
@@ -55,6 +56,7 @@ class AddProfileForm extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      Text('Got this email from firebase auth: $email'),
                       Text(ownerProfile.first!.id
                           .toString()), //???? Dummy printer, remove me
                       Text(ownerProfile
@@ -181,7 +183,7 @@ class AddProfileForm extends StatelessWidget {
       );
     } else {
       provider.checkFirebaseAuth();
-      provider.getOwnerProfilebyId(0);
+      provider.getOwnerProfilebyId(0); // ???? dont you hardcode me
       return const Scaffold(
         body: CircularProgressIndicator(),
       );

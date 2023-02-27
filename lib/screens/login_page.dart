@@ -245,7 +245,8 @@ class _LoginScreen extends State<LoginScreen> {
       );
     } else {
       const CircularProgressIndicator();
-      return AddProfileForm();
+      String email = FirebaseAuth.instance.currentUser!.email.toString();
+      return AddProfileForm(email: email);
     }
   }
 }

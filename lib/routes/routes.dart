@@ -22,9 +22,11 @@ final routes = [
     builder: (context, state) => AddProfile(),
   ),
   GoRoute(
-    path: '/addprofileform',
-    builder: (context, state) => AddProfileForm(),
-  ),
+      path: '/addprofile',
+      builder: (context, state) {
+        final String email = state.queryParams['email'].toString();
+        return AddProfileForm(email: email);
+      }),
   GoRoute(
     path: '/chats',
     builder: (context, state) => const Chat(),
