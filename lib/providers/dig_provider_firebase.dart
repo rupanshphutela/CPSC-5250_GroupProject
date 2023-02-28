@@ -12,7 +12,7 @@ class FirebaseProvider extends ChangeNotifier {
 
   FirebaseProvider(this.app);
 
-  List<Owner> _ownerProfiles = [];
+  Owner? _ownerProfile;
 
   StreamSubscription<User?>? _authSubscription;
   bool _isLoggedIn = false;
@@ -30,15 +30,32 @@ class FirebaseProvider extends ChangeNotifier {
     });
   }
 
-  List<Owner?> get ownerProfiles => _ownerProfiles.toList();
+  Owner? get ownerProfile => _ownerProfile;
 
   Future<void> getOwnerProfilebyId(int ownerId) async {
     var profileDocs = await FirebaseFirestore.instance
-        .collection('owner_profiles')
+        .collection('owner_profile')
         .where('id', isEqualTo: ownerId)
         .get();
-    _ownerProfiles =
-        profileDocs.docs.map((doc) => Owner.fromJson(doc)).toList();
+    _ownerProfile =
+        profileDocs.docs.map((doc) => Owner.fromJson(doc)).toList().first;
     notifyListeners();
+  }
+
+  addOwnerProfile(Owner ownerObject) async {
+    Owner owner = Owner(
+        id: ownerObject.id,
+        fName: ownerObject.fName,
+        lName: ownerObject.lName,
+        phone: ownerObject.phone,
+        email: ownerObject.email,
+        city: ownerObject.city,
+        picture: ownerObject.picture);
+
+    Map<String, dynamic> dataToSave = owner.toJson(owner);
+
+    await FirebaseFirestore.instance
+        .collection("owner_profile")
+        .add(dataToSave);
   }
 }
