@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:the_dig_app/screens/add_profile_form.dart';
+import 'package:the_dig_app/screens/owner_profile_form.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -246,7 +246,7 @@ class _LoginScreen extends State<LoginScreen> {
     } else {
       const CircularProgressIndicator();
       String email = FirebaseAuth.instance.currentUser!.email.toString();
-      return AddProfileForm(email: email);
+      return OwnerProfileForm(email: email);
     }
   }
 }
