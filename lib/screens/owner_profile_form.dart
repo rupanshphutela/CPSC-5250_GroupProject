@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +7,11 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:the_dig_app/models/owner.dart';
 import 'package:the_dig_app/providers/dig_provider_firebase.dart';
+// import 'package:simple_permissions/simple_permissions.dart';
+
+enum RadioValue { Male, Female}
+
+const List<String> aggression = ['Yes', 'No'];
 
 class OwnerProfileForm extends StatelessWidget {
   final String email;
@@ -17,6 +23,28 @@ class OwnerProfileForm extends StatelessWidget {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _pictureController = TextEditingController();
+  final TextEditingController _petNameController = TextEditingController();
+  final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _breedController = TextEditingController();
+  final TextEditingController _colorController = TextEditingController();
+  final TextEditingController _sizeController = TextEditingController();
+  final TextEditingController _socialHumansController = TextEditingController();
+  final TextEditingController _socialDogsController = TextEditingController();
+  final TextEditingController _aggressionController = TextEditingController();
+  final TextEditingController _humanAggressionController = TextEditingController();
+  final TextEditingController _dogAggressionController = TextEditingController();
+  final TextEditingController _favoriteFoodController = TextEditingController();
+  final TextEditingController _favoriteFoodRatingController = TextEditingController();
+  final TextEditingController _favoriteActivityController = TextEditingController();
+  final TextEditingController _favoriteActivityRatingController = TextEditingController();
+  final TextEditingController _skillNameController = TextEditingController();
+  final TextEditingController _skillProficienctController = TextEditingController();
+  
+  String gender = "male";
+  String vaccine = "Yes";
+  String sterilization = "Spayed";
+  // final RadioValue radioValue;
+  // final Function(RadioValue?)? onRadioValueChange;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +52,7 @@ class OwnerProfileForm extends StatelessWidget {
     final provider = Provider.of<FirebaseProvider>(context);
     final googleSignIn = provider.googleSignIn;
     bool isLoggedIn = provider.isLoggedIn;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Details'),
@@ -51,6 +80,14 @@ class OwnerProfileForm extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    const Divider(
+                      color: Colors.black,
+                      height: 25,
+                      thickness: 2,
+                      indent: 5,
+                      endIndent: 5,
+                    ),       
+                    const Text("Your Profile"),
                     TextFormField(
                       key: const ValueKey("ownerFName"),
                       maxLines: 1,
@@ -101,14 +138,366 @@ class OwnerProfileForm extends StatelessWidget {
                         labelText: 'City',
                       ),
                     ),
+                   ElevatedButton(
+                    onPressed: () async {
+                      final results = await FilePicker.platform.pickFiles(
+                        allowMultiple: false,
+                        type: FileType.custom,
+                        allowedExtensions: ['png', 'jpg', 'jpeg'],
+                      );
+
+                      if (results == null){
+                        ScaffoldMessenger.of(context)
+                        .showSnackBar(
+                          const SnackBar(
+                            content: Text("No file selected")
+                          )
+                        );
+                        return;
+                      }
+
+                      final path = results.files.single.path!;
+                      final fileName = results.files.single.name;
+
+                      print(path);
+                      print(fileName);
+                    }, 
+                    child: const Text("Upload Image")
+                    ),
+                    const Divider(
+                      color: Colors.black,
+                      height: 25,
+                      thickness: 2,
+                      indent: 5,
+                      endIndent: 5,
+                    ),
+                    const Text("Pet Profile"),
                     TextFormField(
-                      key: const ValueKey("ownerPicture"),
+                      key: const ValueKey("petName"),
                       maxLines: 1,
                       maxLength: 20,
-                      controller: _pictureController,
+                      controller: _petNameController,
                       inputFormatters: [LengthLimitingTextInputFormatter(20)],
                       decoration: const InputDecoration(
-                        labelText: 'Picture',
+                        labelText: 'Pet Name',
+                      ),
+                    ),
+                    ElevatedButton(
+                    onPressed: () async {
+                      final results = await FilePicker.platform.pickFiles(
+                        allowMultiple: false,
+                        type: FileType.custom,
+                        allowedExtensions: ['png', 'jpg', 'jpeg'],
+                      );
+
+                      if (results == null){
+                        ScaffoldMessenger.of(context)
+                        .showSnackBar(
+                          const SnackBar(
+                            content: Text("No file selected")
+                          )
+                        );
+                        return;
+                      }
+
+                      final path = results.files.single.path!;
+                      final fileName = results.files.single.name;
+
+                      print(path);
+                      print(fileName);
+                    }, 
+                    child: const Text("Upload Image")
+                    ),
+                    TextFormField(
+                      key: const ValueKey("biography"),
+                      maxLines: 1,
+                      maxLength: 20,
+                      controller: _bioController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                      decoration: const InputDecoration(
+                        labelText: 'Biography',
+                      ),
+                    ),
+                    const Text("Gender"),
+                    Column(
+                      children: [
+                          RadioListTile(
+                              title: const Text("Male"),
+                              value: "male", 
+                              groupValue: gender, 
+                              onChanged: (value){
+                                  gender = value.toString();
+                              },
+                          ),
+
+                          RadioListTile(
+                              title: const Text("Female"),
+                              value: "female", 
+                              groupValue: gender, 
+                              onChanged: (value){
+                                  gender = value.toString();
+                              },
+                          ),
+                      ],
+                    ),
+                    TextFormField(
+                      key: const ValueKey("breed"),
+                      maxLines: 1,
+                      maxLength: 20,
+                      controller: _breedController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                      decoration: const InputDecoration(
+                        labelText: 'Breed',
+                      ),
+                    ),
+                    TextFormField(
+                      key: const ValueKey("color"),
+                      maxLines: 1,
+                      maxLength: 20,
+                      controller: _colorController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                      decoration: const InputDecoration(
+                        labelText: 'Color',
+                      ),
+                    ),
+                    const Text("Fully Vaccinated"),
+                    Column(
+                      children: [
+                          RadioListTile(
+                              title: const Text("Yes"),
+                              value: "Yes", 
+                              groupValue: vaccine, 
+                              onChanged: (value){
+                                  vaccine = value.toString();
+                              },
+                          ),
+
+                          RadioListTile(
+                              title: const Text("No"),
+                              value: "No", 
+                              groupValue: vaccine, 
+                              onChanged: (value){
+                                  vaccine = value.toString();
+                              },
+                          ),
+                      ],
+                    ),
+                    // Add registration date
+                    const Text("Sterilization"),
+                    Column(
+                      children: [
+                          RadioListTile(
+                              title: const Text("Spayed"),
+                              value: "Spayed", 
+                              groupValue: sterilization, 
+                              onChanged: (value){
+                                  sterilization = value.toString();
+                              },
+                          ),
+
+                          RadioListTile(
+                              title: const Text("Neutered"),
+                              value: "Neutered", 
+                              groupValue: sterilization, 
+                              onChanged: (value){
+                                  sterilization = value.toString();
+                              },
+                          ),
+                      ],
+                    ),
+                    // Add joining date
+                    TextFormField(
+                      key: const ValueKey("size"),
+                      maxLines: 1,
+                      maxLength: 20,
+                      controller: _sizeController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                      decoration: const InputDecoration(
+                        labelText: 'Size',
+                      ),
+                    ),
+                    const Divider(
+                      color: Colors.black,
+                      height: 25,
+                      thickness: 2,
+                      indent: 5,
+                      endIndent: 5,
+                    ),
+                    const Text("Behavior"),
+                    TextFormField(
+                      key: const ValueKey("socialHumans"),
+                      maxLines: 1,
+                      maxLength: 20,
+                      controller: _socialHumansController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                      decoration: const InputDecoration(
+                        labelText: 'Rate for Socializing with humans',
+                      ),
+                    ),
+                    TextFormField(
+                      key: const ValueKey("socialDogs"),
+                      maxLines: 1,
+                      maxLength: 20,
+                      controller: _socialDogsController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                      decoration: const InputDecoration(
+                        labelText: 'Rate for Socializing with dogs',
+                      ),
+                    ),
+                    DropdownButtonFormField(
+                      key: const ValueKey("aggressionDropDown"),
+                      value: _aggressionController.text.isNotEmpty
+                          ? _aggressionController.text
+                          : aggression[0],
+                      decoration: const InputDecoration(
+                        labelText: 'Gets aggressive when hungry',
+                      ),
+                      validator: (value) {
+                        if (value == null) {
+                          return 'No value selected';
+                        }
+                        return null;
+                      },
+                      items: aggression
+                          .map(((e) => DropdownMenuItem(
+                                value: e,
+                                child: Text(e),
+                              )))
+                          .toList(),
+                      onChanged: (value) {
+                        _aggressionController.text = value as String;
+                      },
+                    ),
+                    DropdownButtonFormField(
+                      key: const ValueKey("humanAggressionDropDown"),
+                      value: _humanAggressionController.text.isNotEmpty
+                          ? _humanAggressionController.text
+                          : aggression[0],
+                      decoration: const InputDecoration(
+                        labelText: 'Gets aggressive when meets new Humans',
+                      ),
+                      validator: (value) {
+                        if (value == null) {
+                          return 'No value selected';
+                        }
+                        return null;
+                      },
+                      items: aggression
+                          .map(((e) => DropdownMenuItem(
+                                value: e,
+                                child: Text(e),
+                              )))
+                          .toList(),
+                      onChanged: (value) {
+                        _humanAggressionController.text = value as String;
+                      },
+                    ),
+                    DropdownButtonFormField(
+                      key: const ValueKey("dogAggressionDropDown"),
+                      value: _dogAggressionController.text.isNotEmpty
+                          ? _dogAggressionController.text
+                          : aggression[0],
+                      decoration: const InputDecoration(
+                        labelText: 'Gets aggressive when meets new Dogs',
+                      ),
+                      validator: (value) {
+                        if (value == null) {
+                          return 'No value selected';
+                        }
+                        return null;
+                      },
+                      items: aggression
+                          .map(((e) => DropdownMenuItem(
+                                value: e,
+                                child: Text(e),
+                              )))
+                          .toList(),
+                      onChanged: (value) {
+                        _dogAggressionController.text = value as String;
+                      },
+                    ),
+                    const Divider(
+                      color: Colors.black,
+                      height: 25,
+                      thickness: 2,
+                      indent: 5,
+                      endIndent: 5,
+                    ),
+                    const Text("Food Preference"),
+                    TextFormField(
+                      key: const ValueKey("Favorite Food"),
+                      maxLines: 1,
+                      maxLength: 20,
+                      controller: _favoriteFoodController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                      decoration: const InputDecoration(
+                        labelText: 'Favorite Food',
+                      ),
+                    ),
+                    TextFormField(
+                      key: const ValueKey("Rate the food liking on scale of 10"),
+                      maxLines: 1,
+                      maxLength: 20,
+                      controller: _favoriteFoodRatingController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                      decoration: const InputDecoration(
+                        labelText: 'Favorite Food Rate',
+                      ),
+                    ),
+                    const Divider(
+                      color: Colors.black,
+                      height: 25,
+                      thickness: 2,
+                      indent: 5,
+                      endIndent: 5,
+                    ),
+                    const Text("Favorite Activites"),
+                    TextFormField(
+                      key: const ValueKey("Favorite Activity"),
+                      maxLines: 1,
+                      maxLength: 20,
+                      controller: _favoriteActivityController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                      decoration: const InputDecoration(
+                        labelText: 'Favorite Activity',
+                      ),
+                    ),
+                    TextFormField(
+                      key: const ValueKey("Rate the activity liking on scale of 10"),
+                      maxLines: 1,
+                      maxLength: 20,
+                      controller: _favoriteActivityRatingController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                      decoration: const InputDecoration(
+                        labelText: 'Favorite Activity Rate',
+                      ),
+                    ),
+                    const Divider(
+                      color: Colors.black,
+                      height: 25,
+                      thickness: 2,
+                      indent: 5,
+                      endIndent: 5,
+                    ),
+                    const Text("Skill"),
+                    TextFormField(
+                      key: const ValueKey("skillName"),
+                      maxLines: 1,
+                      maxLength: 20,
+                      controller: _skillNameController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                      decoration: const InputDecoration(
+                        labelText: 'Skill Name',
+                      ),
+                    ),
+                    TextFormField(
+                      key: const ValueKey("skillProficiency"),
+                      maxLines: 1,
+                      maxLength: 20,
+                      controller: _skillProficienctController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                      decoration: const InputDecoration(
+                        labelText: 'Skill Proficiency',
                       ),
                     ),
                   ],
