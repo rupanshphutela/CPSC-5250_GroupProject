@@ -25,7 +25,7 @@ class ProfileForm extends StatelessWidget {
       );
     } else {
       provider.checkFirebaseAuth();
-      provider.getOwnerProfilebyId(0); // ???? dont you hardcode me
+      // provider.getOwnerProfilebyId(0); // ???? dont you hardcode me
       return const Scaffold(
         body: CircularProgressIndicator(),
       );
