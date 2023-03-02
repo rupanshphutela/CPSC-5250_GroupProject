@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:the_dig_app/models/owner.dart';
+import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/providers/dig_provider_firebase.dart';
 // import 'package:simple_permissions/simple_permissions.dart';
 
@@ -41,7 +42,7 @@ class OwnerProfileForm extends StatelessWidget {
   final TextEditingController _skillProficienctController = TextEditingController();
   
   String gender = "male";
-  String vaccine = "Yes";
+  bool? isVaccinated = false;
   String sterilization = "Spayed";
   // final RadioValue radioValue;
   // final Function(RadioValue?)? onRadioValueChange;
@@ -261,27 +262,34 @@ class OwnerProfileForm extends StatelessWidget {
                       ),
                     ),
                     const Text("Fully Vaccinated"),
-                    Column(
-                      children: [
-                          RadioListTile(
-                              title: const Text("Yes"),
-                              value: "Yes", 
-                              groupValue: vaccine, 
-                              onChanged: (value){
-                                  vaccine = value.toString();
-                              },
-                          ),
-
-                          RadioListTile(
-                              title: const Text("No"),
-                              value: "No", 
-                              groupValue: vaccine, 
-                              onChanged: (value){
-                                  vaccine = value.toString();
-                              },
-                          ),
-                      ],
+                    Checkbox(
+                      value: isVaccinated, 
+                      tristate: true,
+                      onChanged: (newBool) {
+                        isVaccinated = newBool;
+                      }
                     ),
+                    // Column(
+                    //   children: [
+                    //       RadioListTile(
+                    //           title: const Text("Yes"),
+                    //           value: "Yes", 
+                    //           groupValue: vaccine, 
+                    //           onChanged: (value){
+                    //               vaccine = value.toString();
+                    //           },
+                    //       ),
+
+                    //       RadioListTile(
+                    //           title: const Text("No"),
+                    //           value: "No", 
+                    //           groupValue: vaccine, 
+                    //           onChanged: (value){
+                    //               vaccine = value.toString();
+                    //           },
+                    //       ),
+                    //   ],
+                    // ),
                     // Add registration date
                     const Text("Sterilization"),
                     Column(
@@ -508,46 +516,69 @@ class OwnerProfileForm extends StatelessWidget {
               padding: EdgeInsets.all(
                   (MediaQuery.of(context).size.width).toDouble() * 0.07),
               child: ElevatedButton(
-                onPressed: () async {
+                // onPressed: () async {
                   // if (_formKey.currentState!.validate()) { //???? check why is it not working
-                  if (_fNameController.text.isNotEmpty &&
-                      _lNameController.text.isNotEmpty &&
-                      _phoneController.text.isNotEmpty &&
-                      _cityController.text.isNotEmpty &&
-                      _pictureController.text.isNotEmpty) {
-                    var querySnapshot = await FirebaseFirestore.instance
-                        .collection('owner_profile')
-                        .where('email', isEqualTo: email)
-                        .get();
-                    if (querySnapshot.size <= 0) {
-                      await provider.addOwnerProfile(Owner(
-                          id: userId,
-                          fName: _fNameController.text,
-                          lName: _lNameController.text,
-                          phone: _phoneController.text,
-                          email: email,
-                          city: _cityController.text,
-                          picture: _pictureController.text));
+                //   if (_fNameController.text.isNotEmpty &&
+                //       _lNameController.text.isNotEmpty &&
+                //       _phoneController.text.isNotEmpty &&
+                //       _cityController.text.isNotEmpty &&
+                //       _pictureController.text.isNotEmpty) {
+                //     var querySnapshot = await FirebaseFirestore.instance
+                //         .collection('owner_profile')
+                //         .where('email', isEqualTo: email)
+                //         .get();
+                //     if (querySnapshot.size <= 0) {
+                //       await provider.addOwnerProfile(Owner(
+                //           id: userId,
+                //           fName: _fNameController.text,
+                //           lName: _lNameController.text,
+                //           phone: _phoneController.text,
+                //           email: email,
+                //           city: _cityController.text,
+                //           picture: _pictureController.text));
 
-                      querySnapshot = await FirebaseFirestore.instance
-                          .collection('owner_profile')
-                          .where('id', isEqualTo: userId)
-                          .get();
+                //       querySnapshot = await FirebaseFirestore.instance
+                //           .collection('owner_profile')
+                //           .where('id', isEqualTo: userId)
+                //           .get();
 
-                      if (querySnapshot.size.isFinite) {
-                        context.push('/add/profile');
-                      } else {
-                        Exception(
-                            'The profile was not saved. Please try later');
-                      }
-                    } else {
-                      context.push('/add/profile');
-                    }
-                    // } //???? check why is it not working
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('All fields are mandatory')));
-                  }
+                //       if (querySnapshot.size.isFinite) {
+                //         context.push('/add/profile');
+                //       } else {
+                //         Exception(
+                //             'The profile was not saved. Please try later');
+                //       }
+                //     } else {
+                //       context.push('/add/profile');
+                //     }
+                //     // } //???? check why is it not working
+                //   } else {
+                //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                //         content: Text('All fields are mandatory')));
+                //   }
+                // },
+                onPressed: (){
+                  final profile = Profile(
+                    id: userId, 
+                    ownerId: userId, 
+                    ownerfName: _fNameController.text, 
+                    ownerlName: _lNameController.text, 
+                    email: email, 
+                    phone: int.parse(_phoneController.text), 
+                    city: _cityController.text, 
+                    ownerprofilePicture: "_pictureController.text", 
+                    fName: _petNameController.text, 
+                    profilePicture: "_pictureController.text",
+                    gender: gender,
+                    breed: _breedController.text, 
+                    color: _colorController.text, 
+                    isVaccinated: isVaccinated!, 
+                    registrationDate: DateTime.now().toString(), 
+                    joiningDate: DateTime.now().toString(), 
+                    size: _sizeController.text,
+                    );
+                    createProfile(profile);
+                    context.push('/add/profile');
                 },
                 child: const Text("Submit"),
               ),
@@ -556,5 +587,10 @@ class OwnerProfileForm extends StatelessWidget {
         ),
       ),
     );
+  }
+    Future createProfile(Profile profile) async {
+    final docUser = FirebaseFirestore.instance.collection("profile").doc(_fNameController.text);
+    final json = profile.toJson();
+    await docUser.set(json);
   }
 }
