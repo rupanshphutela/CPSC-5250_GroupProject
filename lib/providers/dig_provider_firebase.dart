@@ -32,15 +32,15 @@ class FirebaseProvider extends ChangeNotifier {
 
   Owner? get ownerProfile => _ownerProfile;
 
-  Future<void> getOwnerProfilebyId(int ownerId) async {
-    var profileDocs = await FirebaseFirestore.instance
-        .collection('owner_profile')
-        .where('id', isEqualTo: ownerId)
-        .get();
-    _ownerProfile =
-        profileDocs.docs.map((doc) => Owner.fromJson(doc)).toList().first;
-    notifyListeners();
-  }
+  // Future<void> getOwnerProfilebyId(int ownerId) async {
+  //   var profileDocs = await FirebaseFirestore.instance
+  //       .collection('owner_profile')
+  //       .where('id', isEqualTo: ownerId)
+  //       .get();
+  //   _ownerProfile =
+  //       profileDocs.docs.map((doc) => Owner.fromJson(doc)).toList().first;
+  //   notifyListeners();
+  // }
 
   addOwnerProfile(Owner ownerObject) async {
     Owner owner = Owner(
