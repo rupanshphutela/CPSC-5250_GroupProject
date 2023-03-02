@@ -728,14 +728,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
-  simple_permissions:
-    dependency: "direct main"
-    description:
-      name: simple_permissions
-      sha256: "7cf1503f8b66c5d3fa132ad34dc07e4ab70ad7a5ad0ec1118e87243b053bf2a8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.9"
   sky_engine:
     dependency: transitive
     description: flutter
