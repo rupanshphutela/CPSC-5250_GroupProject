@@ -40,76 +40,76 @@ class DigProvider extends ChangeNotifier {
     if (created == false) {
       created = true;
       int uniqueId = UniqueKey().hashCode;
-      await insertProfile(Profile(
-        id: uniqueId,
-        fName: 'Bruno $uniqueId',
-        lName: 'bruzo',
-        profilePicture: 'assets/images/dog1.jpg',
-        ownerId: uniqueId,
-        gender: 'Male',
-        breed: 'Labrador',
-        color: 'Golden',
-        isVaccinated: true,
-        registrationDate: '2/12/23',
-        isSpayed: false,
-        isNeutered: true,
-        joiningDate: '2/12/23',
-        size: '10',
-      ));
+      // await insertProfile(Profile(
+      //   id: uniqueId,
+      //   fName: 'Bruno $uniqueId',
+      //   lName: 'bruzo',
+      //   profilePicture: 'assets/images/dog1.jpg',
+      //   ownerId: uniqueId,
+      //   gender: 'Male',
+      //   breed: 'Labrador',
+      //   color: 'Golden',
+      //   isVaccinated: true,
+      //   registrationDate: '2/12/23',
+      //   isSpayed: false,
+      //   isNeutered: true,
+      //   joiningDate: '2/12/23',
+      //   size: '10',
+      // ));
 
-      uniqueId = UniqueKey().hashCode;
-      await insertProfile(Profile(
-        id: uniqueId,
-        fName: 'Tyson $uniqueId',
-        lName: 'tyso',
-        profilePicture: 'assets/images/dog2.jpg',
-        ownerId: uniqueId,
-        gender: 'Male',
-        breed: 'Pug',
-        color: 'White',
-        isVaccinated: true,
-        registrationDate: '2/12/23',
-        isSpayed: false,
-        isNeutered: true,
-        joiningDate: '2/12/23',
-        size: '5',
-      ));
+      // uniqueId = UniqueKey().hashCode;
+      // await insertProfile(Profile(
+      //   id: uniqueId,
+      //   fName: 'Tyson $uniqueId',
+      //   lName: 'tyso',
+      //   profilePicture: 'assets/images/dog2.jpg',
+      //   ownerId: uniqueId,
+      //   gender: 'Male',
+      //   breed: 'Pug',
+      //   color: 'White',
+      //   isVaccinated: true,
+      //   registrationDate: '2/12/23',
+      //   isSpayed: false,
+      //   isNeutered: true,
+      //   joiningDate: '2/12/23',
+      //   size: '5',
+      // ));
 
-      uniqueId = UniqueKey().hashCode;
-      await insertProfile(Profile(
-        id: uniqueId,
-        fName: 'Junior $uniqueId',
-        lName: 'juno',
-        profilePicture: 'assets/images/dog4.jpg',
-        ownerId: uniqueId,
-        gender: 'Male',
-        breed: 'Saint Bernard',
-        color: 'White',
-        isVaccinated: true,
-        registrationDate: '2/12/23',
-        isSpayed: false,
-        isNeutered: true,
-        joiningDate: '2/12/23',
-        size: '15',
-      ));
+      // uniqueId = UniqueKey().hashCode;
+      // await insertProfile(Profile(
+      //   id: uniqueId,
+      //   fName: 'Junior $uniqueId',
+      //   lName: 'juno',
+      //   profilePicture: 'assets/images/dog4.jpg',
+      //   ownerId: uniqueId,
+      //   gender: 'Male',
+      //   breed: 'Saint Bernard',
+      //   color: 'White',
+      //   isVaccinated: true,
+      //   registrationDate: '2/12/23',
+      //   isSpayed: false,
+      //   isNeutered: true,
+      //   joiningDate: '2/12/23',
+      //   size: '15',
+      // ));
 
-      uniqueId = UniqueKey().hashCode;
-      await insertProfile(Profile(
-        id: uniqueId,
-        fName: 'Auggie $uniqueId',
-        lName: 'auggy',
-        profilePicture: 'assets/images/dog3.jpg',
-        ownerId: uniqueId,
-        gender: 'Male',
-        breed: 'Sheepadoodle',
-        color: 'Black',
-        isVaccinated: true,
-        registrationDate: '2/12/23',
-        isSpayed: false,
-        isNeutered: true,
-        joiningDate: '2/12/23',
-        size: '10',
-      ));
+      // uniqueId = UniqueKey().hashCode;
+      // await insertProfile(Profile(
+      //   id: uniqueId,
+      //   fName: 'Auggie $uniqueId',
+      //   lName: 'auggy',
+      //   profilePicture: 'assets/images/dog3.jpg',
+      //   ownerId: uniqueId,
+      //   gender: 'Male',
+      //   breed: 'Sheepadoodle',
+      //   color: 'Black',
+      //   isVaccinated: true,
+      //   registrationDate: '2/12/23',
+      //   isSpayed: false,
+      //   isNeutered: true,
+      //   joiningDate: '2/12/23',
+      //   size: '10',
+      // ));
     }
     _profiles = await _database.profileDao.getAllProfiles();
     _cards = _profiles

@@ -1,34 +1,43 @@
-import 'package:floor/floor.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-@Entity(tableName: 'owner_profile')
 class Owner {
-  @PrimaryKey(autoGenerate: true)
-  int? id;
+  int id;
   String fName;
   String lName;
   String phone;
   String email;
-  String? addressText;
-  String? addressCoordindates;
+  String city;
   String picture;
   Owner({
-    this.id,
+    required this.id,
     required this.fName,
     required this.lName,
     required this.phone,
     required this.email,
-    this.addressText,
-    this.addressCoordindates,
+    required this.city,
     required this.picture,
   });
 
-  toJson(){
+  toJson(Owner owner) {
     return {
-      "fName": fName,
-      "lName": lName,
-      "phone": phone,
-      "email": email,
-      "addressText": addressText,
+      "id": owner.id,
+      "fName": owner.fName,
+      "lName": owner.lName,
+      "phone": owner.phone,
+      "email": owner.email,
+      "city": owner.city,
+      "picture": owner.picture,
     };
+  }
+
+  static Owner fromJson(QueryDocumentSnapshot data) {
+    return Owner(
+        id: data['id'],
+        fName: data['fName'],
+        lName: data['lName'],
+        phone: data['phone'],
+        email: data['email'],
+        city: data['city'],
+        picture: data['picture']);
   }
 }
