@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/providers/dig_firebase_provider.dart';
 import 'package:the_dig_app/routes/routes.dart';
+import 'package:the_dig_app/util/profile_card.dart';
 
 class ProfilePage extends StatelessWidget {
   final String email;
@@ -16,6 +17,11 @@ class ProfilePage extends StatelessWidget {
     final provider = Provider.of<DigFirebaseProvider>(context);
 
     List<Profile> profiles = provider.profiles;
+    List<ProfileCard> cards = provider.cards;
+    bool isLastCard = provider.isLastCard;
+    void onLastSwipe() {
+      provider.onLastSwipe();
+    }
 
     if (profiles.isNotEmpty) {
       // List<ProfileCard> cards = profiles
@@ -35,10 +41,10 @@ class ProfilePage extends StatelessWidget {
               Flexible(
                 child: CardSwiper(
                   scale: 0,
-                  cards: context.watch<DigFirebaseProvider>().cards,
-                  isDisabled: context.watch<DigFirebaseProvider>().isLastCard,
+                  cards: cards,
+                  isDisabled: isLastCard,
                   onSwipe: _swipe,
-                  onEnd: context.read<DigFirebaseProvider>().onLastSwipe,
+                  onEnd: onLastSwipe,
                   padding: const EdgeInsets.all(24.0),
                 ),
               ),
@@ -142,6 +148,6 @@ class ProfilePage extends StatelessWidget {
   }
 
   void _swipe(int index, CardSwiperDirection direction) async {
-    await context.read<DigFirebaseProvider>();
+    final provider = Provider.of<DigFirebaseProvider>(context);
   }
 }
