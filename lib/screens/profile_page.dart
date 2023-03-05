@@ -3,16 +3,19 @@ import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:the_dig_app/models/profile.dart';
+import 'package:the_dig_app/providers/dig_firebase_provider.dart';
 import 'package:the_dig_app/routes/routes.dart';
-import 'package:the_dig_app/providers/dig_provider.dart';
 
-class DogProfile extends StatelessWidget {
+class ProfilePage extends StatelessWidget {
+  final String email;
   final BuildContext context;
-  const DogProfile({super.key, required this.context});
+  const ProfilePage({super.key, required this.context, required this.email});
 
   @override
   Widget build(context) {
-    List<Profile> profiles = context.watch<DigProvider>().profiles;
+    final provider = Provider.of<DigFirebaseProvider>(context);
+
+    List<Profile> profiles = provider.profiles;
 
     if (profiles.isNotEmpty) {
       // List<ProfileCard> cards = profiles
@@ -32,10 +35,10 @@ class DogProfile extends StatelessWidget {
               Flexible(
                 child: CardSwiper(
                   scale: 0,
-                  cards: context.watch<DigProvider>().cards,
-                  isDisabled: context.watch<DigProvider>().isLastCard,
+                  cards: context.watch<DigFirebaseProvider>().cards,
+                  isDisabled: context.watch<DigFirebaseProvider>().isLastCard,
                   onSwipe: _swipe,
-                  onEnd: context.read<DigProvider>().onLastSwipe,
+                  onEnd: context.read<DigFirebaseProvider>().onLastSwipe,
                   padding: const EdgeInsets.all(24.0),
                 ),
               ),
@@ -79,7 +82,7 @@ class DogProfile extends StatelessWidget {
         ),
       );
     } else {
-      context.watch<DigProvider>().getProfiles();
+      context.watch<DigFirebaseProvider>().getProfiles(email);
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -139,6 +142,6 @@ class DogProfile extends StatelessWidget {
   }
 
   void _swipe(int index, CardSwiperDirection direction) async {
-    await context.read<DigProvider>().insertSwipe(index, direction);
+    await context.read<DigFirebaseProvider>();
   }
 }
