@@ -69,7 +69,7 @@ class ProfilePage extends StatelessWidget {
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.event,
+                Icons.person,
                 color: Colors.teal,
               ),
               label: 'Events',
@@ -83,7 +83,11 @@ class ProfilePage extends StatelessWidget {
             ),
           ],
           onTap: (index) {
-            context.push(routes[index].path);
+            if (index == 0) {
+            } else if (index == 1) {
+            } else if (index == 2) {
+              context.push('/add/owner/profile?email=$email');
+            } else if (index == 3) {}
           },
         ),
       );
@@ -126,7 +130,7 @@ class ProfilePage extends StatelessWidget {
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.event,
+                Icons.person,
                 color: Colors.teal,
               ),
               label: 'Events',
@@ -140,7 +144,11 @@ class ProfilePage extends StatelessWidget {
             ),
           ],
           onTap: (index) {
-            context.push(routes[index].path);
+            if (index == 0) {
+            } else if (index == 1) {
+            } else if (index == 2) {
+              context.push('/add/owner/profile?email=$email');
+            } else if (index == 3) {}
           },
         ),
       );
