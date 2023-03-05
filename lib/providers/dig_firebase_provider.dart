@@ -48,8 +48,8 @@ class DigFirebaseProvider extends ChangeNotifier {
 
   void onLastSwipe() {
     isLastCard = true;
-    _profiles.clear();
-    _cards.clear();
+    // _profiles.clear();
+    // _cards.clear();
     notifyListeners();
   }
 
@@ -99,10 +99,10 @@ class DigFirebaseProvider extends ChangeNotifier {
           sourceProfileFName: currentUserProfile.fName,
           sourceProfileLName: currentUserProfile.lName,
           swipeDate: DateTime.now().toString(),
-          destinationProfileEmail: _cards[index].card.email,
-          destinationProfileId: _cards[index].card.id,
-          destinationProfileFName: _cards[index].card.fName,
-          destinationProfileLName: _cards[index].card.lName,
+          destinationProfileEmail: _profiles[index].email,
+          destinationProfileId: _profiles[index].id,
+          destinationProfileFName: _profiles[index].fName,
+          destinationProfileLName: _profiles[index].lName,
           direction: direction.name);
 
       Map<String, dynamic> dataToSave = swipeObject.toJson(swipeObject);
