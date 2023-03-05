@@ -8,6 +8,8 @@ import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:the_dig_app/models/owner.dart';
 import 'package:the_dig_app/models/profile.dart';
+import 'package:the_dig_app/models/right_swipe.dart';
+import 'package:the_dig_app/models/swipe.dart';
 import 'package:the_dig_app/util/profile_card.dart';
 
 class DigFirebaseProvider extends ChangeNotifier {
@@ -75,28 +77,40 @@ class DigFirebaseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<void> insertSwipe(int index, CardSwiperDirection direction) async {
-  //   if (direction.name == 'right') {
-  //     await _database.rightSwipeDao.insertRightSwipe(RightSwipe(
-  //         swiperProfileId: UniqueKey().hashCode,
-  //         swiperOwnerId: _cards[index].card.ownerId,
-  //         swipeDate: DateTime.now().toString(),
-  //         swipedProfileId: _cards[index].card.id));
-  //   } else if (direction.name == 'left') {
-  //     await _database.leftSwipeDao.insertLeftSwipe(LeftSwipe(
-  //         swiperProfileId: UniqueKey().hashCode,
-  //         swiperOwnerId: _cards[index].card.ownerId,
-  //         swipeDate: DateTime.now().toString(),
-  //         swipedProfileId: _cards[index].card.id));
-  //   } else if (direction.name == 'top') {
-  //     await _database.topSwipeDao.insertTopSwipe(TopSwipe(
-  //         swiperProfileId: UniqueKey().hashCode,
-  //         swiperOwnerId: _cards[index].card.ownerId,
-  //         swipeDate: DateTime.now().toString(),
-  //         swipedProfileId: _cards[index].card.id));
-  //   }
-  //   notifyListeners();
-  // }
+  Future<void> insertSwipe(int index, CardSwiperDirection direction) async {
+    int swipeId = UniqueKey().hashCode;
+    Profile currentUserProfile;
+    String email = FirebaseAuth.instance.currentUser!.email.toString();
+
+    final profileDocs = await FirebaseFirestore.instance
+        .collection('profile')
+        .where('email', isEqualTo: email)
+        .get();
+    var currentUserProfileList =
+        profileDocs.docs.map((doc) => Profile.fromJson(doc)).toList();
+
+    if (currentUserProfileList.isNotEmpty) {
+      currentUserProfile = currentUserProfileList.first;
+
+      Swipe swipeObject = Swipe(
+          id: swipeId,
+          sourceProfileEmail: currentUserProfile.email,
+          sourceProfileId: currentUserProfile.id,
+          sourceProfileFName: currentUserProfile.fName,
+          sourceProfileLName: currentUserProfile.lName,
+          swipeDate: DateTime.now().toString(),
+          destinationProfileEmail: _cards[index].card.email,
+          destinationProfileId: _cards[index].card.id,
+          destinationProfileFName: _cards[index].card.fName,
+          destinationProfileLName: _cards[index].card.lName,
+          direction: direction.name);
+
+      Map<String, dynamic> dataToSave = swipeObject.toJson(swipeObject);
+
+      await FirebaseFirestore.instance.collection("swipe").add(dataToSave);
+    }
+    notifyListeners();
+  }
 
   ///Profile Page End
 
