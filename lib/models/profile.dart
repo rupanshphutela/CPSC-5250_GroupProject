@@ -1,8 +1,6 @@
-import 'package:floor/floor.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-@Entity(tableName: 'profile')
 class Profile {
-  @primaryKey
   int id;
   String ownerfName;
   String ownerlName;
@@ -34,7 +32,6 @@ class Profile {
   int? activityLikingIndex;
   String? skillName;
   String? skillProficiency;
-
 
   Profile({
     required this.id,
@@ -70,40 +67,62 @@ class Profile {
     this.skillProficiency,
   });
 
+  static Profile fromJson(QueryDocumentSnapshot data) {
+    return Profile(
+      id: data['id'],
+      ownerId: data['ownerId'],
+      ownerfName: data['ownerfName'],
+      ownerlName: data['ownerlName'],
+      email: data['email'],
+      phone: data['phone'],
+      city: data['city'],
+      ownerprofilePicture: data['ownerprofilePicture'],
+      fName: data['fName'],
+      profilePicture: data['profilePicture'],
+      gender: data['gender'],
+      breed: data['breed'],
+      color: data['color'],
+      isVaccinated: data['isVaccinated'],
+      registrationDate: data['registrationDate'],
+      joiningDate: data['joiningDate'],
+      size: data['size'],
+    );
+  }
+
   Map<String, dynamic> toJson() => {
-      'id': id,
-      'ownerId': ownerId,
-      'ownerfName': ownerfName,
-      'lName': ownerlName,
-      'ownerlName': profilePicture,
-      'email': email,
-      'phone': phone,
-      'city': city,
-      'ownerprofilePicture': ownerprofilePicture,
-      'fName': fName,
-      'profilePicture': profilePicture,
-      'biography': biography,
-      'gender': gender,
-      'breed': breed,
-      'color': color,
-      'isVaccinated': isVaccinated,
-      'registrationDate': registrationDate,
-      'isSpayed': isSpayed,
-      'isNeutered': isNeutered,
-      'joiningDate': joiningDate,
-      'size': size,
-      'socialIndexHumans': socialIndexHumans,
-      'socialIndexDogs': socialIndexDogs,
-      'isFoodAggressive': isFoodAggressive,
-      'isNewHumanAggressive': isNewHumanAggressive,
-      'isNewDogAggressive': isNewDogAggressive,
-      'foodName': foodName,
-      'foodLikingIndex': foodLikingIndex,
-      'activityName': activityName,
-      'activityLikingIndex': activityLikingIndex,
-      'skillName': skillName,
-      'skillProficiency': skillProficiency,
-  };
+        'id': id,
+        'ownerId': ownerId,
+        'ownerfName': ownerfName,
+        'lName': ownerlName,
+        'ownerlName': profilePicture,
+        'email': email,
+        'phone': phone,
+        'city': city,
+        'ownerprofilePicture': ownerprofilePicture,
+        'fName': fName,
+        'profilePicture': profilePicture,
+        'biography': biography,
+        'gender': gender,
+        'breed': breed,
+        'color': color,
+        'isVaccinated': isVaccinated,
+        'registrationDate': registrationDate,
+        'isSpayed': isSpayed,
+        'isNeutered': isNeutered,
+        'joiningDate': joiningDate,
+        'size': size,
+        'socialIndexHumans': socialIndexHumans,
+        'socialIndexDogs': socialIndexDogs,
+        'isFoodAggressive': isFoodAggressive,
+        'isNewHumanAggressive': isNewHumanAggressive,
+        'isNewDogAggressive': isNewDogAggressive,
+        'foodName': foodName,
+        'foodLikingIndex': foodLikingIndex,
+        'activityName': activityName,
+        'activityLikingIndex': activityLikingIndex,
+        'skillName': skillName,
+        'skillProficiency': skillProficiency,
+      };
 
   // @override
   // String toString() {
