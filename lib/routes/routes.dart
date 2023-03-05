@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:the_dig_app/screens/profile_form.dart';
 import 'package:the_dig_app/screens/owner_profile_form.dart';
 import 'package:the_dig_app/screens/left_swipe_page.dart';
-import '../screens/dog_profile.dart';
+import '../screens/profile_page.dart';
 import '../screens/chat.dart';
 import '../screens/event.dart';
 import '../screens/login_page.dart';
@@ -14,8 +14,11 @@ final routes = [
     builder: (context, state) => const LoginScreen(),
   ),
   GoRoute(
-    path: '/dogprofile',
-    builder: (context, state) => DogProfile(context: context),
+    path: '/profile',
+    builder: (context, state) {
+      final String email = state.queryParams['email'].toString();
+      return ProfilePage(context: context, email: email);
+    },
   ),
   GoRoute(
     path: '/add/profile',
