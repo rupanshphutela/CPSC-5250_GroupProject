@@ -43,7 +43,9 @@ class ProfilePage extends StatelessWidget {
                   scale: 0,
                   cards: cards,
                   isDisabled: isLastCard,
-                  onSwipe: _swipe,
+                  onSwipe: (int index, CardSwiperDirection direction) async {
+                    await provider.insertSwipe(index, direction);
+                  },
                   onEnd: onLastSwipe,
                   padding: const EdgeInsets.all(24.0),
                 ),
@@ -153,9 +155,5 @@ class ProfilePage extends StatelessWidget {
         ),
       );
     }
-  }
-
-  void _swipe(int index, CardSwiperDirection direction) async {
-    final provider = Provider.of<DigFirebaseProvider>(context);
   }
 }
