@@ -67,9 +67,25 @@ class DigFirebaseProvider extends ChangeNotifier {
         .collection('profile')
         .where('email', isNotEqualTo: email)
         .get();
-    _profiles = profileDocs.docs.map((doc) => Profile.fromJson(doc)).toList();
+    var allProfiles =
+        profileDocs.docs.map((doc) => Profile.fromJson(doc)).toList();
 
-    _cards = _profiles
+    final swipedProfileDocs = await FirebaseFirestore.instance
+        .collection('swipe')
+        .where('sourceProfileEmail', isEqualTo: email)
+        .get();
+
+    List<Swipe> swipedProfileList =
+        swipedProfileDocs.docs.map((doc) => Swipe.fromJson(doc)).toList();
+
+    List<String> swipedProfileEmailList =
+        swipedProfileList.map((e) => e.destinationProfileEmail).toList();
+
+    _profiles = allProfiles
+        .where((element) => !swipedProfileEmailList.contains(element.email))
+        .toList();
+
+    _cards = profiles
         .map((candidate) => ProfileCard(
               card: candidate,
             ))
