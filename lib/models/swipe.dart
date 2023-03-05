@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Swipe {
   int id;
   String sourceProfileEmail;
@@ -38,4 +40,19 @@ class Swipe {
         'destinationProfileLName': swipeObject.destinationProfileLName,
         'direction': swipeObject.direction,
       };
+
+  static Swipe fromJson(QueryDocumentSnapshot<Map<String, dynamic>> data) {
+    return Swipe(
+        id: data['id'],
+        sourceProfileEmail: data['sourceProfileEmail'],
+        sourceProfileId: data['sourceProfileId'],
+        sourceProfileFName: data['sourceProfileFName'],
+        sourceProfileLName: data['sourceProfileLName'],
+        swipeDate: data['swipeDate'],
+        destinationProfileEmail: data['destinationProfileEmail'],
+        destinationProfileId: data['destinationProfileId'],
+        destinationProfileFName: data['destinationProfileFName'],
+        destinationProfileLName: data['destinationProfileLName'],
+        direction: data['direction']);
+  }
 }
