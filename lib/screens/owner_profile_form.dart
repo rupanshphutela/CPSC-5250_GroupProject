@@ -7,10 +7,10 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:the_dig_app/models/owner.dart';
 import 'package:the_dig_app/models/profile.dart';
-import 'package:the_dig_app/providers/dig_provider_firebase.dart';
+import 'package:the_dig_app/providers/dig_firebase_provider.dart';
 // import 'package:simple_permissions/simple_permissions.dart';
 
-enum RadioValue { Male, Female}
+enum RadioValue { Male, Female }
 
 const List<String> aggression = ['Yes', 'No'];
 
@@ -32,15 +32,21 @@ class OwnerProfileForm extends StatelessWidget {
   final TextEditingController _socialHumansController = TextEditingController();
   final TextEditingController _socialDogsController = TextEditingController();
   final TextEditingController _aggressionController = TextEditingController();
-  final TextEditingController _humanAggressionController = TextEditingController();
-  final TextEditingController _dogAggressionController = TextEditingController();
+  final TextEditingController _humanAggressionController =
+      TextEditingController();
+  final TextEditingController _dogAggressionController =
+      TextEditingController();
   final TextEditingController _favoriteFoodController = TextEditingController();
-  final TextEditingController _favoriteFoodRatingController = TextEditingController();
-  final TextEditingController _favoriteActivityController = TextEditingController();
-  final TextEditingController _favoriteActivityRatingController = TextEditingController();
+  final TextEditingController _favoriteFoodRatingController =
+      TextEditingController();
+  final TextEditingController _favoriteActivityController =
+      TextEditingController();
+  final TextEditingController _favoriteActivityRatingController =
+      TextEditingController();
   final TextEditingController _skillNameController = TextEditingController();
-  final TextEditingController _skillProficienctController = TextEditingController();
-  
+  final TextEditingController _skillProficienctController =
+      TextEditingController();
+
   String gender = "male";
   bool? isVaccinated = false;
   String sterilization = "Spayed";
@@ -50,7 +56,7 @@ class OwnerProfileForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var userId = UniqueKey().hashCode;
-    final provider = Provider.of<FirebaseProvider>(context);
+    final provider = Provider.of<DigFirebaseProvider>(context);
     final googleSignIn = provider.googleSignIn;
     bool isLoggedIn = provider.isLoggedIn;
 
@@ -87,7 +93,7 @@ class OwnerProfileForm extends StatelessWidget {
                       thickness: 2,
                       indent: 5,
                       endIndent: 5,
-                    ),       
+                    ),
                     const Text("Your Profile"),
                     TextFormField(
                       key: const ValueKey("ownerFName"),
@@ -139,32 +145,28 @@ class OwnerProfileForm extends StatelessWidget {
                         labelText: 'City',
                       ),
                     ),
-                   ElevatedButton(
-                    onPressed: () async {
-                      final results = await FilePicker.platform.pickFiles(
-                        allowMultiple: false,
-                        type: FileType.custom,
-                        allowedExtensions: ['png', 'jpg', 'jpeg'],
-                      );
+                    ElevatedButton(
+                        onPressed: () async {
+                          final results = await FilePicker.platform.pickFiles(
+                            allowMultiple: false,
+                            type: FileType.custom,
+                            allowedExtensions: ['png', 'jpg', 'jpeg'],
+                          );
 
-                      if (results == null){
-                        ScaffoldMessenger.of(context)
-                        .showSnackBar(
-                          const SnackBar(
-                            content: Text("No file selected")
-                          )
-                        );
-                        return;
-                      }
+                          if (results == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("No file selected")));
+                            return;
+                          }
 
-                      final path = results.files.single.path!;
-                      final fileName = results.files.single.name;
+                          final path = results.files.single.path!;
+                          final fileName = results.files.single.name;
 
-                      print(path);
-                      print(fileName);
-                    }, 
-                    child: const Text("Upload Image")
-                    ),
+                          print(path);
+                          print(fileName);
+                        },
+                        child: const Text("Upload Image")),
                     const Divider(
                       color: Colors.black,
                       height: 25,
@@ -184,31 +186,27 @@ class OwnerProfileForm extends StatelessWidget {
                       ),
                     ),
                     ElevatedButton(
-                    onPressed: () async {
-                      final results = await FilePicker.platform.pickFiles(
-                        allowMultiple: false,
-                        type: FileType.custom,
-                        allowedExtensions: ['png', 'jpg', 'jpeg'],
-                      );
+                        onPressed: () async {
+                          final results = await FilePicker.platform.pickFiles(
+                            allowMultiple: false,
+                            type: FileType.custom,
+                            allowedExtensions: ['png', 'jpg', 'jpeg'],
+                          );
 
-                      if (results == null){
-                        ScaffoldMessenger.of(context)
-                        .showSnackBar(
-                          const SnackBar(
-                            content: Text("No file selected")
-                          )
-                        );
-                        return;
-                      }
+                          if (results == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("No file selected")));
+                            return;
+                          }
 
-                      final path = results.files.single.path!;
-                      final fileName = results.files.single.name;
+                          final path = results.files.single.path!;
+                          final fileName = results.files.single.name;
 
-                      print(path);
-                      print(fileName);
-                    }, 
-                    child: const Text("Upload Image")
-                    ),
+                          print(path);
+                          print(fileName);
+                        },
+                        child: const Text("Upload Image")),
                     TextFormField(
                       key: const ValueKey("biography"),
                       maxLines: 1,
@@ -222,23 +220,22 @@ class OwnerProfileForm extends StatelessWidget {
                     const Text("Gender"),
                     Column(
                       children: [
-                          RadioListTile(
-                              title: const Text("Male"),
-                              value: "male", 
-                              groupValue: gender, 
-                              onChanged: (value){
-                                  gender = value.toString();
-                              },
-                          ),
-
-                          RadioListTile(
-                              title: const Text("Female"),
-                              value: "female", 
-                              groupValue: gender, 
-                              onChanged: (value){
-                                  gender = value.toString();
-                              },
-                          ),
+                        RadioListTile(
+                          title: const Text("Male"),
+                          value: "male",
+                          groupValue: gender,
+                          onChanged: (value) {
+                            gender = value.toString();
+                          },
+                        ),
+                        RadioListTile(
+                          title: const Text("Female"),
+                          value: "female",
+                          groupValue: gender,
+                          onChanged: (value) {
+                            gender = value.toString();
+                          },
+                        ),
                       ],
                     ),
                     TextFormField(
@@ -263,18 +260,17 @@ class OwnerProfileForm extends StatelessWidget {
                     ),
                     const Text("Fully Vaccinated"),
                     Checkbox(
-                      value: isVaccinated, 
-                      tristate: true,
-                      onChanged: (newBool) {
-                        isVaccinated = newBool;
-                      }
-                    ),
+                        value: isVaccinated,
+                        tristate: true,
+                        onChanged: (newBool) {
+                          isVaccinated = newBool;
+                        }),
                     // Column(
                     //   children: [
                     //       RadioListTile(
                     //           title: const Text("Yes"),
-                    //           value: "Yes", 
-                    //           groupValue: vaccine, 
+                    //           value: "Yes",
+                    //           groupValue: vaccine,
                     //           onChanged: (value){
                     //               vaccine = value.toString();
                     //           },
@@ -282,8 +278,8 @@ class OwnerProfileForm extends StatelessWidget {
 
                     //       RadioListTile(
                     //           title: const Text("No"),
-                    //           value: "No", 
-                    //           groupValue: vaccine, 
+                    //           value: "No",
+                    //           groupValue: vaccine,
                     //           onChanged: (value){
                     //               vaccine = value.toString();
                     //           },
@@ -294,23 +290,22 @@ class OwnerProfileForm extends StatelessWidget {
                     const Text("Sterilization"),
                     Column(
                       children: [
-                          RadioListTile(
-                              title: const Text("Spayed"),
-                              value: "Spayed", 
-                              groupValue: sterilization, 
-                              onChanged: (value){
-                                  sterilization = value.toString();
-                              },
-                          ),
-
-                          RadioListTile(
-                              title: const Text("Neutered"),
-                              value: "Neutered", 
-                              groupValue: sterilization, 
-                              onChanged: (value){
-                                  sterilization = value.toString();
-                              },
-                          ),
+                        RadioListTile(
+                          title: const Text("Spayed"),
+                          value: "Spayed",
+                          groupValue: sterilization,
+                          onChanged: (value) {
+                            sterilization = value.toString();
+                          },
+                        ),
+                        RadioListTile(
+                          title: const Text("Neutered"),
+                          value: "Neutered",
+                          groupValue: sterilization,
+                          onChanged: (value) {
+                            sterilization = value.toString();
+                          },
+                        ),
                       ],
                     ),
                     // Add joining date
@@ -443,7 +438,8 @@ class OwnerProfileForm extends StatelessWidget {
                       ),
                     ),
                     TextFormField(
-                      key: const ValueKey("Rate the food liking on scale of 10"),
+                      key:
+                          const ValueKey("Rate the food liking on scale of 10"),
                       maxLines: 1,
                       maxLength: 20,
                       controller: _favoriteFoodRatingController,
@@ -471,7 +467,8 @@ class OwnerProfileForm extends StatelessWidget {
                       ),
                     ),
                     TextFormField(
-                      key: const ValueKey("Rate the activity liking on scale of 10"),
+                      key: const ValueKey(
+                          "Rate the activity liking on scale of 10"),
                       maxLines: 1,
                       maxLength: 20,
                       controller: _favoriteActivityRatingController,
@@ -517,7 +514,7 @@ class OwnerProfileForm extends StatelessWidget {
                   (MediaQuery.of(context).size.width).toDouble() * 0.07),
               child: ElevatedButton(
                 // onPressed: () async {
-                  // if (_formKey.currentState!.validate()) { //???? check why is it not working
+                // if (_formKey.currentState!.validate()) { //???? check why is it not working
                 //   if (_fNameController.text.isNotEmpty &&
                 //       _lNameController.text.isNotEmpty &&
                 //       _phoneController.text.isNotEmpty &&
@@ -557,28 +554,28 @@ class OwnerProfileForm extends StatelessWidget {
                 //         content: Text('All fields are mandatory')));
                 //   }
                 // },
-                onPressed: (){
+                onPressed: () {
                   final profile = Profile(
-                    id: userId, 
-                    ownerId: userId, 
-                    ownerfName: _fNameController.text, 
-                    ownerlName: _lNameController.text, 
-                    email: email, 
-                    phone: int.parse(_phoneController.text), 
-                    city: _cityController.text, 
-                    ownerprofilePicture: "_pictureController.text", 
-                    fName: _petNameController.text, 
+                    id: userId,
+                    ownerId: userId,
+                    ownerfName: _fNameController.text,
+                    ownerlName: _lNameController.text,
+                    email: email,
+                    phone: int.parse(_phoneController.text),
+                    city: _cityController.text,
+                    ownerprofilePicture: "_pictureController.text",
+                    fName: _petNameController.text,
                     profilePicture: "_pictureController.text",
                     gender: gender,
-                    breed: _breedController.text, 
-                    color: _colorController.text, 
-                    isVaccinated: isVaccinated!, 
-                    registrationDate: DateTime.now().toString(), 
-                    joiningDate: DateTime.now().toString(), 
+                    breed: _breedController.text,
+                    color: _colorController.text,
+                    isVaccinated: isVaccinated!,
+                    registrationDate: DateTime.now().toString(),
+                    joiningDate: DateTime.now().toString(),
                     size: _sizeController.text,
-                    );
-                    createProfile(profile);
-                    context.push('/add/profile');
+                  );
+                  createProfile(profile);
+                  context.push('/add/profile');
                 },
                 child: const Text("Submit"),
               ),
@@ -588,8 +585,11 @@ class OwnerProfileForm extends StatelessWidget {
       ),
     );
   }
-    Future createProfile(Profile profile) async {
-    final docUser = FirebaseFirestore.instance.collection("profile").doc(_fNameController.text);
+
+  Future createProfile(Profile profile) async {
+    final docUser = FirebaseFirestore.instance
+        .collection("profile")
+        .doc(_fNameController.text);
     final json = profile.toJson();
     await docUser.set(json);
   }
