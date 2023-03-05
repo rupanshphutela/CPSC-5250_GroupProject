@@ -565,6 +565,7 @@ class OwnerProfileForm extends StatelessWidget {
                     city: _cityController.text,
                     ownerprofilePicture: "_pictureController.text",
                     fName: _petNameController.text,
+                    lName: _lNameController.text,
                     profilePicture: "_pictureController.text",
                     gender: gender,
                     breed: _breedController.text,

@@ -9,6 +9,7 @@ class Profile {
   String city;
   String ownerprofilePicture;
   String fName;
+  String lName;
   String profilePicture;
   int ownerId;
   String? biography;
@@ -43,6 +44,7 @@ class Profile {
     required this.city,
     required this.ownerprofilePicture,
     required this.fName,
+    required this.lName,
     required this.profilePicture,
     this.biography,
     required this.gender,
@@ -78,6 +80,7 @@ class Profile {
       city: data['city'],
       ownerprofilePicture: data['ownerprofilePicture'],
       fName: data['fName'],
+      lName: data['lName'],
       profilePicture: data['profilePicture'],
       gender: data['gender'],
       breed: data['breed'],
@@ -93,8 +96,8 @@ class Profile {
         'id': id,
         'ownerId': ownerId,
         'ownerfName': ownerfName,
-        'lName': ownerlName,
-        'ownerlName': profilePicture,
+        'lName': lName,
+        'ownerlName': ownerlName,
         'email': email,
         'phone': phone,
         'city': city,
