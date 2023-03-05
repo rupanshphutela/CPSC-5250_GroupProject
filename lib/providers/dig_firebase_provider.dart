@@ -78,38 +78,42 @@ class DigFirebaseProvider extends ChangeNotifier {
   }
 
   Future<void> insertSwipe(int index, CardSwiperDirection direction) async {
-    int swipeId = UniqueKey().hashCode;
-    Profile currentUserProfile;
-    String email = FirebaseAuth.instance.currentUser!.email.toString();
+    if (direction.name == 'right' ||
+        direction.name == 'top' ||
+        direction.name == 'left') {
+      int swipeId = UniqueKey().hashCode;
+      Profile currentUserProfile;
+      String email = FirebaseAuth.instance.currentUser!.email.toString();
 
-    final profileDocs = await FirebaseFirestore.instance
-        .collection('profile')
-        .where('email', isEqualTo: email)
-        .get();
-    var currentUserProfileList =
-        profileDocs.docs.map((doc) => Profile.fromJson(doc)).toList();
+      final profileDocs = await FirebaseFirestore.instance
+          .collection('profile')
+          .where('email', isEqualTo: email)
+          .get();
+      var currentUserProfileList =
+          profileDocs.docs.map((doc) => Profile.fromJson(doc)).toList();
 
-    if (currentUserProfileList.isNotEmpty) {
-      currentUserProfile = currentUserProfileList.first;
+      if (currentUserProfileList.isNotEmpty) {
+        currentUserProfile = currentUserProfileList.first;
 
-      Swipe swipeObject = Swipe(
-          id: swipeId,
-          sourceProfileEmail: currentUserProfile.email,
-          sourceProfileId: currentUserProfile.id,
-          sourceProfileFName: currentUserProfile.fName,
-          sourceProfileLName: currentUserProfile.lName,
-          swipeDate: DateTime.now().toString(),
-          destinationProfileEmail: _profiles[index].email,
-          destinationProfileId: _profiles[index].id,
-          destinationProfileFName: _profiles[index].fName,
-          destinationProfileLName: _profiles[index].lName,
-          direction: direction.name);
+        Swipe swipeObject = Swipe(
+            id: swipeId,
+            sourceProfileEmail: currentUserProfile.email,
+            sourceProfileId: currentUserProfile.id,
+            sourceProfileFName: currentUserProfile.fName,
+            sourceProfileLName: currentUserProfile.lName,
+            swipeDate: DateTime.now().toString(),
+            destinationProfileEmail: _profiles[index].email,
+            destinationProfileId: _profiles[index].id,
+            destinationProfileFName: _profiles[index].fName,
+            destinationProfileLName: _profiles[index].lName,
+            direction: direction.name);
 
-      Map<String, dynamic> dataToSave = swipeObject.toJson(swipeObject);
+        Map<String, dynamic> dataToSave = swipeObject.toJson(swipeObject);
 
-      await FirebaseFirestore.instance.collection("swipe").add(dataToSave);
+        await FirebaseFirestore.instance.collection("swipe").add(dataToSave);
+      }
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   ///Profile Page End
