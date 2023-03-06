@@ -37,7 +37,7 @@ class DigFirebaseProvider extends ChangeNotifier {
 
   /// Login End
 
-  ///Profile Page Start
+  ///Profiles Page Start
 
   List<Profile> _profiles = [];
   List<ProfileCard> _cards = [];
@@ -131,7 +131,23 @@ class DigFirebaseProvider extends ChangeNotifier {
     }
   }
 
-  ///Profile Page End
+  List<Swipe> _swipesList = [];
+  List<Swipe> get swipesList => _swipesList.toList();
+  Future<void> getSwipesList(String email, String direction) async {
+    final currentUserSwipesDocs = await FirebaseFirestore.instance
+        .collection('swipe')
+        .where('sourceProfileEmail', isEqualTo: email)
+        .get();
+
+    List<Swipe> currentUserSwipesList =
+        currentUserSwipesDocs.docs.map((doc) => Swipe.fromJson(doc)).toList();
+
+    _swipesList = currentUserSwipesList
+        .where((element) => element.direction == direction)
+        .toList();
+  }
+
+  ///Profiles Page End
 
   Owner? get ownerProfile => _ownerProfile;
 
