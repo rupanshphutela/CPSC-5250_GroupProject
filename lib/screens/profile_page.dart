@@ -9,8 +9,7 @@ import 'package:the_dig_app/util/profile_card.dart';
 
 class ProfilePage extends StatelessWidget {
   final String email;
-  final BuildContext context;
-  const ProfilePage({super.key, required this.context, required this.email});
+  const ProfilePage({super.key, required this.email});
 
   @override
   Widget build(context) {

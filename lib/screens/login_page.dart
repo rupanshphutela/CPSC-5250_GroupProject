@@ -247,7 +247,6 @@ class _LoginScreen extends State<LoginScreen> {
       String email = FirebaseAuth.instance.currentUser!.email.toString();
       return ProfilePage(
         email: email,
-        context: context,
       );
     }
   }

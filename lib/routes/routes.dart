@@ -17,7 +17,7 @@ final routes = [
     path: '/profile',
     builder: (context, state) {
       final String email = state.queryParams['email'].toString();
-      return ProfilePage(context: context, email: email);
+      return ProfilePage(email: email);
     },
   ),
   GoRoute(
