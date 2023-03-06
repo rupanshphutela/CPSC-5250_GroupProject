@@ -41,7 +41,7 @@ final routes = [
     },
   ),
   GoRoute(
-    path: '/swipe',
+    path: '/swipes',
     builder: (context, state) {
       final String direction = state.queryParams['direction'].toString();
       final String email = state.queryParams['email'].toString();

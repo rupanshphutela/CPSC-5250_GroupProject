@@ -22,12 +22,6 @@ class ProfilesPage extends StatelessWidget {
     }
 
     if (profiles.isNotEmpty) {
-      // List<ProfileCard> cards = profiles
-      //     .map((candidate) => ProfileCard(
-      //           card: candidate,
-      //         ))
-      //     .toList();
-
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -61,17 +55,17 @@ class ProfilesPage extends StatelessWidget {
           title: const Icon(Icons.pets_outlined),
         ),
         body: SafeArea(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Flexible(
-                    child: Text(
-                  'No More dogs found in your area',
-                  style: TextStyle(fontSize: 24),
-                )),
-              ],
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const <Widget>[
+              Text(
+                "No more profiles found, but we'll keep checking...",
+                style: TextStyle(fontSize: 16),
+              ),
+              Center(
+                child: CircularProgressIndicator(),
+              ),
+            ],
           ),
         ),
         bottomNavigationBar: DigBottomNavBar(email: email),

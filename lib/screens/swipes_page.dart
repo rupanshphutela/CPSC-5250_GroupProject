@@ -47,12 +47,12 @@ class SwipesPage extends StatelessWidget {
         body: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const <Widget>[
+            children: <Widget>[
               Text(
-                "No swipes found here, but we'll keep checking...",
-                style: TextStyle(fontSize: 16),
+                "No $direction swipes found, but we'll keep checking...",
+                style: const TextStyle(fontSize: 16),
               ),
-              Center(
+              const Center(
                 child: CircularProgressIndicator(),
               ),
             ],
