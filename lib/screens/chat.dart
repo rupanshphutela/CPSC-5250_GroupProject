@@ -8,7 +8,19 @@ class Chat extends StatelessWidget {
   // static const List<Widget> _widgetOptions = <Widget>[
   // ];
 
-  const Chat({super.key});
+  final ScrollController _scrollController = new ScrollController();
+  final messageTextController = TextEditingController();
+  static const String id = 'chat';
+
+  final String chatId;
+  final String userId;
+  final String otherUserId;
+
+  Chat(
+      {super.key,
+      required this.chatId,
+      required this.userId,
+      required this.otherUserId});
 
   @override
   Widget build(BuildContext context) {
