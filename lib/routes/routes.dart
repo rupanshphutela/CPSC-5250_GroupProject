@@ -39,6 +39,10 @@ final routes = [
     ),
   ),
   GoRoute(
+    path: '/events',
+    builder: (context, state) => const Event(),
+  ),
+  GoRoute(
     path: '/settings',
     builder: (context, state) {
       final String email = state.queryParams['email'].toString();
