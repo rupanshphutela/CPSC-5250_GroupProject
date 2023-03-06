@@ -12,7 +12,7 @@ final routes = [
     builder: (context, state) => const LoginScreen(),
   ),
   GoRoute(
-    path: '/profile',
+    path: '/profiles',
     builder: (context, state) {
       final String email = state.queryParams['email'].toString();
       return ProfilesPage(email: email);

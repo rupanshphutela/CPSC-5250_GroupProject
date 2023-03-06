@@ -44,6 +44,7 @@ class DigBottomNavBar extends StatelessWidget {
       ],
       onTap: (index) {
         if (index == 0) {
+          context.push('/profiles?email=$email');
         } else if (index == 1) {
         } else if (index == 2) {
           context.push('/add/owner/profile?email=$email');
