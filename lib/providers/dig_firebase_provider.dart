@@ -8,7 +8,6 @@ import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:the_dig_app/models/owner.dart';
 import 'package:the_dig_app/models/profile.dart';
-import 'package:the_dig_app/models/right_swipe.dart';
 import 'package:the_dig_app/models/swipe.dart';
 import 'package:the_dig_app/util/profile_card.dart';
 
@@ -38,7 +37,7 @@ class DigFirebaseProvider extends ChangeNotifier {
 
   /// Login End
 
-  ///Profile Page Start
+  ///Profiles Page Start
 
   List<Profile> _profiles = [];
   List<ProfileCard> _cards = [];
@@ -132,7 +131,29 @@ class DigFirebaseProvider extends ChangeNotifier {
     }
   }
 
-  ///Profile Page End
+  List<Swipe> _swipesList = [];
+  List<Swipe> get swipesList => _swipesList.toList();
+  Future<void> getSwipesList(String email, String direction) async {
+    final currentUserSwipesDocs = await FirebaseFirestore.instance
+        .collection('swipe')
+        .where('sourceProfileEmail', isEqualTo: email)
+        .get();
+
+    List<Swipe> currentUserSwipesList =
+        currentUserSwipesDocs.docs.map((doc) => Swipe.fromJson(doc)).toList();
+
+    _swipesList = currentUserSwipesList
+        .where((element) => element.direction == direction)
+        .toList();
+  }
+
+  void clearSwipesList() {
+    _swipesList.clear();
+    swipesList.clear();
+    notifyListeners();
+  }
+
+  ///Profiles Page End
 
   Owner? get ownerProfile => _ownerProfile;
 

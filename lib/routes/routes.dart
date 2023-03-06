@@ -1,12 +1,10 @@
 import 'package:go_router/go_router.dart';
-import 'package:the_dig_app/screens/profile_form.dart';
 import 'package:the_dig_app/screens/owner_profile_form.dart';
-import 'package:the_dig_app/screens/left_swipe_page.dart';
-import '../screens/profile_page.dart';
+import 'package:the_dig_app/screens/swipes_page.dart';
+import '../screens/profiles_page.dart';
 import '../screens/chat.dart';
-import '../screens/event.dart';
 import '../screens/login_page.dart';
-import '../screens/settings.dart';
+import '../screens/settings_page.dart';
 
 final routes = [
   GoRoute(
@@ -14,15 +12,11 @@ final routes = [
     builder: (context, state) => const LoginScreen(),
   ),
   GoRoute(
-    path: '/profile',
+    path: '/profiles',
     builder: (context, state) {
       final String email = state.queryParams['email'].toString();
-      return ProfilePage(context: context, email: email);
+      return ProfilesPage(email: email);
     },
-  ),
-  GoRoute(
-    path: '/add/profile',
-    builder: (context, state) => ProfileForm(),
   ),
   GoRoute(
       path: '/add/owner/profile',
@@ -32,28 +26,26 @@ final routes = [
       }),
   GoRoute(
     path: '/chats',
-    builder: (context, state) => const Chat(),
-  ),
-  GoRoute(
-    path: '/events',
-    builder: (context, state) => const Event(),
+    builder: (context, state) => Chat(
+      chatId: '',
+      otherUserId: '',
+      userId: '',
+      email: '',
+    ),
   ),
   GoRoute(
     path: '/settings',
-    builder: (context, state) => const Settings(),
+    builder: (context, state) {
+      final String email = state.queryParams['email'].toString();
+      return SettingsPage(email: email);
+    },
   ),
   GoRoute(
-    path: '/left_swipe',
-    builder: (context, state) => const LeftSwipePage(),
-  ),
-  GoRoute(
-    path: '/right_swipe',
-    builder: (context, state) =>
-        const LeftSwipePage(), //Will update after creating
-  ),
-  GoRoute(
-    path: '/top_swipe',
-    builder: (context, state) =>
-        const LeftSwipePage(), //Will update after creating
+    path: '/swipe',
+    builder: (context, state) {
+      final String direction = state.queryParams['direction'].toString();
+      final String email = state.queryParams['email'].toString();
+      return SwipesPage(email: email, direction: direction);
+    },
   ),
 ];
