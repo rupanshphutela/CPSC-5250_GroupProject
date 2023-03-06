@@ -147,6 +147,12 @@ class DigFirebaseProvider extends ChangeNotifier {
         .toList();
   }
 
+  void clearSwipesList() {
+    _swipesList.clear();
+    swipesList.clear();
+    notifyListeners();
+  }
+
   ///Profiles Page End
 
   Owner? get ownerProfile => _ownerProfile;
