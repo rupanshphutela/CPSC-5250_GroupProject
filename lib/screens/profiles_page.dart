@@ -6,9 +6,9 @@ import 'package:the_dig_app/providers/dig_firebase_provider.dart';
 import 'package:the_dig_app/util/bottom_navigation_bar.dart';
 import 'package:the_dig_app/util/profile_card.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilesPage extends StatelessWidget {
   final String email;
-  const ProfilePage({super.key, required this.email});
+  const ProfilesPage({super.key, required this.email});
 
   @override
   Widget build(context) {
