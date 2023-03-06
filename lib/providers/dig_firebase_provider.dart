@@ -8,7 +8,6 @@ import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:the_dig_app/models/owner.dart';
 import 'package:the_dig_app/models/profile.dart';
-import 'package:the_dig_app/models/right_swipe.dart';
 import 'package:the_dig_app/models/swipe.dart';
 import 'package:the_dig_app/util/profile_card.dart';
 

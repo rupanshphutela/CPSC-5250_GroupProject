@@ -1,7 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:the_dig_app/screens/profile_form.dart';
 import 'package:the_dig_app/screens/owner_profile_form.dart';
-import 'package:the_dig_app/screens/left_swipe_page.dart';
 import '../screens/profile_page.dart';
 import '../screens/chat.dart';
 import '../screens/event.dart';
@@ -39,28 +38,10 @@ final routes = [
     ),
   ),
   GoRoute(
-    path: '/events',
-    builder: (context, state) => const Event(),
-  ),
-  GoRoute(
     path: '/settings',
     builder: (context, state) {
       final String email = state.queryParams['email'].toString();
       return SettingsPage(email: email);
     },
-  ),
-  GoRoute(
-    path: '/left_swipe',
-    builder: (context, state) => const LeftSwipePage(),
-  ),
-  GoRoute(
-    path: '/right_swipe',
-    builder: (context, state) =>
-        const LeftSwipePage(), //Will update after creating
-  ),
-  GoRoute(
-    path: '/top_swipe',
-    builder: (context, state) =>
-        const LeftSwipePage(), //Will update after creating
   ),
 ];
