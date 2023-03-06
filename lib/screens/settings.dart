@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:the_dig_app/providers/dig_firebase_provider.dart';
 import 'package:the_dig_app/routes/routes.dart';
+import 'package:the_dig_app/util/bottom_navigation_bar.dart';
 
 class SettingsPage extends StatelessWidget {
   final String email;
@@ -54,41 +56,7 @@ class SettingsPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: Colors.teal,
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.chat,
-              color: Colors.teal,
-            ),
-            label: 'Chats',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.event,
-              color: Colors.teal,
-            ),
-            label: 'Events',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.settings,
-              color: Colors.teal,
-            ),
-            label: 'Settings',
-          ),
-        ],
-        onTap: (index) {
-          context.push(routes[index].path);
-        },
-      ),
+      bottomNavigationBar: DigBottomNavBar(email: email),
     );
   }
 }

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/providers/dig_firebase_provider.dart';
-import 'package:the_dig_app/routes/routes.dart';
+import 'package:the_dig_app/util/bottom_navigation_bar.dart';
 import 'package:the_dig_app/util/profile_card.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -52,45 +51,7 @@ class ProfilePage extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                color: Colors.teal,
-              ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.chat,
-                color: Colors.teal,
-              ),
-              label: 'Chats',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-                color: Colors.teal,
-              ),
-              label: 'Events',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.settings,
-                color: Colors.teal,
-              ),
-              label: 'Settings',
-            ),
-          ],
-          onTap: (index) {
-            if (index == 0) {
-            } else if (index == 1) {
-            } else if (index == 2) {
-              context.push('/add/owner/profile?email=$email');
-            } else if (index == 3) {}
-          },
-        ),
+        bottomNavigationBar: DigBottomNavBar(email: email),
       );
     } else {
       context.watch<DigFirebaseProvider>().getProfiles(email);
@@ -113,45 +74,7 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                color: Colors.teal,
-              ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.chat,
-                color: Colors.teal,
-              ),
-              label: 'Chats',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-                color: Colors.teal,
-              ),
-              label: 'Events',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.settings,
-                color: Colors.teal,
-              ),
-              label: 'Settings',
-            ),
-          ],
-          onTap: (index) {
-            if (index == 0) {
-            } else if (index == 1) {
-            } else if (index == 2) {
-              context.push('/add/owner/profile?email=$email');
-            } else if (index == 3) {}
-          },
-        ),
+        bottomNavigationBar: DigBottomNavBar(email: email),
       );
     }
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:the_dig_app/routes/routes.dart';
+import 'package:the_dig_app/util/bottom_navigation_bar.dart';
 
 class Chat extends StatelessWidget {
   static const TextStyle optionStyle =
@@ -15,12 +14,15 @@ class Chat extends StatelessWidget {
   final String chatId;
   final String userId;
   final String otherUserId;
+  final String email;
 
-  Chat(
-      {super.key,
-      required this.chatId,
-      required this.userId,
-      required this.otherUserId});
+  Chat({
+    super.key,
+    required this.chatId,
+    required this.userId,
+    required this.otherUserId,
+    required this.email,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,41 +36,7 @@ class Chat extends StatelessWidget {
         'To be done later...',
         style: optionStyle,
       )),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: Colors.teal,
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.chat,
-              color: Colors.teal,
-            ),
-            label: 'Chats',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.event,
-              color: Colors.teal,
-            ),
-            label: 'Events',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.settings,
-              color: Colors.teal,
-            ),
-            label: 'Settings',
-          ),
-        ],
-        onTap: (index) {
-          context.push(routes[index].path);
-        },
-      ),
+      bottomNavigationBar: DigBottomNavBar(email: email),
     );
   }
 }

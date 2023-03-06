@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_dig_app/util/bottom_navigation_bar.dart';
 import 'chat.dart';
 import 'package:the_dig_app/providers/dig_firebase_provider.dart';
 import 'package:provider/provider.dart';
@@ -9,12 +10,14 @@ class Matched extends StatelessWidget {
   final String userId;
   final String otherProfilePicture;
   final String otherUserId;
+  final String email;
 
   const Matched({
     required this.userId,
     required this.profilePicture,
     required this.otherProfilePicture,
     required this.otherUserId,
+    required this.email,
   });
 
   void sendMessagePressed(BuildContext context) async {
@@ -27,6 +30,7 @@ class Matched extends StatelessWidget {
           chatId: '',
           otherUserId: '',
           userId: '',
+          email: '',
         ) as String,
         arguments: {
           "chat_id": compareAndCombineIds(userId, otherUserId),
@@ -88,6 +92,7 @@ class Matched extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar: DigBottomNavBar(email: email),
     );
   }
 }
