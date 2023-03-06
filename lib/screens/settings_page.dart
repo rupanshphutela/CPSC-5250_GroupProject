@@ -26,6 +26,7 @@ class SettingsPage extends StatelessWidget {
                 title: const Text('Left Swipes'),
                 leading: const Icon(Icons.arrow_back_ios),
                 onPressed: (BuildContext context) {
+                  provider.clearSwipesList();
                   context.push('/swipe?email=$email&direction=left');
                 },
               ),
@@ -33,6 +34,7 @@ class SettingsPage extends StatelessWidget {
                 title: const Text('Right Swipes'),
                 leading: const Icon(Icons.arrow_forward_ios),
                 onPressed: (BuildContext context) {
+                  provider.clearSwipesList();
                   context.push('/swipe?email=$email&direction=right');
                 },
               ),
@@ -40,6 +42,7 @@ class SettingsPage extends StatelessWidget {
                 title: const Text('Top Swipes'),
                 leading: const Icon(Icons.arrow_upward_outlined),
                 onPressed: (BuildContext context) {
+                  provider.clearSwipesList();
                   context.push('/swipe?email=$email&direction=top');
                 },
               ),
