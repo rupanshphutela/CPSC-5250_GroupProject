@@ -32,7 +32,11 @@ final routes = [
       }),
   GoRoute(
     path: '/chats',
-    builder: (context, state) => const Chat(),
+    builder: (context, state) => Chat(
+      chatId: '',
+      otherUserId: '',
+      userId: '',
+    ),
   ),
   GoRoute(
     path: '/events',
