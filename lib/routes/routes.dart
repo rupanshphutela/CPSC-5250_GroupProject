@@ -22,7 +22,7 @@ final routes = [
   ),
   GoRoute(
     path: '/add/profile',
-    builder: (context, state) => ProfileForm(),
+    builder: (context, state) => const ProfileForm(),
   ),
   GoRoute(
       path: '/add/owner/profile',
@@ -32,15 +32,18 @@ final routes = [
       }),
   GoRoute(
     path: '/chats',
-    builder: (context, state) => const Chat(),
-  ),
-  GoRoute(
-    path: '/events',
-    builder: (context, state) => const Event(),
+    builder: (context, state) => Chat(
+      chatId: '',
+      otherUserId: '',
+      userId: '',
+    ),
   ),
   GoRoute(
     path: '/settings',
-    builder: (context, state) => const Settings(),
+    builder: (context, state) {
+      final String email = state.queryParams['email'].toString();
+      return SettingsPage(email: email);
+    },
   ),
   GoRoute(
     path: '/left_swipe',

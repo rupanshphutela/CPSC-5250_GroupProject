@@ -3,8 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:the_dig_app/routes/routes.dart';
 
-class Settings extends StatelessWidget {
-  const Settings({super.key});
+class SettingsPage extends StatelessWidget {
+  final String email;
+  const SettingsPage({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
