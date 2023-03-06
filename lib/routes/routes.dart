@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:the_dig_app/screens/owner_profile_form.dart';
-import 'package:the_dig_app/screens/swipe_page.dart';
+import 'package:the_dig_app/screens/swipes_page.dart';
 import '../screens/profiles_page.dart';
 import '../screens/chat.dart';
 import '../screens/login_page.dart';
@@ -45,7 +45,7 @@ final routes = [
     builder: (context, state) {
       final String direction = state.queryParams['direction'].toString();
       final String email = state.queryParams['email'].toString();
-      return SwipePage(email: email, direction: direction);
+      return SwipesPage(email: email, direction: direction);
     },
   ),
 ];
