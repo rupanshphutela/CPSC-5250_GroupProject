@@ -36,6 +36,25 @@ class ProfilesPage extends StatelessWidget {
                   cards: cards,
                   isDisabled: isLastCard,
                   onSwipe: (int index, CardSwiperDirection direction) async {
+                    if (direction.name == 'top') {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              '"${cards[index].card.fName}" was Superliked')));
+                    } else if (direction.name == 'bottom') {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              '"${cards[index].card.fName}" was Ignored(for now)')));
+                    } else if (direction.name == 'left') {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              '"${cards[index].card.fName}" was Rejected')));
+                    } else if (direction.name == 'right') {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content:
+                              Text('"${cards[index].card.fName}" was Liked')));
+                    } else {
+                      throw Exception("Unsupported operation");
+                    }
                     await provider.insertSwipe(index, direction);
                   },
                   onEnd: onLastSwipe,
