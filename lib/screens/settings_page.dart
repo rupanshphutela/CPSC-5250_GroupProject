@@ -45,9 +45,16 @@ class SettingsPage extends StatelessWidget {
               ),
               SettingsTile(
                 title: const Text('My Requests'),
-                leading: const Icon(Icons.thumb_up),
+                leading: const Icon(Icons.person_add),
                 onPressed: (BuildContext context) {
                   context.push('/incoming/swipes?email=$email');
+                },
+              ),
+              SettingsTile(
+                title: const Text('My Contacts'),
+                leading: const Icon(Icons.group),
+                onPressed: (BuildContext context) {
+                  context.push('/contacts?email=$email');
                 },
               ),
             ],
