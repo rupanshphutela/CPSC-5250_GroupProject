@@ -46,6 +46,14 @@ class SettingsPage extends StatelessWidget {
                   context.push('/swipes?email=$email&direction=top');
                 },
               ),
+              SettingsTile(
+                title: const Text('My Requests'),
+                leading: const Icon(Icons.thumb_up),
+                onPressed: (BuildContext context) {
+                  provider.clearIncomingSwipesList();
+                  context.push('/incoming/swipes?email=$email');
+                },
+              ),
             ],
           ),
           SettingsSection(
