@@ -7,7 +7,7 @@ class Contact {
   String fName;
   String lName;
   String connectionSince;
-  String destinationProfileId;
+  int destinationProfileId;
   String destinationFName;
   String destinationLName;
   String destinationEmail;

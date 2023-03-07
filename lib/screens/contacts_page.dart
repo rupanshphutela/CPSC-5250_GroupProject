@@ -41,7 +41,7 @@ class ContactsPage extends StatelessWidget {
                         style: const TextStyle(fontSize: 20),
                       ),
                       subtitle: Text(
-                          '${contacts[index].destinationBreed},${contacts[index].destinationColor}'),
+                          '${contacts[index].destinationBreed}, ${contacts[index].destinationColor}'),
                       trailing: CircleAvatar(
                         backgroundColor: Colors.brown,
                         child: IconButton(
