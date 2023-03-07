@@ -29,7 +29,7 @@ class SwipesPage extends StatelessWidget {
             rows: swipesList.map((swipe) {
               return DataRow(cells: [
                 DataCell(Text(
-                    "${swipe.sourceProfileFName} ${swipe.sourceProfileLName}")),
+                    "${swipe.destinationProfileFName} ${swipe.destinationProfileLName}")),
                 DataCell(Text(swipe.swipeDate)),
               ]);
             }).toList(),
