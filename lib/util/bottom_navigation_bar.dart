@@ -12,6 +12,7 @@ class DigBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(
@@ -32,7 +33,7 @@ class DigBottomNavBar extends StatelessWidget {
             Icons.person,
             color: Colors.teal,
           ),
-          label: 'Add Profile Form',
+          label: 'Profile',
         ),
         BottomNavigationBarItem(
           icon: Icon(
