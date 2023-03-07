@@ -188,18 +188,13 @@ class DigFirebaseProvider extends ChangeNotifier {
 
       final DocumentReference documentReference =
           FirebaseFirestore.instance.collection('swipe').doc(docId);
-      await documentReference
-          .update({
-            'status': action,
-          })
-          .then((value) {
-            debugPrint('Update successful');
-          })
-          .then((value) =>
-              _incomingSwipesList.removeWhere((element) => element.id == id))
-          .catchError((error) {
-            debugPrint('Update failed: $error');
-          });
+      await documentReference.update({
+        'status': action,
+      }).then((value) {
+        debugPrint('Update successful');
+      }).catchError((error) {
+        debugPrint('Update failed: $error');
+      });
       notifyListeners();
     }
   }
@@ -216,6 +211,31 @@ class DigFirebaseProvider extends ChangeNotifier {
         .get();
 
     _contacts = contactsDocs.docs.map((doc) => Contact.fromJson(doc)).toList();
+  }
+
+  Future<void> createContact(Swipe swipe) async {
+    int contactId = UniqueKey().hashCode;
+
+    Contact contact = Contact(
+        id: contactId,
+        email: swipe.destinationProfileEmail,
+        profileId: swipe.destinationProfileId,
+        fName: swipe.destinationProfileFName,
+        lName: swipe.destinationProfileLName,
+        connectionSince: DateTime.now().toString(),
+        destinationProfileId: swipe.sourceProfileId,
+        destinationFName: swipe.sourceProfileFName,
+        destinationLName: swipe.sourceProfileLName,
+        destinationEmail: swipe.sourceProfileEmail,
+        destinationBreed: swipe.sourceBreed,
+        destinationColor: swipe.sourceColor);
+
+    Map<String, dynamic> dataToSave = contact.toJson(contact);
+
+    await FirebaseFirestore.instance.collection("contact").add(dataToSave).then(
+        (value) => incomingSwipesList
+            .removeWhere((element) => element.id == swipe.id));
+    notifyListeners();
   }
 
   ///Contacts End
