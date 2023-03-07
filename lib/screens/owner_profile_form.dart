@@ -592,7 +592,27 @@ Future<String?> _selectAndUploadImage() async {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           // form is valid, do something
-                         
+                         final profile = 
+                            Profile(
+                              id: UniqueKey().hashCode, 
+                              ownerId: UniqueKey().hashCode, 
+                              ownerfName: _ownerfNameController.text, 
+                              ownerlName: _ownerlNameController.text, 
+                              email: widget.email, 
+                              phone: int.parse(_phoneController.text), 
+                              city: _cityController.text, 
+                              ownerprofilePicture: _ownerpictureController.text, 
+                              fName: _fNameController.text, 
+                              lName: _lNameController.text, 
+                              profilePicture: _pictureController.text, 
+                              gender: _gender, 
+                              breed: _breedController.text, 
+                              color: _colorController.text, 
+                              isVaccinated: _isChecked, 
+                              registrationDate: _dateController.text, 
+                              joiningDate: DateTime.now().toString(), 
+                              size: _sizeController.text,
+                            );
                         }
                       },
                       child: const Text('Submit'),
