@@ -180,31 +180,10 @@ class DigFirebaseProvider extends ChangeNotifier {
         incomingSwipesDocs.docs.map((doc) => Swipe.fromJson(doc)).toList();
 
     //Users who have requested to connect with current user
-    List<Swipe> connectRequestList = incomingSwipesList
+    _incomingSwipesList = incomingSwipesList
         .where((element) =>
-            element.direction == 'top' || element.direction == 'right')
-        .toList();
-
-    //Current User's swipes
-    final currentUserSwipesDocs = await FirebaseFirestore.instance
-        .collection('swipe')
-        .where('sourceProfileEmail', isEqualTo: email)
-        .get();
-
-    List<Swipe> currentUserSwipesList =
-        currentUserSwipesDocs.docs.map((doc) => Swipe.fromJson(doc)).toList();
-
-    //Users whose requests are accepted by current user
-    List<Swipe> acceptSwipesList = currentUserSwipesList
-        .where((element) => element.direction == 'right')
-        .toList();
-
-    List<String> acceptSwipesEmailList =
-        acceptSwipesList.map((e) => e.destinationProfileEmail).toList();
-
-    _incomingSwipesList = connectRequestList
-        .where((element) =>
-            !acceptSwipesEmailList.contains(element.sourceProfileEmail))
+            (element.direction == 'top' || element.direction == 'right') &&
+            (element.status == 'Pending'))
         .toList();
   }
 
