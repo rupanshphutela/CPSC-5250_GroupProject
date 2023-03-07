@@ -22,19 +22,31 @@ class SwipesPage extends StatelessWidget {
         ),
         body: SafeArea(
           child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
-              columns: const [
-                DataColumn(label: Text('Name')),
-                DataColumn(label: Text('Swipe Date')),
+            physics: const ScrollPhysics(),
+            child: Column(
+              children: [
+                Center(
+                  child: ListView.builder(
+                    key: ValueKey("${direction}_SwipesListViewValueKey"),
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: swipesList.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: const CircleAvatar(
+                          backgroundColor: Color(0xff764abc),
+                        ),
+                        title: Text(
+                          '${swipesList[index].destinationProfileFName} ${swipesList[index].destinationProfileLName}',
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                        subtitle: Text(
+                            'Breed: ${swipesList[index].destinationBreed}, \nColor: ${swipesList[index].destinationColor}'),
+                      );
+                    },
+                  ),
+                ),
               ],
-              rows: swipesList.map((swipe) {
-                return DataRow(cells: [
-                  DataCell(Text(
-                      "${swipe.destinationProfileFName} ${swipe.destinationProfileLName}")),
-                  DataCell(Text(swipe.swipeDate)),
-                ]);
-              }).toList(),
             ),
           ),
         ),
