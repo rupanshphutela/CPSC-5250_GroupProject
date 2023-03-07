@@ -193,6 +193,36 @@ class DigFirebaseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  respondToRequest(int id, String action) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('swipe')
+        .where('id', isEqualTo: id)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      String docId = querySnapshot.docs.first.id;
+
+      final DocumentSnapshot snapshot =
+          await FirebaseFirestore.instance.collection('swipe').doc(docId).get();
+
+      final DocumentReference documentReference =
+          FirebaseFirestore.instance.collection('swipe').doc(docId);
+      await documentReference
+          .update({
+            'status': action,
+          })
+          .then((value) {
+            debugPrint('Update successful');
+          })
+          .then((value) =>
+              _incomingSwipesList.removeWhere((element) => element.id == id))
+          .catchError((error) {
+            debugPrint('Update failed: $error');
+          });
+      notifyListeners();
+    }
+  }
+
   ///Incoming Swipes End
 
   Owner? get ownerProfile => _ownerProfile;
