@@ -240,6 +240,49 @@ Future<String?> _selectAndUploadImage() async {
                               labelText: 'Selected File',
                             ),
                           ),
+                          const Divider(
+                          color: Colors.black,
+                          height: 25,
+                          thickness: 2,
+                          indent: 5,
+                          endIndent: 5,
+                        ),
+                        const Text("Pet Profile"),
+                        TextFormField(
+                          controller: _fNameController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your pets First Name';
+                            }
+                            return null;
+                           },
+                          decoration: const InputDecoration(
+                            labelText: 'Pets First Name',
+                            ),
+                        ),
+                        TextFormField(
+                          controller: _lNameController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your pets Last Name';
+                            }
+                            return null;
+                           },
+                          decoration: const InputDecoration(
+                            labelText: 'Pets Last Name',
+                            ),
+                        ),
+                        ElevatedButton(
+                          onPressed: _selectAndUploadImage,
+                          child: const Text('Upload Pets Picture'),
+                          ),
+                          const SizedBox(height: 16.0),
+                        TextFormField(
+                            controller: _ownerpictureController,
+                            decoration: const InputDecoration(
+                              labelText: 'Selected File',
+                            ),
+                          ),
                     const SizedBox(height: 20),
                     Center(
                       child: ElevatedButton(
