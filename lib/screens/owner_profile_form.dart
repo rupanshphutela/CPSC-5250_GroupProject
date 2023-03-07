@@ -352,7 +352,16 @@ Future<String?> _selectAndUploadImage() async {
                           decoration: const InputDecoration(
                             labelText: 'Pets Color',
                             ),
-                        ),      
+                        ),
+                        CheckboxListTile(
+                          title: const Text('Is Vaccinated?'),
+                          value: _isChecked,
+                          onChanged: (checked) {
+                            setState(() {
+                              _isChecked = checked!;
+                            });
+                          },
+                        ),    
                     const SizedBox(height: 20),
                     Center(
                       child: ElevatedButton(
