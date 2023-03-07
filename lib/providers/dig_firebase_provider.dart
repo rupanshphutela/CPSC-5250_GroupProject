@@ -116,12 +116,21 @@ class DigFirebaseProvider extends ChangeNotifier {
             sourceProfileId: currentUserProfile.id,
             sourceProfileFName: currentUserProfile.fName,
             sourceProfileLName: currentUserProfile.lName,
+            sourceBreed: currentUserProfile.breed,
+            sourceColor: currentUserProfile.color,
             swipeDate: DateTime.now().toString(),
             destinationProfileEmail: _profiles[index].email,
             destinationProfileId: _profiles[index].id,
             destinationProfileFName: _profiles[index].fName,
             destinationProfileLName: _profiles[index].lName,
-            direction: direction.name);
+            destinationBreed: _profiles[index].breed,
+            destinationColor: _profiles[index].color,
+            direction: direction.name,
+            status: direction.name == 'top' || direction.name == 'right'
+                ? 'Pending'
+                : direction.name == 'left'
+                    ? 'Rejected'
+                    : 'Invalid');
 
         Map<String, dynamic> dataToSave = swipeObject.toJson(swipeObject);
 
