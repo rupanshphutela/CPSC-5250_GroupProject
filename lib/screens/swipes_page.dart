@@ -21,18 +21,21 @@ class SwipesPage extends StatelessWidget {
           title: const Icon(Icons.swipe),
         ),
         body: SafeArea(
-          child: DataTable(
-            columns: const [
-              DataColumn(label: Text('Name')),
-              DataColumn(label: Text('Swipe Date')),
-            ],
-            rows: swipesList.map((swipe) {
-              return DataRow(cells: [
-                DataCell(Text(
-                    "${swipe.destinationProfileFName} ${swipe.destinationProfileLName}")),
-                DataCell(Text(swipe.swipeDate)),
-              ]);
-            }).toList(),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: DataTable(
+              columns: const [
+                DataColumn(label: Text('Name')),
+                DataColumn(label: Text('Swipe Date')),
+              ],
+              rows: swipesList.map((swipe) {
+                return DataRow(cells: [
+                  DataCell(Text(
+                      "${swipe.destinationProfileFName} ${swipe.destinationProfileLName}")),
+                  DataCell(Text(swipe.swipeDate)),
+                ]);
+              }).toList(),
+            ),
           ),
         ),
         bottomNavigationBar: DigBottomNavBar(email: email),
