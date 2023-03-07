@@ -131,6 +131,9 @@ class DigFirebaseProvider extends ChangeNotifier {
     }
   }
 
+  ///Profiles Page End
+
+  ///Outgoing Swipes Start
   List<Swipe> _swipesList = [];
   List<Swipe> get swipesList => _swipesList.toList();
   Future<void> getSwipesList(String email, String direction) async {
@@ -153,7 +156,56 @@ class DigFirebaseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///Profiles Page End
+  ///Outgoing Swipes End
+
+  ///Incoming Swipes Start
+  List<Swipe> _incomingSwipesList = [];
+  List<Swipe> get incomingSwipesList => _incomingSwipesList.toList();
+  Future<void> getIncomingSwipesList(String email) async {
+    final incomingSwipesDocs = await FirebaseFirestore.instance
+        .collection('swipe')
+        .where('destinationProfileEmail', isEqualTo: email)
+        .get();
+
+    List<Swipe> incomingSwipesList =
+        incomingSwipesDocs.docs.map((doc) => Swipe.fromJson(doc)).toList();
+
+    //Users who have requested to connect with current user
+    List<Swipe> connectRequestList = incomingSwipesList
+        .where((element) =>
+            element.direction == 'top' || element.direction == 'right')
+        .toList();
+
+    //Current User's swipes
+    final currentUserSwipesDocs = await FirebaseFirestore.instance
+        .collection('swipe')
+        .where('sourceProfileEmail', isEqualTo: email)
+        .get();
+
+    List<Swipe> currentUserSwipesList =
+        currentUserSwipesDocs.docs.map((doc) => Swipe.fromJson(doc)).toList();
+
+    //Users whose requests are accepted by current user
+    List<Swipe> acceptSwipesList = currentUserSwipesList
+        .where((element) => element.direction == 'right')
+        .toList();
+
+    List<String> acceptSwipesEmailList =
+        acceptSwipesList.map((e) => e.destinationProfileEmail).toList();
+
+    _incomingSwipesList = connectRequestList
+        .where((element) =>
+            !acceptSwipesEmailList.contains(element.sourceProfileEmail))
+        .toList();
+  }
+
+  void clearIncomingSwipesList() {
+    _incomingSwipesList.clear();
+    incomingSwipesList.clear();
+    notifyListeners();
+  }
+
+  ///Incoming Swipes End
 
   Owner? get ownerProfile => _ownerProfile;
 
