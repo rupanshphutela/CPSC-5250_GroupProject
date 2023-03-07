@@ -417,7 +417,175 @@ Future<String?> _selectAndUploadImage() async {
                           decoration: const InputDecoration(
                             labelText: 'Pets Size',
                             ),
-                        ),   
+                        ),
+                                                const Divider(
+                          color: Colors.black,
+                          height: 25,
+                          thickness: 2,
+                          indent: 5,
+                          endIndent: 5,
+                        ),
+                        const Text("Behavior"),
+                        TextFormField(
+                          key: const ValueKey("socialHumans"),
+                          maxLines: 1,
+                          maxLength: 20,
+                          controller: _socialHumansController,
+                          inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                          decoration: const InputDecoration(
+                            labelText: 'Rate for Socializing with humans',
+                          ),
+                        ),
+                        TextFormField(
+                          key: const ValueKey("socialDogs"),
+                          maxLines: 1,
+                          maxLength: 20,
+                          controller: _socialDogsController,
+                          inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                          decoration: const InputDecoration(
+                            labelText: 'Rate for Socializing with dogs',
+                          ),
+                        ),
+                        DropdownButtonFormField(
+                          key: const ValueKey("aggressionDropDown"),
+                          value: _aggressionController.text.isNotEmpty
+                              ? _aggressionController.text
+                              : aggression[0],
+                          decoration: const InputDecoration(
+                            labelText: 'Gets aggressive when hungry',
+                          ),
+                          items: aggression
+                              .map(((e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e),
+                                  )))
+                              .toList(),
+                          onChanged: (value) {
+                            _aggressionController.text = value as String;
+                          },
+                        ),
+                        DropdownButtonFormField(
+                          key: const ValueKey("humanAggressionDropDown"),
+                          value: _humanAggressionController.text.isNotEmpty
+                              ? _humanAggressionController.text
+                              : aggression[0],
+                          decoration: const InputDecoration(
+                            labelText: 'Gets aggressive when meets new Humans',
+                          ),
+                          items: aggression
+                              .map(((e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e),
+                                  )))
+                              .toList(),
+                          onChanged: (value) {
+                            _humanAggressionController.text = value as String;
+                          },
+                        ),
+                        DropdownButtonFormField(
+                          key: const ValueKey("dogAggressionDropDown"),
+                          value: _dogAggressionController.text.isNotEmpty
+                              ? _dogAggressionController.text
+                              : aggression[0],
+                          decoration: const InputDecoration(
+                            labelText: 'Gets aggressive when meets new Dogs',
+                          ),
+                          items: aggression
+                              .map(((e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e),
+                                  )))
+                              .toList(),
+                          onChanged: (value) {
+                            _dogAggressionController.text = value as String;
+                          },
+                        ),
+                        const Divider(
+                          color: Colors.black,
+                          height: 25,
+                          thickness: 2,
+                          indent: 5,
+                          endIndent: 5,
+                        ),
+                        const Text("Food Preference"),
+                        TextFormField(
+                          key: const ValueKey("Favorite Food"),
+                          maxLines: 1,
+                          maxLength: 20,
+                          controller: _favoriteFoodController,
+                          inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                          decoration: const InputDecoration(
+                            labelText: 'Favorite Food',
+                          ),
+                        ),
+                        TextFormField(
+                          key:
+                              const ValueKey("Rate the food liking on scale of 10"),
+                          maxLines: 1,
+                          maxLength: 20,
+                          controller: _favoriteFoodRatingController,
+                          inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                          decoration: const InputDecoration(
+                            labelText: 'Favorite Food Rate',
+                          ),
+                        ),
+                        const Divider(
+                          color: Colors.black,
+                          height: 25,
+                          thickness: 2,
+                          indent: 5,
+                          endIndent: 5,
+                        ),
+                        const Text("Favorite Activites"),
+                        TextFormField(
+                          key: const ValueKey("Favorite Activity"),
+                          maxLines: 1,
+                          maxLength: 20,
+                          controller: _favoriteActivityController,
+                          inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                          decoration: const InputDecoration(
+                            labelText: 'Favorite Activity',
+                          ),
+                        ),
+                        TextFormField(
+                          key: const ValueKey(
+                              "Rate the activity liking on scale of 10"),
+                          maxLines: 1,
+                          maxLength: 20,
+                          controller: _favoriteActivityRatingController,
+                          inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                          decoration: const InputDecoration(
+                            labelText: 'Favorite Activity Rate',
+                          ),
+                        ),
+                        const Divider(
+                          color: Colors.black,
+                          height: 25,
+                          thickness: 2,
+                          indent: 5,
+                          endIndent: 5,
+                        ),
+                        const Text("Skills"),
+                        TextFormField(
+                          key: const ValueKey("skillName"),
+                          maxLines: 1,
+                          maxLength: 20,
+                          controller: _skillNameController,
+                          inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                          decoration: const InputDecoration(
+                            labelText: 'Skill Name',
+                          ),
+                        ),
+                    TextFormField(
+                      key: const ValueKey("skillProficiency"),
+                      maxLines: 1,
+                      maxLength: 20,
+                      controller: _skillProficienctController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                      decoration: const InputDecoration(
+                        labelText: 'Skill Proficiency',
+                      ),
+                    ),   
                     const SizedBox(height: 20),
                     Center(
                       child: ElevatedButton(
