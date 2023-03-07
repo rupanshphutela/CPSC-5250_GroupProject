@@ -283,6 +283,76 @@ Future<String?> _selectAndUploadImage() async {
                               labelText: 'Selected File',
                             ),
                           ),
+                    const Divider(
+                          color: Colors.black,
+                          height: 25,
+                          thickness: 2,
+                          indent: 5,
+                          endIndent: 5,
+                        ),
+                        TextFormField(
+                          controller: _bioController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your pets Bio';
+                            }
+                            return null;
+                           },
+                          decoration: const InputDecoration(
+                            labelText: 'Pets Biography',
+                            ),
+                        ),
+                        const Text(
+                          'Gender:',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        const SizedBox(height: 8.0),
+                        RadioListTile(
+                          title: const Text('Male'),
+                          value: 'male',
+                          groupValue: _gender,
+                          onChanged: (value) {
+                            setState(() {
+                              _gender = value!;
+                            });
+                          },
+                        ),
+                        RadioListTile(
+                          title: const Text('Female'),
+                          value: 'female',
+                          groupValue: _gender,
+                          onChanged: (value) {
+                            setState(() {
+                              _gender = value!;
+                            });
+                          },
+                        ),
+                        TextFormField(
+                          controller: _breedController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your breed';
+                            }
+                            return null;
+                           },
+                          decoration: const InputDecoration(
+                            labelText: 'Pets Breed',
+                            ),
+                        ),
+                        TextFormField(
+                          controller: _colorController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your pets color';
+                            }
+                            return null;
+                           },
+                          decoration: const InputDecoration(
+                            labelText: 'Pets Color',
+                            ),
+                        ),      
                     const SizedBox(height: 20),
                     Center(
                       child: ElevatedButton(
