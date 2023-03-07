@@ -14,7 +14,6 @@ class IncomingSwipesPage extends StatelessWidget {
     List<Swipe> incomingSwipesList = provider.incomingSwipesList;
 
     if (incomingSwipesList.isNotEmpty) {
-      int rowIndex = 0;
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -22,37 +21,50 @@ class IncomingSwipesPage extends StatelessWidget {
         ),
         body: SafeArea(
           child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
-              columns: const [
-                DataColumn(label: Text('Name')),
-                DataColumn(label: Text('Action')),
-                DataColumn(label: Text('')),
+            physics: const ScrollPhysics(),
+            child: Column(
+              children: [
+                Center(
+                  child: ListView.builder(
+                    key: const ValueKey("IncomingSwipesListViewValueKey"),
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: incomingSwipesList.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: const CircleAvatar(
+                          backgroundColor: Color(0xff764abc),
+                        ),
+                        title: Text(
+                          '${incomingSwipesList[index].sourceProfileFName} ${incomingSwipesList[index].sourceProfileLName}',
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                        subtitle: Text(
+                            'Breed: ${incomingSwipesList[index].sourceBreed}, \nColor: ${incomingSwipesList[index].sourceColor}, \nAction: ${incomingSwipesList[index].direction == "top" ? "Superlike" : incomingSwipesList[index].direction == "right" ? "Like" : "Invalid"}'),
+                        trailing: Wrap(
+                          spacing: 12,
+                          children: <Widget>[
+                            CircleAvatar(
+                              backgroundColor: Colors.brown,
+                              child: IconButton(
+                                icon: const Icon(Icons.check_circle_outline),
+                                onPressed: () async {},
+                              ),
+                            ),
+                            CircleAvatar(
+                              backgroundColor: Colors.brown,
+                              child: IconButton(
+                                icon: const Icon(Icons.highlight_off),
+                                onPressed: () {},
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ],
-              rows: incomingSwipesList.map((swipe) {
-                final int index = rowIndex++;
-                return DataRow(cells: [
-                  DataCell(Text(
-                      "${swipe.sourceProfileFName} ${swipe.sourceProfileLName}")),
-                  DataCell(Text(swipe.direction == 'top'
-                      ? "Superlike"
-                      : swipe.direction == 'right'
-                          ? "Like"
-                          : "Invalid operation")),
-                  DataCell(
-                    Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.check_circle_outline)),
-                        IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.highlight_off)),
-                      ],
-                    ),
-                  )
-                ]);
-              }).toList(),
             ),
           ),
         ),
