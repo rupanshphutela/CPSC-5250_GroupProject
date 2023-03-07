@@ -361,7 +361,63 @@ Future<String?> _selectAndUploadImage() async {
                               _isChecked = checked!;
                             });
                           },
-                        ),    
+                        ),
+                        const Text(
+                          'Date of birth:',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        const SizedBox(height: 8),
+                        TextFormField(
+                          onTap: () => _selectDate(context),
+                          controller: TextEditingController(
+                            text: _selectedDate == null
+                                ? ''
+                                : DateFormat('yyyy-MM-dd').format(_selectedDate),
+                          ),
+                          readOnly: true,
+                          decoration: const InputDecoration(
+                            suffixIcon: Icon(Icons.calendar_today),
+                          ),
+                        ),
+                        const Text(
+                          'Sterilization:',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        const SizedBox(height: 8.0),
+                        RadioListTile(
+                          title: const Text('Spayed'),
+                          value: 'spayed',
+                          groupValue: sterilization,
+                          onChanged: (value) {
+                            setState(() {
+                              sterilization = value!;
+                            });
+                          },
+                        ),
+                        RadioListTile(
+                          title: const Text('Neutered'),
+                          value: 'neutered',
+                          groupValue: sterilization,
+                          onChanged: (value) {
+                            setState(() {
+                              sterilization = value!;
+                            });
+                          },
+                        ),
+                        TextFormField(
+                          controller: _sizeController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your pets size';
+                            }
+                            return null;
+                           },
+                          decoration: const InputDecoration(
+                            labelText: 'Pets Size',
+                            ),
+                        ),   
                     const SizedBox(height: 20),
                     Center(
                       child: ElevatedButton(
