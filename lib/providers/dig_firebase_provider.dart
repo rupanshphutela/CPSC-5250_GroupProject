@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:the_dig_app/models/contact.dart';
 import 'package:the_dig_app/models/owner.dart';
 import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/models/swipe.dart';
@@ -204,6 +205,20 @@ class DigFirebaseProvider extends ChangeNotifier {
   }
 
   ///Incoming Swipes End
+
+  ///Contacts Start
+  List<Contact> _contacts = [];
+  List<Contact> get contacts => _contacts.toList();
+  Future<void> getContacts(String email) async {
+    final contactsDocs = await FirebaseFirestore.instance
+        .collection('contact')
+        .where('email', isEqualTo: email)
+        .get();
+
+    _contacts = contactsDocs.docs.map((doc) => Contact.fromJson(doc)).toList();
+  }
+
+  ///Contacts End
 
   Owner? get ownerProfile => _ownerProfile;
 
