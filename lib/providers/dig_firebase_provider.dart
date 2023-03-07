@@ -151,18 +151,8 @@ class DigFirebaseProvider extends ChangeNotifier {
         .where('sourceProfileEmail', isEqualTo: email)
         .get();
 
-    List<Swipe> currentUserSwipesList =
+    _swipesList =
         currentUserSwipesDocs.docs.map((doc) => Swipe.fromJson(doc)).toList();
-
-    _swipesList = currentUserSwipesList
-        .where((element) => element.direction == direction)
-        .toList();
-  }
-
-  void clearSwipesList() {
-    _swipesList.clear();
-    swipesList.clear();
-    notifyListeners();
   }
 
   ///Outgoing Swipes End
@@ -201,9 +191,6 @@ class DigFirebaseProvider extends ChangeNotifier {
 
     if (querySnapshot.docs.isNotEmpty) {
       String docId = querySnapshot.docs.first.id;
-
-      final DocumentSnapshot snapshot =
-          await FirebaseFirestore.instance.collection('swipe').doc(docId).get();
 
       final DocumentReference documentReference =
           FirebaseFirestore.instance.collection('swipe').doc(docId);

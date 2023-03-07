@@ -14,7 +14,12 @@ class SwipesPage extends StatelessWidget {
     final provider = Provider.of<DigFirebaseProvider>(context);
     List<Swipe> swipesList = provider.swipesList;
 
-    if (swipesList.isNotEmpty) {
+    List<Swipe> filteredSwipesList;
+
+    filteredSwipesList =
+        swipesList.where((x) => x.direction.contains(direction)).toList();
+
+    if (filteredSwipesList.isNotEmpty && filteredSwipesList != null) {
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -30,18 +35,18 @@ class SwipesPage extends StatelessWidget {
                     key: ValueKey("${direction}_SwipesListViewValueKey"),
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: swipesList.length,
+                    itemCount: filteredSwipesList.length,
                     itemBuilder: (context, index) {
                       return ListTile(
                         leading: const CircleAvatar(
                           backgroundColor: Color(0xff764abc),
                         ),
                         title: Text(
-                          '${swipesList[index].destinationProfileFName} ${swipesList[index].destinationProfileLName}',
+                          '${filteredSwipesList[index].destinationProfileFName} ${filteredSwipesList[index].destinationProfileLName}',
                           style: const TextStyle(fontSize: 20),
                         ),
                         subtitle: Text(
-                            '${swipesList[index].destinationBreed}, ${swipesList[index].destinationColor}'),
+                            '${filteredSwipesList[index].destinationBreed}, ${filteredSwipesList[index].destinationColor}'),
                       );
                     },
                   ),
