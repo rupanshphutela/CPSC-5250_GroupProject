@@ -40,7 +40,7 @@ class IncomingSwipesPage extends StatelessWidget {
                           style: const TextStyle(fontSize: 20),
                         ),
                         subtitle: Text(
-                            'Breed: ${incomingSwipesList[index].sourceBreed}, \nColor: ${incomingSwipesList[index].sourceColor}, \nAction: ${incomingSwipesList[index].direction == "top" ? "Superlike" : incomingSwipesList[index].direction == "right" ? "Like" : "Invalid"}'),
+                            '${incomingSwipesList[index].sourceBreed}, ${incomingSwipesList[index].sourceColor} \nAction: ${incomingSwipesList[index].direction == "top" ? "Superlike" : incomingSwipesList[index].direction == "right" ? "Like" : "Invalid"}'),
                         trailing: Wrap(
                           spacing: 12,
                           children: <Widget>[
@@ -48,14 +48,20 @@ class IncomingSwipesPage extends StatelessWidget {
                               backgroundColor: Colors.brown,
                               child: IconButton(
                                 icon: const Icon(Icons.check_circle_outline),
-                                onPressed: () async {},
+                                onPressed: () async {
+                                  await provider.respondToRequest(
+                                      incomingSwipesList[index].id, 'Accepted');
+                                },
                               ),
                             ),
                             CircleAvatar(
                               backgroundColor: Colors.brown,
                               child: IconButton(
                                 icon: const Icon(Icons.highlight_off),
-                                onPressed: () {},
+                                onPressed: () async {
+                                  await provider.respondToRequest(
+                                      incomingSwipesList[index].id, 'Rejected');
+                                },
                               ),
                             ),
                           ],

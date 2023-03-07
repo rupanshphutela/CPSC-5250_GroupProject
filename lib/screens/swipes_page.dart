@@ -41,7 +41,7 @@ class SwipesPage extends StatelessWidget {
                           style: const TextStyle(fontSize: 20),
                         ),
                         subtitle: Text(
-                            'Breed: ${swipesList[index].destinationBreed}, \nColor: ${swipesList[index].destinationColor}'),
+                            '${swipesList[index].destinationBreed}, ${swipesList[index].destinationColor}'),
                       );
                     },
                   ),
