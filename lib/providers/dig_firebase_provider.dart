@@ -166,15 +166,8 @@ class DigFirebaseProvider extends ChangeNotifier {
         .where('destinationProfileEmail', isEqualTo: email)
         .get();
 
-    List<Swipe> incomingSwipesList =
+    _incomingSwipesList =
         incomingSwipesDocs.docs.map((doc) => Swipe.fromJson(doc)).toList();
-
-    //Users who have requested to connect with current user
-    _incomingSwipesList = incomingSwipesList
-        .where((element) =>
-            (element.direction == 'top' || element.direction == 'right') &&
-            (element.status == 'Pending'))
-        .toList();
   }
 
   void clearIncomingSwipesList() {

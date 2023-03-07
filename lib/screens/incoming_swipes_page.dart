@@ -13,7 +13,17 @@ class IncomingSwipesPage extends StatelessWidget {
     final provider = Provider.of<DigFirebaseProvider>(context);
     List<Swipe> incomingSwipesList = provider.incomingSwipesList;
 
-    if (incomingSwipesList.isNotEmpty) {
+    //Users who have requested to connect with current user
+    List<Swipe> filteredIncomingSwipesList;
+
+    filteredIncomingSwipesList = incomingSwipesList
+        .where((element) =>
+            (element.direction == 'top' || element.direction == 'right') &&
+            (element.status == 'Pending'))
+        .toList();
+
+    if (filteredIncomingSwipesList.isNotEmpty &&
+        filteredIncomingSwipesList != null) {
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -29,18 +39,18 @@ class IncomingSwipesPage extends StatelessWidget {
                     key: const ValueKey("IncomingSwipesListViewValueKey"),
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: incomingSwipesList.length,
+                    itemCount: filteredIncomingSwipesList.length,
                     itemBuilder: (context, index) {
                       return ListTile(
                         leading: const CircleAvatar(
                           backgroundColor: Color(0xff764abc),
                         ),
                         title: Text(
-                          '${incomingSwipesList[index].sourceProfileFName} ${incomingSwipesList[index].sourceProfileLName}',
+                          '${filteredIncomingSwipesList[index].sourceProfileFName} ${filteredIncomingSwipesList[index].sourceProfileLName}',
                           style: const TextStyle(fontSize: 20),
                         ),
                         subtitle: Text(
-                            '${incomingSwipesList[index].sourceBreed}, ${incomingSwipesList[index].sourceColor} \nAction: ${incomingSwipesList[index].direction == "top" ? "Superlike" : incomingSwipesList[index].direction == "right" ? "Like" : "Invalid"}'),
+                            '${filteredIncomingSwipesList[index].sourceBreed}, ${filteredIncomingSwipesList[index].sourceColor} \nAction: ${incomingSwipesList[index].direction == "top" ? "Superlike" : incomingSwipesList[index].direction == "right" ? "Like" : "Invalid"}'),
                         trailing: Wrap(
                           spacing: 12,
                           children: <Widget>[
@@ -50,7 +60,8 @@ class IncomingSwipesPage extends StatelessWidget {
                                 icon: const Icon(Icons.check_circle_outline),
                                 onPressed: () async {
                                   await provider.respondToRequest(
-                                      incomingSwipesList[index].id, 'Accepted');
+                                      filteredIncomingSwipesList[index].id,
+                                      'Accepted');
                                 },
                               ),
                             ),
@@ -60,7 +71,8 @@ class IncomingSwipesPage extends StatelessWidget {
                                 icon: const Icon(Icons.highlight_off),
                                 onPressed: () async {
                                   await provider.respondToRequest(
-                                      incomingSwipesList[index].id, 'Rejected');
+                                      filteredIncomingSwipesList[index].id,
+                                      'Rejected');
                                 },
                               ),
                             ),
