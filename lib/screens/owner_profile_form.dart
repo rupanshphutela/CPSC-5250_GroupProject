@@ -183,7 +183,63 @@ Future<String?> _selectAndUploadImage() async {
                             labelText: 'Your First Name',
                             ),
                           ),
-
+                                              TextFormField(
+                          controller: _ownerlNameController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your last name';
+                            }
+                            return null;
+                           },
+                          decoration: const InputDecoration(
+                            labelText: 'Your Last Name',
+                            ),
+                          ),
+                          TextFormField(
+                            key: const ValueKey("email"),
+                            maxLines: 1,
+                            readOnly: true,
+                            style: const TextStyle(color: Colors.grey),
+                            initialValue: widget.email,
+                            decoration: const InputDecoration(
+                              labelText: 'Email',
+                            ),
+                          ),
+                        TextFormField(
+                          controller: _phoneController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter phone number';
+                            }
+                            return null;
+                           },
+                          decoration: const InputDecoration(
+                            labelText: 'Phone number',
+                            ),
+                        ),
+                        TextFormField(
+                          controller: _cityController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your city';
+                            }
+                            return null;
+                           },
+                          decoration: const InputDecoration(
+                            labelText: 'City',
+                            ),
+                        ),
+                        ElevatedButton(
+                          onPressed: _selectAndUploadOwnerImage,
+                          child: const Text('Upload Picture'),
+                          ),
+                          const SizedBox(height: 16.0),
+                          TextFormField(
+                            controller: _ownerpictureController,
+                            decoration: const InputDecoration(
+                              labelText: 'Selected File',
+                            ),
+                          ),
                     const SizedBox(height: 20),
                     Center(
                       child: ElevatedButton(
