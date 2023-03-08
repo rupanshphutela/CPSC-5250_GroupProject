@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:the_dig_app/models/swipe.dart';
 import 'package:the_dig_app/providers/dig_firebase_provider.dart';
@@ -22,8 +23,7 @@ class IncomingSwipesPage extends StatelessWidget {
             (element.status == 'Pending'))
         .toList();
 
-    if (filteredIncomingSwipesList.isNotEmpty &&
-        filteredIncomingSwipesList != null) {
+    if (filteredIncomingSwipesList.isNotEmpty) {
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -50,7 +50,7 @@ class IncomingSwipesPage extends StatelessWidget {
                           style: const TextStyle(fontSize: 20),
                         ),
                         subtitle: Text(
-                            '${filteredIncomingSwipesList[index].sourceBreed}, ${filteredIncomingSwipesList[index].sourceColor} \nAction: ${incomingSwipesList[index].direction == "top" ? "Superlike" : incomingSwipesList[index].direction == "right" ? "Like" : "Invalid"}'),
+                            '${filteredIncomingSwipesList[index].sourceBreed}, ${filteredIncomingSwipesList[index].sourceColor} \nAction: ${filteredIncomingSwipesList[index].direction == "top" ? "Superlike" : filteredIncomingSwipesList[index].direction == "right" ? "Like" : "Invalid"}'),
                         trailing: Wrap(
                           spacing: 12,
                           children: <Widget>[
@@ -59,9 +59,16 @@ class IncomingSwipesPage extends StatelessWidget {
                               child: IconButton(
                                 icon: const Icon(Icons.check_circle_outline),
                                 onPressed: () async {
-                                  await provider.respondToRequest(
-                                      filteredIncomingSwipesList[index].id,
-                                      'Accepted');
+                                  Swipe swipe =
+                                      filteredIncomingSwipesList[index];
+                                  await provider
+                                      .respondToRequest(
+                                          filteredIncomingSwipesList[index].id,
+                                          'Accepted')
+                                      .then((value) async =>
+                                          await provider.createContact(swipe))
+                                      .then((value) => context
+                                          .push('/contacts?email=$email'));
                                 },
                               ),
                             ),
