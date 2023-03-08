@@ -63,6 +63,7 @@ class DigFirebaseProvider extends ChangeNotifier {
   }
 
   Future<void> getProfiles(String email) async {
+    //Find profiles where email is not same as current user's email
     final profileDocs = await FirebaseFirestore.instance
         .collection('profile')
         .where('email', isNotEqualTo: email)
@@ -70,6 +71,7 @@ class DigFirebaseProvider extends ChangeNotifier {
     var allProfiles =
         profileDocs.docs.map((doc) => Profile.fromJson(doc)).toList();
 
+    //Find profiles which user has already swiped
     final swipedProfileDocs = await FirebaseFirestore.instance
         .collection('swipe')
         .where('sourceProfileEmail', isEqualTo: email)
@@ -81,8 +83,34 @@ class DigFirebaseProvider extends ChangeNotifier {
     List<String> swipedProfileEmailList =
         swipedProfileList.map((e) => e.destinationProfileEmail).toList();
 
+    //Find profiles who have right/top swiped the current user
+    final currentUserSwipedDocs = await FirebaseFirestore.instance
+        .collection('swipe')
+        .where('destinationProfileEmail', isEqualTo: email)
+        .get();
+
+    List<Swipe> currentUserSwipedList =
+        currentUserSwipedDocs.docs.map((doc) => Swipe.fromJson(doc)).toList();
+
+    List<Swipe> filteredCurrentUserSwipedList = currentUserSwipedList
+        .where((element) =>
+            (element.direction == 'right' || element.direction == 'top') &&
+            element.status == 'Pending')
+        .toList();
+
+    List<String> filteredCurrentUserSwipedEmailList =
+        filteredCurrentUserSwipedList
+            .map((e) => e.destinationProfileEmail)
+            .toList();
+
+    //combine email addresses of those profiles
+    List<String> combinedSwipeList =
+        filteredCurrentUserSwipedEmailList.toList();
+    combinedSwipeList.addAll(swipedProfileEmailList);
+
+    //filter email addresses from all profiles
     _profiles = allProfiles
-        .where((element) => !swipedProfileEmailList.contains(element.email))
+        .where((element) => !combinedSwipeList.contains(element.email))
         .toList();
 
     _cards = profiles
