@@ -48,8 +48,10 @@ class DigBottomNavBar extends StatelessWidget {
         if (route?.settings.name != '/profiles' && index == 0) {
           context.push('/profiles?email=$email');
         } else if (index == 1) {
-        } else if (route?.settings.name != '/add/owner/profile' && index == 2) {
-          context.push('/add/owner/profile?email=$email');
+        } else if (route?.settings.name != '/edit/profile' && index == 2){
+            context.push('/edit/profile?email=$email');
+        // } else if (route?.settings.name != '/add/owner/profile' && index == 2) {
+        //   context.push('/add/owner/profile?email=$email');
         } else if (route?.settings.name != '/settings' && index == 3) {
           context.push('/settings?email=$email');
         } else {}
