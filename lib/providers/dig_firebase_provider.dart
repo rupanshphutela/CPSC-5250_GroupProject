@@ -268,4 +268,12 @@ class DigFirebaseProvider extends ChangeNotifier {
         .collection("owner_profile")
         .add(dataToSave);
   }
+
+  Future createProfile(Profile profile, String ownerfName) async {
+    final docUser = FirebaseFirestore.instance
+        .collection("profile")
+        .doc(ownerfName);
+    final json = profile.toJson();
+    await docUser.set(json);
+  }
 }
