@@ -283,8 +283,7 @@ class DigFirebaseProvider extends ChangeNotifier {
 
     await FirebaseFirestore.instance
         .collection("contact")
-        .add(dataToSaveAcceptor)
-        .then((value) => _incomingSwipesList.clear());
+        .add(dataToSaveAcceptor);
 
     await FirebaseFirestore.instance
         .collection("contact")
