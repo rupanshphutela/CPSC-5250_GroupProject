@@ -169,6 +169,7 @@ class DigFirebaseProvider extends ChangeNotifier {
 
     _incomingSwipesList =
         incomingSwipesDocs.docs.map((doc) => Swipe.fromJson(doc)).toList();
+    notifyListeners();
   }
 
   void clearIncomingSwipesList() {
@@ -188,6 +189,7 @@ class DigFirebaseProvider extends ChangeNotifier {
 
       final DocumentReference documentReference =
           FirebaseFirestore.instance.collection('swipe').doc(docId);
+
       await documentReference.update({
         'status': action,
       }).then((value) {
@@ -211,13 +213,15 @@ class DigFirebaseProvider extends ChangeNotifier {
         .get();
 
     _contacts = contactsDocs.docs.map((doc) => Contact.fromJson(doc)).toList();
+    notifyListeners();
   }
 
   Future<void> createContact(Swipe swipe) async {
-    int contactId = UniqueKey().hashCode;
+    int requestorContactId = UniqueKey().hashCode;
+    int acceptorContactId = UniqueKey().hashCode;
 
-    Contact contact = Contact(
-        id: contactId,
+    Contact contactAcceptor = Contact(
+        id: acceptorContactId,
         email: swipe.destinationProfileEmail,
         profileId: swipe.destinationProfileId,
         fName: swipe.destinationProfileFName,
@@ -230,11 +234,34 @@ class DigFirebaseProvider extends ChangeNotifier {
         destinationBreed: swipe.sourceBreed,
         destinationColor: swipe.sourceColor);
 
-    Map<String, dynamic> dataToSave = contact.toJson(contact);
+    Contact contactRequestor = Contact(
+        id: requestorContactId,
+        email: swipe.sourceProfileEmail,
+        profileId: swipe.sourceProfileId,
+        fName: swipe.sourceProfileFName,
+        lName: swipe.sourceProfileLName,
+        connectionSince: DateTime.now().toString(),
+        destinationProfileId: swipe.destinationProfileId,
+        destinationFName: swipe.destinationProfileFName,
+        destinationLName: swipe.destinationProfileLName,
+        destinationEmail: swipe.destinationProfileEmail,
+        destinationBreed: swipe.destinationBreed,
+        destinationColor: swipe.destinationColor);
 
-    await FirebaseFirestore.instance.collection("contact").add(dataToSave).then(
-        (value) => incomingSwipesList
-            .removeWhere((element) => element.id == swipe.id));
+    Map<String, dynamic> dataToSaveAcceptor =
+        contactAcceptor.toJson(contactAcceptor);
+    Map<String, dynamic> dataToSaveRequestor =
+        contactAcceptor.toJson(contactRequestor);
+
+    await FirebaseFirestore.instance
+        .collection("contact")
+        .add(dataToSaveAcceptor)
+        .then((value) => _incomingSwipesList.clear());
+
+    await FirebaseFirestore.instance
+        .collection("contact")
+        .add(dataToSaveRequestor)
+        .then((value) => _incomingSwipesList.clear());
     notifyListeners();
   }
 
@@ -270,9 +297,8 @@ class DigFirebaseProvider extends ChangeNotifier {
   }
 
   Future createProfile(Profile profile, String ownerfName) async {
-    final docUser = FirebaseFirestore.instance
-        .collection("profile")
-        .doc(ownerfName);
+    final docUser =
+        FirebaseFirestore.instance.collection("profile").doc(ownerfName);
     final json = profile.toJson();
     await docUser.set(json);
   }
