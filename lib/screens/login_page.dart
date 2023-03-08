@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_signin_button/button_list.dart';
-import 'package:flutter_signin_button/button_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:the_dig_app/screens/profiles_page.dart';
 
@@ -26,7 +25,6 @@ class _LoginScreen extends State<LoginScreen> {
     scopes: <String>['email', 'profile'],
   );
   bool _isLoggedIn = false;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   initState() {
@@ -34,47 +32,12 @@ class _LoginScreen extends State<LoginScreen> {
     _authSubscription = FirebaseAuth.instance.authStateChanges().listen((user) {
       setState(() => {_isLoggedIn = user != null});
     });
-
-    _googleSignIn.onCurrentUserChanged.listen((account) async {
-      if (account != null) {
-        final gauth = await account.authentication;
-        FirebaseAuth.instance.signInWithCredential(
-            GoogleAuthProvider.credential(
-                idToken: gauth.idToken, accessToken: gauth.accessToken));
-      }
-    });
-    _googleSignIn.signInSilently();
   }
 
   @override
   void dispose() {
     super.dispose();
     _authSubscription?.cancel();
-  }
-
-  _registrationErrorMessage(String code) {
-    switch (code) {
-      case 'email-already-in-use':
-        return 'This email is already registered with us';
-      case 'weak-password':
-        return 'The password must be at least eight characters long';
-      case 'invalid-email':
-        return 'Invalid email address format';
-      default:
-        return 'Facing issues right now, please try again later';
-    }
-  }
-
-  _register() async {
-    try {
-      final credentials = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: _email!, password: _password!);
-      if (credentials.user != null && !credentials.user!.emailVerified) {
-        credentials.user!.sendEmailVerification();
-      }
-    } on FirebaseAuthException catch (e) {
-      setState(() => {_errorMessage = _registrationErrorMessage(e.code)});
-    }
   }
 
   _logIn() async {
@@ -85,26 +48,6 @@ class _LoginScreen extends State<LoginScreen> {
       setState(() =>
           {_errorMessage = 'Incorrect email or password, error detail: $e'});
     }
-  }
-
-  Future<UserCredential> signInWithGoogle() async {
-    // Trigger the Google Sign-In flow.
-    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-
-    // Obtain the auth details from the Google account.
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser!.authentication;
-
-    // Create a new credential.
-    final OAuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    // Sign in to Firebase with the Google credential.
-    final UserCredential userCredential =
-        await _auth.signInWithCredential(credential);
-    return userCredential;
   }
 
   @override
@@ -172,7 +115,9 @@ class _LoginScreen extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             ElevatedButton(
-                              onPressed: disableButtons ? null : _register,
+                              onPressed: () {
+                                context.push('/register');
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
                                     Colors.blue, // set the button color
@@ -182,7 +127,7 @@ class _LoginScreen extends State<LoginScreen> {
                                 ),
                               ),
                               child: const Text(
-                                'Register',
+                                'Sign Up',
                                 style: TextStyle(
                                   color: Colors.white, // set the text color
                                   fontSize: 25, // set the text size
@@ -212,28 +157,6 @@ class _LoginScreen extends State<LoginScreen> {
                     Text(
                       _errorMessage ?? '',
                       style: const TextStyle(color: Colors.red),
-                    ),
-                    const Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 20),
-                        child: Text('or'),
-                      ),
-                    ),
-                    Center(
-                      child: SignInButton(Buttons.Google,
-                          text: "Sign in with Google",
-                          elevation: 10.0,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          padding: const EdgeInsets.only(
-                              left: 25,
-                              top: 10,
-                              bottom: 10), onPressed: () async {
-                        debugPrint('signing in with Google');
-                        final UserCredential userCredential =
-                            await signInWithGoogle();
-                      }),
                     ),
                   ],
                 ),
