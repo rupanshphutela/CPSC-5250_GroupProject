@@ -21,12 +21,12 @@ final routes = [
       return ProfilesPage(email: email);
     },
   ),
-  GoRoute(
-      path: '/add/owner/profile',
-      builder: (context, state) {
-        final String email = state.queryParams['email'].toString();
-        return OwnerProfileForm(email: email);
-      }),
+  // GoRoute(
+  //     path: '/add/owner/profile',
+  //     builder: (context, state) {
+  //       final String email = state.queryParams['email'].toString();
+  //       return OwnerProfileForm(email: email);
+  //     }),
   GoRoute(
     path: '/edit/profile',
     builder: (context, state) {
