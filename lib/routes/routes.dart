@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:the_dig_app/screens/contacts_page.dart';
 import 'package:the_dig_app/screens/incoming_swipes_page.dart';
 import 'package:the_dig_app/screens/owner_profile_form.dart';
+import 'package:the_dig_app/screens/profile_page.dart';
 import 'package:the_dig_app/screens/swipes_page.dart';
 import '../screens/profiles_page.dart';
 import '../screens/chat.dart';
@@ -26,6 +27,13 @@ final routes = [
         final String email = state.queryParams['email'].toString();
         return OwnerProfileForm(email: email);
       }),
+  GoRoute(
+    path: '/edit/profile',
+    builder: (context, state) {
+        final String email = state.queryParams['email'].toString();
+        return ProfilePage(email: email);
+      }
+  ),
   GoRoute(
     path: '/chats',
     builder: (context, state) => Chat(
