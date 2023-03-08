@@ -70,15 +70,8 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
   File? _imageFile;
   bool _isChecked = false;
   DateTime _selectedDate = DateTime.now();
-
-Future createProfile(Profile profile) async {
-    final docUser = FirebaseFirestore.instance
-        .collection("profile")
-        .doc(_ownerfNameController.text);
-    final json = profile.toJson();
-    await docUser.set(json);
-  }
-
+  int profileId = UniqueKey().hashCode;
+  int ownerId = UniqueKey().hashCode;
 
 Future<String?> _selectAndUploadOwnerImage() async {
   final pickedFile = await ImagePicker().getImage(source: ImageSource.gallery);
@@ -86,7 +79,7 @@ Future<String?> _selectAndUploadOwnerImage() async {
 
   final imageFile = File(pickedFile.path);
   final fileName = imageFile.path.split('/').last;
-  final destination = 'images/$fileName';
+  final destination = 'images/$profileId/$ownerId/$fileName';
 
   try {
     await firebase_storage.FirebaseStorage.instance
@@ -108,7 +101,7 @@ Future<String?> _selectAndUploadImage() async {
 
   final imageFile = File(pickedFile.path);
   final fileName = imageFile.path.split('/').last;
-  final destination = 'images/$fileName';
+  final destination = 'images/$profileId/$ownerId/pet/$fileName';
 
   try {
     await firebase_storage.FirebaseStorage.instance
@@ -144,6 +137,7 @@ Future<String?> _selectAndUploadImage() async {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<DigFirebaseProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Your Details"),
@@ -594,8 +588,8 @@ Future<String?> _selectAndUploadImage() async {
                           // form is valid, do something
                          final profile = 
                             Profile(
-                              id: UniqueKey().hashCode, 
-                              ownerId: UniqueKey().hashCode, 
+                              id: profileId, 
+                              ownerId: ownerId, 
                               ownerfName: _ownerfNameController.text, 
                               ownerlName: _ownerlNameController.text, 
                               email: widget.email, 
@@ -613,6 +607,7 @@ Future<String?> _selectAndUploadImage() async {
                               joiningDate: DateTime.now().toString(), 
                               size: _sizeController.text,
                             );
+                            provider.createProfile(profile, _ownerfNameController.text);
                         }
                       },
                       child: const Text('Submit'),
