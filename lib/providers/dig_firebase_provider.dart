@@ -306,27 +306,13 @@ class DigFirebaseProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  addOwnerProfile(Owner ownerObject) async {
-    Owner owner = Owner(
-        id: ownerObject.id,
-        fName: ownerObject.fName,
-        lName: ownerObject.lName,
-        phone: ownerObject.phone,
-        email: ownerObject.email,
-        city: ownerObject.city,
-        picture: ownerObject.picture);
-
-    Map<String, dynamic> dataToSave = owner.toJson(owner);
-
-    await FirebaseFirestore.instance
-        .collection("owner_profile")
-        .add(dataToSave);
-  }
-
-  Future createProfile(Profile profile, String ownerfName) async {
+  ///Sign Up/Login Start
+  Future createProfile(Profile profile, String profileId) async {
     final docUser =
-        FirebaseFirestore.instance.collection("profile").doc(ownerfName);
+        FirebaseFirestore.instance.collection("profile").doc(profileId);
     final json = profile.toJson();
     await docUser.set(json);
   }
+
+  ///Sign Up/Login End
 }
