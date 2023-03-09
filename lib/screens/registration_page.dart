@@ -124,12 +124,63 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 child: Column(
                   children: <Widget>[
                     const Padding(
-                      padding: EdgeInsets.only(top: 15),
+                      padding: EdgeInsets.only(top: 25, bottom: 25),
+                      child: Text(
+                        'Your Credentials',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            fontSize: 24),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    TextFormField(
+                      maxLines: 1,
+                      maxLength: 40,
+                      controller: _emailController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(40)],
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your Email address';
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0))),
+                        labelText: 'Email address',
+                        hintText: 'Enter Email address',
+                      ),
+                    ),
+                    TextFormField(
+                      obscureText: true,
+                      maxLines: 1,
+                      maxLength: 15,
+                      controller: _passwordController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(15)],
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please choose a password';
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0))),
+                        labelText: 'Choose a Password',
+                        hintText: 'Enter Password',
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 25, bottom: 25),
                       child: Text(
                         'About our furry friend',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic),
+                            fontStyle: FontStyle.italic,
+                            fontSize: 24),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -153,6 +204,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               return null;
                             },
                             decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.0))),
                               labelText: 'First Name',
                               hintText: 'Enter First Name',
                             ),
@@ -175,6 +229,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               return null;
                             },
                             decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.0))),
                               labelText: 'Last Name',
                               hintText: 'Enter Last Name',
                             ),
@@ -204,6 +261,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               return null;
                             },
                             decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.0))),
                               labelText: 'Color',
                               hintText: 'Enter Color',
                             ),
@@ -226,6 +286,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               return null;
                             },
                             decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.0))),
                               labelText: 'Breed',
                               hintText: 'Enter Breed',
                             ),
@@ -258,6 +321,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               _genderController.text = value as String;
                             },
                             decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.0))),
                               labelText: 'Gender',
                               hintText: 'Enter Gender',
                             ),
@@ -276,6 +342,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                       .format(_selectedDate),
                             ),
                             decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.0))),
                               labelText: 'Registration Date',
                               hintText: 'Enter Registration Date',
                             ),
@@ -285,6 +354,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             width: (MediaQuery.of(context).size.width) * 0.02),
                       ],
                     ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 15),
+                    ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -292,7 +364,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       children: <Widget>[
                         Flexible(
                           child: CheckboxListTile(
-                            contentPadding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: const BorderSide(color: Colors.black),
+                            ),
+                            contentPadding:
+                                const EdgeInsets.only(top: 2.5, bottom: 2.5),
                             title: const Text('Is Vaccinated?'),
                             value: _isVaccinated,
                             onChanged: (isVaccinated) {
@@ -322,6 +399,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               _sizeController.text = value as String;
                             },
                             decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.0))),
                               labelText: 'Size',
                               hintText: 'Enter Size',
                             ),
@@ -332,12 +412,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ],
                     ),
                     const Padding(
-                      padding: EdgeInsets.only(top: 25),
+                      padding: EdgeInsets.only(top: 25, bottom: 25),
                       child: Text(
                         'About the owner',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic),
+                            fontStyle: FontStyle.italic,
+                            fontSize: 24),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -361,6 +442,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               return null;
                             },
                             decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.0))),
                               labelText: 'Owner\'s First Name',
                               hintText: 'Enter Owner\'s First Name',
                             ),
@@ -383,6 +467,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               return null;
                             },
                             decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.0))),
                               labelText: 'Owner\'s Last Name',
                               hintText: 'Enter Owner\'s Last Name',
                             ),
@@ -392,55 +479,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             width: (MediaQuery.of(context).size.width) * 0.02),
                       ],
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 25),
-                      child: Text(
-                        'Your Credentials',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    TextFormField(
-                      maxLines: 1,
-                      maxLength: 40,
-                      controller: _emailController,
-                      inputFormatters: [LengthLimitingTextInputFormatter(40)],
-                      validator: (String? value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your Email address';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        labelText: 'Email address',
-                        hintText: 'Enter Email address',
-                      ),
-                    ),
-                    TextFormField(
-                      obscureText: true,
-                      maxLines: 1,
-                      maxLength: 15,
-                      controller: _passwordController,
-                      inputFormatters: [LengthLimitingTextInputFormatter(15)],
-                      validator: (String? value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please choose a password';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        labelText: 'Password',
-                        hintText: 'Enter Password',
-                      ),
-                    ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 14.0, vertical: 14.0),
+                padding: const EdgeInsets.symmetric(horizontal: 14.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -455,7 +498,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   _register();
-                                  context.pop();
                                 }
                               },
                               style: ElevatedButton.styleFrom(
