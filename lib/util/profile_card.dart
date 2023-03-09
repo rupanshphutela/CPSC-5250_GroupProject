@@ -21,8 +21,10 @@ class ProfileCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           image: DecorationImage(
-            image: AssetImage(card.profilePicture),
-            fit: BoxFit.cover,
+            image: AssetImage(card.profilePicture == ""
+                ? "assets/images/sample_image.jpg"
+                : card.profilePicture),
+            fit: BoxFit.fitWidth,
           ),
         ),
         child: Container(

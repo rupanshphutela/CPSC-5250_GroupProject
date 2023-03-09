@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:go_router/go_router.dart';
+import 'package:the_dig_app/screens/owner_profile_form.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({super.key, required this.email});
@@ -40,14 +42,26 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: const Text('Image List'),
       ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        children: List.generate(_imageUrls.length, (index) {
-          return Center(
-            child: Image.network(_imageUrls[index]),
-          );
-        }),
-      ),
+      body: Column(
+        children: [
+           Expanded(
+            child: 
+              GridView.count(
+              crossAxisCount: 2,
+              children: List.generate(_imageUrls.length, (index) {
+                return Center(
+                  child: Image.network(_imageUrls[index]),
+                );
+              }),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () 
+             { 
+               context.push("/add/owner/profile?email=${widget.email}");
+             },
+          child: const Text("Edit Profile")),
+        ]),
     );
   }
 }
