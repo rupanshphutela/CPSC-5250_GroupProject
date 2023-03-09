@@ -76,7 +76,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ownerprofilePicture: "",
                 fName: _fNameController.text,
                 lName: _lNameController.text,
-                profilePicture: "",
+                profilePicture: "assets/images/sample_image.jpg",
                 gender: _genderController.text,
                 breed: _breedController.text,
                 color: _colorController.text,
