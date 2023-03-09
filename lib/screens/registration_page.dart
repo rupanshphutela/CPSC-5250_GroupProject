@@ -64,27 +64,39 @@ class _RegistrationPageState extends State<RegistrationPage> {
               email: _emailController.text, password: _passwordController.text);
       if (credentials.user != null && !credentials.user!.emailVerified) {
         credentials.user!.sendEmailVerification();
-        provider.createProfile(
-            Profile(
-                id: userId,
-                ownerId: ownerId,
-                ownerfName: _ownerFNameController.text,
-                ownerlName: _ownerLNameController.text,
-                email: _emailController.text,
-                phone: 0,
-                city: "",
-                ownerprofilePicture: "",
-                fName: _fNameController.text,
-                lName: _lNameController.text,
-                profilePicture: "assets/images/sample_image.jpg",
-                gender: _genderController.text,
-                breed: _breedController.text,
-                color: _colorController.text,
-                isVaccinated: _isVaccinated,
-                registrationDate: _registrationDateController.text,
-                joiningDate: DateTime.now().toString(),
-                size: _sizeController.text),
-            userId.toString());
+        await provider
+            .createProfile(
+                Profile(
+                    id: userId,
+                    ownerId: ownerId,
+                    ownerfName: _ownerFNameController.text,
+                    ownerlName: _ownerLNameController.text,
+                    email: _emailController.text,
+                    phone: 0,
+                    city: "",
+                    ownerprofilePicture: "",
+                    fName: _fNameController.text,
+                    lName: _lNameController.text,
+                    profilePicture: "assets/images/sample_image.jpg",
+                    gender: _genderController.text,
+                    breed: _breedController.text,
+                    color: _colorController.text,
+                    isVaccinated: _isVaccinated,
+                    registrationDate: _registrationDateController.text,
+                    joiningDate: DateTime.now().toString(),
+                    size: _sizeController.text),
+                userId.toString())
+            .then((value) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                      'User with email ${_emailController.text} is created successfully')));
+            })
+            .then((value) => provider.checkFirebaseAuth())
+            .then((value) =>
+                context.push('/profiles?email=${_emailController.text}'))
+            .catchError((error) {
+              debugPrint('Update failed: $error');
+            });
       }
     } on FirebaseAuthException catch (e) {
       setState(() => {_errorMessage = _registrationErrorMessage(e.code)});
