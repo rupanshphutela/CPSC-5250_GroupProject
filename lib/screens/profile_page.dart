@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:the_dig_app/providers/dig_firebase_provider.dart';
+import 'package:the_dig_app/screens/login_page.dart';
 import 'package:the_dig_app/screens/owner_profile_form.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -36,17 +39,17 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Image List'),
-      ),
-      body: Column(
-        children: [
-           Expanded(
-            child: 
-              GridView.count(
+    final provider = Provider.of<DigFirebaseProvider>(context);
+    bool isLoggedIn = provider.isLoggedIn;
+    if (isLoggedIn) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Image List'),
+        ),
+        body: Column(children: [
+          Expanded(
+            child: GridView.count(
               crossAxisCount: 2,
               children: List.generate(_imageUrls.length, (index) {
                 return Center(
@@ -56,12 +59,16 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           ElevatedButton(
-            onPressed: () 
-             { 
-               context.push("/add/owner/profile?email=${widget.email}");
-             },
-          child: const Text("Edit Profile")),
+              onPressed: () {
+                context.push("/add/owner/profile?email=${widget.email}");
+              },
+              child: const Text("Edit Profile")),
         ]),
-    );
+      );
+    } else {
+      const CircularProgressIndicator();
+
+      return const LoginScreen();
+    }
   }
 }

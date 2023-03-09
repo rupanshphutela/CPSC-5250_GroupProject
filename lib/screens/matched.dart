@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_dig_app/screens/login_page.dart';
 import 'package:the_dig_app/util/bottom_navigation_bar.dart';
 import 'chat.dart';
 import 'package:the_dig_app/providers/dig_firebase_provider.dart';
@@ -53,46 +54,54 @@ class Matched extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 42.0,
-            horizontal: 18.0,
-          ),
-          margin: const EdgeInsets.only(bottom: 40),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+    final provider = Provider.of<DigFirebaseProvider>(context);
+    bool isLoggedIn = provider.isLoggedIn;
+    if (isLoggedIn) {
+      return Scaffold(
+        body: SafeArea(
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: 42.0,
+              horizontal: 18.0,
+            ),
+            margin: const EdgeInsets.only(bottom: 40),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      // profilePicture,
+                      // otherProfilePicture,
+                    ],
+                  ),
+                ),
+                Column(
                   children: [
-                    // profilePicture,
-                    // otherProfilePicture,
+                    ElevatedButton(
+                        onPressed: () {
+                          sendMessagePressed(context);
+                        },
+                        child: const Text('SEND MESSAGE')),
+                    ElevatedButton(
+                      onPressed: () {
+                        keepSwipingPressed(context);
+                      },
+                      child: const Text('KEEP SWIPING'),
+                    ),
                   ],
                 ),
-              ),
-              Column(
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        sendMessagePressed(context);
-                      },
-                      child: const Text('SEND MESSAGE')),
-                  ElevatedButton(
-                    onPressed: () {
-                      keepSwipingPressed(context);
-                    },
-                    child: const Text('KEEP SWIPING'),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-      bottomNavigationBar: DigBottomNavBar(email: email),
-    );
+        bottomNavigationBar: DigBottomNavBar(email: email),
+      );
+    } else {
+      const CircularProgressIndicator();
+
+      return const LoginScreen();
+    }
   }
 }
