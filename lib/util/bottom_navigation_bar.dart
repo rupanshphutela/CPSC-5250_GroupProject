@@ -47,7 +47,8 @@ class DigBottomNavBar extends StatelessWidget {
         var route = ModalRoute.of(context);
         if (route?.settings.name != '/profiles' && index == 0) {
           context.push('/profiles?email=$email');
-        } else if (index == 1) {
+        } else if (route?.settings.name != '/contacts' && index == 1) {
+          context.push('/contacts?email=$email');
         } else if (route?.settings.name != '/edit/profile' && index == 2){
             context.push('/edit/profile?email=$email');
         // } else if (route?.settings.name != '/add/owner/profile' && index == 2) {

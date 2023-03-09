@@ -40,12 +40,17 @@ final routes = [
       }),
   GoRoute(
     path: '/chats',
-    builder: (context, state) => Chat(
-      chatId: '',
-      otherUserId: '',
-      userId: '',
-      email: '',
-    ),
+    builder: (context, state) {
+      final String email = state.queryParams['email'].toString();
+      return ContactsPage(email: email);
+    },
+    // path: '/chats',
+    // builder: (context, state) => Chat(
+    //   chatId: '',
+    //   otherUserId: '',
+    //   userId: '',
+    //   email: '',
+    // ),
   ),
   GoRoute(
     path: '/settings',

@@ -13,7 +13,7 @@ class Chat extends StatelessWidget {
   // static const List<Widget> _widgetOptions = <Widget>[
   // ];
 
-  final ScrollController _scrollController = new ScrollController();
+  final ScrollController _scrollController = ScrollController();
   final messageTextController = TextEditingController();
   static const String id = 'chat';
 
@@ -32,43 +32,17 @@ class Chat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final provider = Provider.of<DigFirebaseProvider>(context);
-    // List<Contact>? contacts = provider.contacts.toList();
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Icon(Icons.pets_outlined),
       ),
-      body: Container(
-        child: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('users').snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              return ListView.builder(
-                padding: const EdgeInsets.all(10.0),
-                itemCount: snapshot.data?.docs.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text('Contact name'),
-                    subtitle: Text('Dog name'),
-                    trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.message)),
-                  );
-                },
-              );
-            }
-          },
-        ),
-      ),
-      // const Center(
-      //     child: Text(
-      //   'To be done later...',
-      //   style: optionStyle,
-      // )),
+      body: const Center(
+          child: Text(
+            'To be done later...',
+            style: optionStyle,
+          )),
       bottomNavigationBar: DigBottomNavBar(email: email),
     );
   }
