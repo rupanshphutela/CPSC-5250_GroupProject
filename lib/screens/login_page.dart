@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
+import 'package:the_dig_app/providers/dig_firebase_provider.dart';
 import 'package:the_dig_app/screens/profiles_page.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -21,19 +22,6 @@ class _LoginScreen extends State<LoginScreen> {
 
   StreamSubscription<User?>? _authSubscription;
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: <String>['email', 'profile'],
-  );
-  bool _isLoggedIn = false;
-
-  @override
-  initState() {
-    super.initState();
-    _authSubscription = FirebaseAuth.instance.authStateChanges().listen((user) {
-      setState(() => {_isLoggedIn = user != null});
-    });
-  }
-
   @override
   void dispose() {
     super.dispose();
@@ -44,6 +32,8 @@ class _LoginScreen extends State<LoginScreen> {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: _email!, password: _password!);
+      final provider = Provider.of<DigFirebaseProvider>(context, listen: false);
+      provider.checkFirebaseAuth();
     } on FirebaseAuthException catch (e) {
       setState(() =>
           {_errorMessage = 'Incorrect email or password, error detail: $e'});
@@ -53,7 +43,9 @@ class _LoginScreen extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final disableButtons = _email == null || _password == null;
-    if (!_isLoggedIn) {
+    final provider = Provider.of<DigFirebaseProvider>(context);
+    bool isLoggedIn = provider.isLoggedIn;
+    if (!isLoggedIn) {
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -61,11 +53,10 @@ class _LoginScreen extends State<LoginScreen> {
             Icons.pets_outlined,
           ),
           actions: [
-            if (_isLoggedIn)
+            if (isLoggedIn)
               IconButton(
                   onPressed: () {
                     FirebaseAuth.instance.signOut();
-                    _googleSignIn.signOut();
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(
                             'User: ${FirebaseAuth.instance.currentUser!.email} logged out')));
