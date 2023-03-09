@@ -24,7 +24,25 @@ class SettingsPage extends StatelessWidget {
         body: SettingsList(
           sections: [
             SettingsSection(
-              title: const Text('My Activities'),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Welcome, ${FirebaseAuth.instance.currentUser!.email.toString()}',
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w200,
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                    ],
+                  ),
+                  const Padding(padding: EdgeInsets.only(top: 24)),
+                  const Text('My Activities'),
+                ],
+              ),
               tiles: [
                 SettingsTile(
                   title: const Text('Left Swipes'),
