@@ -71,51 +71,49 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
   int profileId = UniqueKey().hashCode;
   int ownerId = UniqueKey().hashCode;
 
-  Future<String?> _selectAndUploadOwnerImage() async {
-    final pickedFile =
-        await ImagePicker().getImage(source: ImageSource.gallery);
-    if (pickedFile == null) return null;
+Future<String?> _selectAndUploadOwnerImage() async {
+  final pickedFile = await ImagePicker().getImage(source: ImageSource.gallery);
+  if (pickedFile == null) return null;
 
-    final imageFile = File(pickedFile.path);
-    final fileName = imageFile.path.split('/').last;
-    final destination = 'images/$profileId/$ownerId/$fileName';
+  final imageFile = File(pickedFile.path);
+  final fileName = '${profileId}_owner.jpg';
+  final destination = 'images/$profileId/$fileName';
 
-    try {
-      await firebase_storage.FirebaseStorage.instance
-          .ref(destination)
-          .putFile(imageFile);
-      final url = await firebase_storage.FirebaseStorage.instance
-          .ref(destination)
-          .getDownloadURL();
-      return url;
-    } catch (e) {
-      print(e);
-      return null;
-    }
+  try {
+    await firebase_storage.FirebaseStorage.instance
+        .ref(destination)
+        .putFile(imageFile);
+    final url = await firebase_storage.FirebaseStorage.instance
+        .ref(destination)
+        .getDownloadURL();
+    return url;
+  } catch (e) {
+    print(e);
+    return null;
   }
+}
 
-  Future<String?> _selectAndUploadImage() async {
-    final pickedFile =
-        await ImagePicker().getImage(source: ImageSource.gallery);
-    if (pickedFile == null) return null;
+Future<String?> _selectAndUploadImage() async {
+  final pickedFile = await ImagePicker().getImage(source: ImageSource.gallery);
+  if (pickedFile == null) return null;
 
-    final imageFile = File(pickedFile.path);
-    final fileName = imageFile.path.split('/').last;
-    final destination = 'images/$profileId/$ownerId/pet/$fileName';
+  final imageFile = File(pickedFile.path);
+  final fileName = '${profileId}_profile_${DateTime.now().millisecondsSinceEpoch}.jpg';
+  final destination = 'images/$profileId/$fileName';
 
-    try {
-      await firebase_storage.FirebaseStorage.instance
-          .ref(destination)
-          .putFile(imageFile);
-      final url = await firebase_storage.FirebaseStorage.instance
-          .ref(destination)
-          .getDownloadURL();
-      return url;
-    } catch (e) {
-      print(e);
-      return null;
-    }
+  try {
+    await firebase_storage.FirebaseStorage.instance
+        .ref(destination)
+        .putFile(imageFile);
+    final url = await firebase_storage.FirebaseStorage.instance
+        .ref(destination)
+        .getDownloadURL();
+    return url;
+  } catch (e) {
+    print(e);
+    return null;
   }
+}
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
