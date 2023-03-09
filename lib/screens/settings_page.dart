@@ -37,6 +37,7 @@ class SettingsPage extends StatelessWidget {
                   title: const Text('Right Swipes'),
                   leading: const Icon(Icons.arrow_forward_ios),
                   onPressed: (BuildContext context) {
+                    provider.swipesList.clear();
                     context.push('/swipes?email=$email&direction=right');
                   },
                 ),
@@ -44,6 +45,7 @@ class SettingsPage extends StatelessWidget {
                   title: const Text('Top Swipes'),
                   leading: const Icon(Icons.arrow_upward_outlined),
                   onPressed: (BuildContext context) {
+                    provider.swipesList.clear();
                     context.push('/swipes?email=$email&direction=top');
                   },
                 ),
@@ -51,6 +53,7 @@ class SettingsPage extends StatelessWidget {
                   title: const Text('My Requests'),
                   leading: const Icon(Icons.person_add),
                   onPressed: (BuildContext context) {
+                    provider.incomingSwipesList.clear();
                     context.push('/incoming/swipes?email=$email');
                   },
                 ),
@@ -58,6 +61,7 @@ class SettingsPage extends StatelessWidget {
                   title: const Text('My Contacts'),
                   leading: const Icon(Icons.group),
                   onPressed: (BuildContext context) {
+                    provider.contacts.clear();
                     context.push('/contacts?email=$email');
                   },
                 ),

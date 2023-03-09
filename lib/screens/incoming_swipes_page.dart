@@ -69,6 +69,8 @@ class IncomingSwipesPage extends StatelessWidget {
                                             filteredIncomingSwipesList[index]
                                                 .id,
                                             'Accepted')
+                                        .then((value) =>
+                                            provider.contacts.clear())
                                         .then((value) async =>
                                             await provider.createContact(swipe))
                                         .then((value) => context
