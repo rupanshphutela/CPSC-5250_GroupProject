@@ -36,6 +36,16 @@ class DigFirebaseProvider extends ChangeNotifier {
     });
   }
 
+  onLogout() {
+    _profiles.clear();
+    _cards.clear();
+    _contacts.clear();
+    _profiles.clear();
+    _swipesList.clear();
+    _incomingSwipesList.clear();
+    notifyListeners();
+  }
+
   /// Login End
 
   ///Profiles Page Start
