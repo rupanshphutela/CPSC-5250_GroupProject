@@ -92,10 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   shrinkWrap: true,
                                   itemCount: profileList.length,
                                   itemBuilder: (context, index) {
-                                    return Container(
-                                      height: MediaQuery.of(context).size.height,
-                                      child: SingleChildScrollView(
-                                      child: Card(
+                                    return Card(
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
@@ -184,18 +181,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   title: const Text('Size'),
                                                   subtitle: Text(profileList[index].size),
                                                 ),
-                                                ListTile(
-                                                  leading: const Icon(Icons.rule_rounded),
-                                                  title: const Text('Size'),
-                                                  subtitle: Text(profileList[index].size),
-                                                ),
                                               ],
                                             ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ));
+                                    );
                                 });
                         }
                         else {
