@@ -161,6 +161,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   title: const Text('Size'),
                                                   subtitle: Text(profileList[index].size),
                                                 ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    context.push("/add/owner/profile?email=${widget.email}");
+                                                  },
+                                                  child: const Text("Edit Profile")),
                                               ],
                                             ),
                                           ),
@@ -172,7 +177,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 );
                         }
                         else {
-                          return const Center(child: Text('No personal tasks yet'));
+                          return const Center(child: Text('No profiles yet'));
                         }
                     }
     
