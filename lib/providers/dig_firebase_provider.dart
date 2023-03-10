@@ -325,4 +325,16 @@ class DigFirebaseProvider extends ChangeNotifier {
   }
 
   ///Sign Up/Login End
+  
+  ///Fetching user profile
+  Future<List<Profile>> readProfiles(String email) async {
+    final snapshot = await FirebaseFirestore.instance
+      .collection("profile")
+      .where("email", isEqualTo: email)
+      .get();
+    final profiles = snapshot.docs.map((doc) => Profile.fromJson(doc)).toList();
+    return profiles;
+}
+
+
 }
