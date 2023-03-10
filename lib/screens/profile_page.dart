@@ -111,26 +111,31 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 ),
+                                                const Divider(),
                                                 ListTile(
                                                   leading: const Icon(Icons.person),
                                                   title: const Text('Name'),
                                                   subtitle: Text("${profileList[index].ownerfName} ${profileList[index].ownerlName}"),
                                                 ),
+                                                const Divider(),
                                                 ListTile(
                                                   leading: const Icon(Icons.email),
                                                   title: const Text('Email'),
                                                   subtitle: Text(profileList[index].email),
                                                 ),
+                                                const Divider(),
                                                 ListTile(
                                                   leading: const Icon(Icons.phone),
                                                   title: const Text('Phone'),
                                                   subtitle: Text(profileList[index].phone.toString()),
                                                 ),
+                                                const Divider(),
                                                 ListTile(
                                                   leading: const Icon(Icons.location_city),
                                                   title: const Text('City'),
                                                   subtitle: Text(profileList[index].city),
                                                 ),
+                                                const Divider(),
                                                 const Padding(
                                                   padding: EdgeInsets.only(top: 25, bottom: 25),
                                                   child: Text(
@@ -141,41 +146,49 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 ),
+                                                const Divider(),
                                                 ListTile(
                                                   leading: const Icon(Icons.pets),
                                                   title: const Text('Name'),
                                                   subtitle: Text("${profileList[index].fName} ${profileList[index].lName}"),
                                                 ),
+                                                const Divider(),
                                                 ListTile(
                                                   leading: profileList[index].gender == "male"? const Icon(Icons.male): const Icon(Icons.female),
                                                   title: const Text('Gender'),
                                                   subtitle: Text(profileList[index].gender),
                                                 ),
+                                                const Divider(),
                                                 ListTile(
                                                   leading: const Icon(Icons.pets),
                                                   title: const Text('Breed'),
                                                   subtitle: Text(profileList[index].breed),
                                                 ),
+                                                const Divider(),
                                                 ListTile(
                                                   leading: const Icon(Icons.color_lens),
                                                   title: const Text('Color'),
                                                   subtitle: Text(profileList[index].color),
                                                 ),
+                                                const Divider(),
                                                 ListTile(
                                                   leading: const Icon(Icons.vaccines),
                                                   title: const Text('Vaccinated'),
                                                   subtitle: Text(profileList[index].isVaccinated.toString()),
                                                 ),
+                                                const Divider(),
                                                 ListTile(
                                                   leading: const Icon(Icons.date_range),
                                                   title: const Text('Registration Date'),
                                                   subtitle: Text(profileList[index].registrationDate.toString()),
                                                 ),
+                                                const Divider(),
                                                 ListTile(
                                                   leading: const Icon(Icons.date_range),
                                                   title: const Text('Joining Date'),
                                                   subtitle: Text(profileList[index].joiningDate.toString()),
                                                 ),
+                                                const Divider(),
                                                 ListTile(
                                                   leading: const Icon(Icons.rule_rounded),
                                                   title: const Text('Size'),
