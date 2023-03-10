@@ -42,6 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<DigFirebaseProvider>(context);
@@ -51,7 +52,34 @@ class _ProfilePageState extends State<ProfilePage> {
         appBar: AppBar(
           title: const Text('Profile'),
         ),
-        body: Center(
+        body: SingleChildScrollView(
+          physics: const ScrollPhysics(),
+          child: Column(
+                children: [
+                  Center(
+                    child: FutureBuilder<List<String>>(
+                      future: provider.getImagesFromFirestoreAndStorage(widget.email),
+                      builder: (context, snapshot) {
+                        if(snapshot.hasError) {
+                          return Center(child: Text('${snapshot.error}'),);
+                        } else if(snapshot.hasData  && snapshot.data!.isNotEmpty){
+                          var imageList = snapshot.data as List<String>;
+                          return ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: imageList.length,
+                                  itemBuilder: (context, index) {
+                                    return Center(
+                                      child: Image.network(imageList[index]),
+                                    );
+                                });
+                        }
+                        else {
+                          return const Center(child: Text('No profile Picture yet'));
+                        }
+                    })
+                  ),
+                  Center(
                     child: FutureBuilder<List<Profile>>(
                       future: provider.readProfiles(widget.email),
                       builder: (context, snapshot) {
@@ -161,28 +189,29 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   title: const Text('Size'),
                                                   subtitle: Text(profileList[index].size),
                                                 ),
-                                                ElevatedButton(
-                                                  onPressed: () {
-                                                    context.push("/add/owner/profile?email=${widget.email}");
-                                                  },
-                                                  child: const Text("Edit Profile")),
                                               ],
                                             ),
                                           ),
-                                  ],
-                              ),
-                          ),
-                           ));
-                                  },
-                                );
+                                        ],
+                                      ),
+                                    ),
+                                  ));
+                                });
                         }
                         else {
-                          return const Center(child: Text('No profiles yet'));
+                          return const Center(child: Text('No profile yet'));
                         }
-                    }
-    
+                    }),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      context.push("/add/owner/profile?email=${widget.email}");
+                    },
+                    child: const Text("Edit Profile")
+                  ),
+                  ],
+          ),
         ),
-      ),
         // body: Column(children: [
         //   Expanded(
         //     child: GridView.count(
@@ -208,5 +237,3 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 }
-
- 
