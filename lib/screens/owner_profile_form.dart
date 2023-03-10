@@ -78,8 +78,8 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
     if (pickedFile == null) return null;
 
     final imageFile = File(pickedFile.path);
-    final fileName = '${profileId}_owner.jpg';
-    final destination = 'images/$profileId/$fileName';
+    final fileName = '${ownerId}_owner.jpg';
+    final destination = 'images/$ownerId/$fileName';
 
     try {
       await firebase_storage.FirebaseStorage.instance
@@ -102,7 +102,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
 
     final imageFile = File(pickedFile.path);
     final fileName =
-        '${profileId}_profile_${DateTime.now().millisecondsSinceEpoch}.jpg';
+        '${profileId}_profile.jpg';
     final destination = 'images/$profileId/$fileName';
 
     try {
@@ -612,6 +612,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                               );
                               provider.createProfile(
                                   profile, profileId.toString());
+                              context.pop();
                             }
                           },
                           child: const Text('Submit'),
