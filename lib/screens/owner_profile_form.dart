@@ -71,6 +71,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
   DateTime _selectedDate = DateTime.now();
   int profileId = UniqueKey().hashCode;
   int ownerId = UniqueKey().hashCode;
+  String? ownerfName;
+  final alphabetsPattern = RegExp(r'^[a-zA-Z]+$');
+  final digitsPattern = RegExp(r'^[1-9]|10$');
 
   Future<String?> _selectAndUploadOwnerImage() async {
     final pickedFile =
@@ -139,6 +142,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<DigFirebaseProvider>(context);
+    final profileList = provider.readProfiles(widget.email);
     bool isLoggedIn = provider.isLoggedIn;
     if (isLoggedIn) {
       return Scaffold(
@@ -155,9 +159,14 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
+                child: FutureBuilder<List<Profile>>(
+                future: profileList,
+                builder: (context, snapshot) {
+                if (snapshot.hasData  && snapshot.data!.isNotEmpty) {
+                  var profiles = snapshot.data as List<Profile>;
+                  return Form(
+                    key: _formKey,
+                    child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       const Divider(
@@ -169,12 +178,18 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                       ),
                       const Text("Your Profile"),
                       TextFormField(
-                        controller: _ownerfNameController,
+                        initialValue: profiles[0].ownerfName,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your first name';
                           }
+                          if (!alphabetsPattern.hasMatch(value)) {
+                            return 'Please enter valid first name';
+                          }
                           return null;
+                        },
+                        onChanged: (value) {
+                          ownerfName = value;
                         },
                         decoration: const InputDecoration(
                           labelText: 'Your First Name',
@@ -185,6 +200,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your last name';
+                          }
+                          if (!alphabetsPattern.hasMatch(value)) {
+                            return 'Please enter valid last name';
                           }
                           return null;
                         },
@@ -208,6 +226,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                           if (value == null || value.isEmpty) {
                             return 'Please enter phone number';
                           }
+                          if (!digitsPattern.hasMatch(value)) {
+                            return 'Please enter valid phone number';
+                          }
                           return null;
                         },
                         decoration: const InputDecoration(
@@ -219,6 +240,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your city';
+                          }
+                          if (!alphabetsPattern.hasMatch(value)) {
+                            return 'Please enter valid city';
                           }
                           return null;
                         },
@@ -251,6 +275,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your pets First Name';
                           }
+                          if (!alphabetsPattern.hasMatch(value)) {
+                            return 'Please enter valid first name';
+                          }
                           return null;
                         },
                         decoration: const InputDecoration(
@@ -262,6 +289,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your pets Last Name';
+                          }
+                          if (!alphabetsPattern.hasMatch(value)) {
+                            return 'Please enter valid last name';
                           }
                           return null;
                         },
@@ -290,8 +320,10 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                       TextFormField(
                         controller: _bioController,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your pets Bio';
+                          if (value!.isNotEmpty) {
+                            if (!alphabetsPattern.hasMatch(value)) {
+                              return 'Please enter valid bio';
+                            }
                           }
                           return null;
                         },
@@ -332,6 +364,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your breed';
                           }
+                          if (!alphabetsPattern.hasMatch(value)) {
+                            return 'Please enter valid breed name';
+                          }
                           return null;
                         },
                         decoration: const InputDecoration(
@@ -343,6 +378,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your pets color';
+                          }
+                          if (!alphabetsPattern.hasMatch(value)) {
+                            return 'Please enter valid color';
                           }
                           return null;
                         },
@@ -409,6 +447,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your pets size';
                           }
+                          if (!alphabetsPattern.hasMatch(value)) {
+                            return 'Please enter valid size';
+                          }
                           return null;
                         },
                         decoration: const InputDecoration(
@@ -426,22 +467,36 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                       TextFormField(
                         key: const ValueKey("socialHumans"),
                         maxLines: 1,
-                        maxLength: 20,
+                        maxLength: 2,
                         controller: _socialHumansController,
                         inputFormatters: [LengthLimitingTextInputFormatter(20)],
                         decoration: const InputDecoration(
                           labelText: 'Rate for Socializing with humans',
                         ),
+                        validator: (value) {
+                          if (value!.isNotEmpty) {
+                            if (!digitsPattern.hasMatch(value)) {
+                              return 'Please enter only digits between 1 to 10';
+                            }
+                          }
+                        },
                       ),
                       TextFormField(
                         key: const ValueKey("socialDogs"),
                         maxLines: 1,
-                        maxLength: 20,
+                        maxLength: 2,
                         controller: _socialDogsController,
                         inputFormatters: [LengthLimitingTextInputFormatter(20)],
                         decoration: const InputDecoration(
                           labelText: 'Rate for Socializing with dogs',
                         ),
+                         validator: (value) {
+                          if (value!.isNotEmpty) {
+                            if (!digitsPattern.hasMatch(value)) {
+                              return 'Please enter only digits between 1 to 10';
+                            }
+                          }
+                        },
                       ),
                       DropdownButtonFormField(
                         key: const ValueKey("aggressionDropDown"),
@@ -514,17 +569,31 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         decoration: const InputDecoration(
                           labelText: 'Favorite Food',
                         ),
+                        validator: (value) {
+                          if (value!.isNotEmpty) {
+                            if (!alphabetsPattern.hasMatch(value)) {
+                              return 'Please enter valid food';
+                            }
+                          }
+                        },
                       ),
                       TextFormField(
                         key: const ValueKey(
                             "Rate the food liking on scale of 10"),
                         maxLines: 1,
-                        maxLength: 20,
+                        maxLength: 2,
                         controller: _favoriteFoodRatingController,
                         inputFormatters: [LengthLimitingTextInputFormatter(20)],
                         decoration: const InputDecoration(
                           labelText: 'Favorite Food Rate',
                         ),
+                        validator: (value) {
+                          if (value!.isNotEmpty) {
+                            if (!digitsPattern.hasMatch(value)) {
+                              return 'Please enter only digits between 1 to 10';
+                            }
+                          }
+                        },
                       ),
                       const Divider(
                         color: Colors.black,
@@ -543,17 +612,31 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         decoration: const InputDecoration(
                           labelText: 'Favorite Activity',
                         ),
+                        validator: (value) {
+                          if (value!.isNotEmpty) {
+                            if (!alphabetsPattern.hasMatch(value)) {
+                                return 'Please enter valid activity';
+                              }
+                          }
+                        },
                       ),
                       TextFormField(
                         key: const ValueKey(
                             "Rate the activity liking on scale of 10"),
                         maxLines: 1,
-                        maxLength: 20,
+                        maxLength: 2,
                         controller: _favoriteActivityRatingController,
                         inputFormatters: [LengthLimitingTextInputFormatter(20)],
                         decoration: const InputDecoration(
                           labelText: 'Favorite Activity Rate',
                         ),
+                        validator: (value) {
+                          if (value!.isNotEmpty) {
+                            if (!digitsPattern.hasMatch(value)) {
+                              return 'Please enter only digits between 1 to 10';
+                            }
+                          }
+                        },
                       ),
                       const Divider(
                         color: Colors.black,
@@ -572,6 +655,13 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         decoration: const InputDecoration(
                           labelText: 'Skill Name',
                         ),
+                        validator: (value) {
+                          if (value!.isNotEmpty) {
+                            if (!alphabetsPattern.hasMatch(value)) {
+                                return 'Please enter valid skill';
+                              }
+                          }  
+                        },
                       ),
                       TextFormField(
                         key: const ValueKey("skillProficiency"),
@@ -582,6 +672,13 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         decoration: const InputDecoration(
                           labelText: 'Skill Proficiency',
                         ),
+                        validator: (value) {
+                          if (value!.isNotEmpty) {
+                            if (!alphabetsPattern.hasMatch(value)) {
+                                return 'Please enter valid proficiency';
+                              }
+                          }
+                        },
                       ),
                       const SizedBox(height: 20),
                       Center(
@@ -620,7 +717,14 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                       ),
                     ],
                   ),
-                ),
+                );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    ),
               ),
             ],
           ),
