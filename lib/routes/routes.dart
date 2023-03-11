@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:the_dig_app/screens/chat_screen.dart';
 import 'package:the_dig_app/screens/contacts_page.dart';
 import 'package:the_dig_app/screens/incoming_swipes_page.dart';
 import 'package:the_dig_app/screens/owner_profile_form.dart';
@@ -79,6 +80,14 @@ final routes = [
     builder: (context, state) {
       final String email = state.queryParams['email'].toString();
       return ContactsPage(email: email);
+    },
+  ),
+  GoRoute(
+    path: '/chat_screen',
+    builder: (context, state) {
+      final String destinationId = state.queryParams['destinationId'].toString();
+      final String profileId = state.queryParams['profileId'].toString();
+      return Chat_Screen(destinationId: destinationId, profileId: profileId);
     },
   ),
 ];

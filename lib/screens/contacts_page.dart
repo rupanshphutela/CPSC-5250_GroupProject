@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:the_dig_app/models/contact.dart';
 import 'package:the_dig_app/providers/dig_firebase_provider.dart';
@@ -49,7 +50,9 @@ class ContactsPage extends StatelessWidget {
                           backgroundColor: Colors.brown,
                           child: IconButton(
                             icon: const Icon(Icons.chat),
-                            onPressed: () {},
+                            onPressed: () {
+                              context.push('/chat_screen?destinationId=${contacts[index].destinationProfileId}&profileId=${contacts[index].profileId}');
+                            },
                           ),
                         ),
                       );
