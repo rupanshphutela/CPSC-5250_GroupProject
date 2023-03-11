@@ -66,27 +66,65 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
                 children: [
                   Center(
-                    child: FutureBuilder<List<String>>(
-                      future: provider.getImagesFromFirestoreAndStorage(widget.email),
-                      builder: (context, snapshot) {
-                        if(snapshot.hasError) {
-                          return Center(child: Text('${snapshot.error}'),);
-                        } else if(snapshot.hasData  && snapshot.data!.isNotEmpty){
-                          var imageList = snapshot.data as List<String>;
-                          return ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: imageList.length,
-                                  itemBuilder: (context, index) {
-                                    return Center(
-                                      child: Image.network(imageList[index]),
-                                    );
-                                });
-                        }
-                        else {
-                          return const Center(child: Text('No profile Picture yet'));
-                        }
-                    })
+                    child: FutureBuilder<String>(
+                    future: provider.getImagesFromFirestoreAndStorage(widget.email),
+                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+                        final imageUrl = snapshot.data!;
+                        return Stack(
+                          children: [
+                            CircleAvatar(
+                              radius: 150,
+                              backgroundImage: NetworkImage(imageUrl),
+                            ),
+                            Positioned(
+                              top: 250,
+                              right: 42,
+                              child: InkWell(
+                                onTap: () {
+                                  // handle edit button tap
+                                },
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.teal,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  padding: const EdgeInsets.all(8),
+                                  child: const Icon(
+                                    Icons.camera_alt,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    },
+                  )
+                    // child: FutureBuilder<List<String>>(
+                    //   future: provider.getImagesFromFirestoreAndStorage(widget.email),
+                    //   builder: (context, snapshot) {
+                    //     if(snapshot.hasError) {
+                    //       return Center(child: Text('${snapshot.error}'),);
+                    //     } else if(snapshot.hasData  && snapshot.data!.isNotEmpty){
+                    //       var imageList = snapshot.data as List<String>;
+                    //       return ListView.builder(
+                    //               physics: const NeverScrollableScrollPhysics(),
+                    //               shrinkWrap: true,
+                    //               itemCount: imageList.length,
+                    //               itemBuilder: (context, index) {
+                    //                 return Center(
+                    //                   child: Image.network(imageList[index]),
+                    //                 );
+                    //             });
+                    //     }
+                    //     else {
+                    //       return const Center(child: Text('No profile Picture yet'));
+                    //     }
+                    // })
                   ),
                   Center(
                     child: FutureBuilder<List<Profile>>(
