@@ -45,6 +45,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _lNameController = TextEditingController();
   final TextEditingController _ownerFNameController = TextEditingController();
   final TextEditingController _ownerLNameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _colorController = TextEditingController();
@@ -72,8 +74,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ownerfName: _ownerFNameController.text,
                     ownerlName: _ownerLNameController.text,
                     email: _emailController.text,
-                    phone: 0,
-                    city: "",
+                    phone: int.parse(_phoneController.text),
+                    city: _cityController.text,
                     ownerprofilePicture: "",
                     fName: _fNameController.text,
                     lName: _lNameController.text,
@@ -449,7 +451,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             ],
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter your First Name';
+                                return 'Please enter First Name';
                               }
                               return null;
                             },
@@ -457,8 +459,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               enabledBorder: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(12.0))),
-                              labelText: 'Owner\'s First Name',
-                              hintText: 'Enter Owner\'s First Name',
+                              labelText: ' First Name',
+                              hintText: 'Enter First Name',
                             ),
                           ),
                         ),
@@ -474,7 +476,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             ],
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter your Last Name';
+                                return 'Please enter Last Name';
                               }
                               return null;
                             },
@@ -482,8 +484,66 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               enabledBorder: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(12.0))),
-                              labelText: 'Owner\'s Last Name',
-                              hintText: 'Enter Owner\'s Last Name',
+                              labelText: 'Last Name',
+                              hintText: 'Enter Last Name',
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                            width: (MediaQuery.of(context).size.width) * 0.02),
+                      ],
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Flexible(
+                          child: TextFormField(
+                            maxLines: 1,
+                            maxLength: 20,
+                            controller: _cityController,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(20),
+                            ],
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter City Name';
+                              }
+                              return null;
+                            },
+                            decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.0))),
+                              labelText: 'City',
+                              hintText: 'Enter City',
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                            width: (MediaQuery.of(context).size.width) * 0.02),
+                        Flexible(
+                          child: TextFormField(
+                            maxLines: 1,
+                            maxLength: 10,
+                            controller: _phoneController,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(10),
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter Phone Number';
+                              }
+                              return null;
+                            },
+                            decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.0))),
+                              labelText: 'Phone Number',
+                              hintText: 'Enter Phone Number',
                             ),
                           ),
                         ),
