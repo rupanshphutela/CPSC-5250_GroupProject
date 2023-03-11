@@ -71,8 +71,6 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
   String? _ownerImagePath;
   bool _isChecked = false;
   DateTime _selectedDate = DateTime.now();
-  int profileId = UniqueKey().hashCode;
-  int ownerId = UniqueKey().hashCode;
   String? ownerfName;
   String? ownerlName;
   int? phone;
@@ -95,40 +93,13 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
   final alphabetsPattern = RegExp(r'^[a-zA-Z]+$');
   final digitsPattern = RegExp(r'^[1-9]|10$');
 
-  Future<String?> _selectAndUploadOwnerImage() async {
+  Future<String?> _selectAndUploadImage(int profileId) async {
     final pickedFile =
         await ImagePicker().getImage(source: ImageSource.gallery);
     if (pickedFile == null) return null;
 
     final imageFile = File(pickedFile.path);
-    final fileName = '${ownerId}_owner.jpg';
-    final destination = 'images/$ownerId/$fileName';
-
-    try {
-      await firebase_storage.FirebaseStorage.instance
-          .ref(destination)
-          .putFile(imageFile);
-      final url = await firebase_storage.FirebaseStorage.instance
-          .ref(destination)
-          .getDownloadURL();
-      setState(() {
-        _ownerImagePath = destination;
-      });
-      return url;
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
-
-  Future<String?> _selectAndUploadImage() async {
-    final pickedFile =
-        await ImagePicker().getImage(source: ImageSource.gallery);
-    if (pickedFile == null) return null;
-
-    final imageFile = File(pickedFile.path);
-    final fileName =
-        '${profileId}_profile.jpg';
+    final fileName = '${profileId}_profile.jpg';
     final destination = 'images/$profileId/$fileName';
 
     try {
@@ -140,6 +111,17 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
           .getDownloadURL();
       setState(() {
         _imagePath = destination;
+      });
+      //update profile picture path in firestore profile doc
+      final DocumentReference documentReference = FirebaseFirestore.instance
+          .collection('profile')
+          .doc(profileId.toString());
+      await documentReference.update({
+        'profilePicture': url,
+      }).then((value) {
+        debugPrint('Update picture to main profile successful');
+      }).catchError((error) {
+        debugPrint('Update failed: $error');
       });
       return url;
     } catch (e) {
@@ -286,16 +268,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                           city = value;
                         },
                       ),
-                      ElevatedButton(
-                        onPressed: _selectAndUploadOwnerImage,
-                        child: const Text('Upload Picture'),
-                      ),
                       const SizedBox(height: 16.0),
-                      if(_ownerImagePath != null)
-                        Text(
-                          'Uploaded Image: ${_ownerImagePath?.split('/').last ?? ''}',
-                          style: const TextStyle(fontSize: 16),
-                        ),
                       const Divider(
                         color: Colors.black,
                         height: 25,
@@ -341,7 +314,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         },
                       ),
                       ElevatedButton(
-                        onPressed: _selectAndUploadImage,
+                        onPressed: (){
+                          _selectAndUploadImage(profiles[0].id);
+                          },
                         child: const Text('Upload Pets Picture'),
                       ),
                       const SizedBox(height: 16.0),
@@ -839,7 +814,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
       },
     ),
