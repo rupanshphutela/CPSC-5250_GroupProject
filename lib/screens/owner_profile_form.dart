@@ -67,6 +67,8 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
   bool? isVaccinated = false;
   String sterilization = "Spayed";
   File? _imageFile;
+  String? _imagePath;
+  String? _ownerImagePath;
   bool _isChecked = false;
   DateTime _selectedDate = DateTime.now();
   int profileId = UniqueKey().hashCode;
@@ -109,6 +111,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
       final url = await firebase_storage.FirebaseStorage.instance
           .ref(destination)
           .getDownloadURL();
+      setState(() {
+        _ownerImagePath = destination;
+      });
       return url;
     } catch (e) {
       print(e);
@@ -133,6 +138,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
       final url = await firebase_storage.FirebaseStorage.instance
           .ref(destination)
           .getDownloadURL();
+      setState(() {
+        _imagePath = destination;
+      });
       return url;
     } catch (e) {
       print(e);
@@ -282,12 +290,11 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         child: const Text('Upload Picture'),
                       ),
                       const SizedBox(height: 16.0),
-                      TextFormField(
-                        controller: _ownerpictureController,
-                        decoration: const InputDecoration(
-                          labelText: 'Selected File',
+                      if(_ownerImagePath != null)
+                        Text(
+                          'Uploaded Image: ${_ownerImagePath?.split('/').last ?? ''}',
+                          style: const TextStyle(fontSize: 16),
                         ),
-                      ),
                       const Divider(
                         color: Colors.black,
                         height: 25,
@@ -337,12 +344,11 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         child: const Text('Upload Pets Picture'),
                       ),
                       const SizedBox(height: 16.0),
-                      TextFormField(
-                        controller: _ownerpictureController,
-                        decoration: const InputDecoration(
-                          labelText: 'Selected File',
+                      if (_imagePath != null)
+                        Text(
+                          'Uploaded Image: ${_imagePath?.split('/').last ?? ''}',
+                          style: const TextStyle(fontSize: 16),
                         ),
-                      ),
                       const Divider(
                         color: Colors.black,
                         height: 25,
