@@ -51,6 +51,15 @@ class _ProfilePageState extends State<ProfilePage> {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Profile'),
+          actions: [
+              IconButton(
+                onPressed: () {
+                  provider.readProfiles(widget.email);
+                  context.push("/add/owner/profile?email=${widget.email}");
+                },
+                icon: const Icon(Icons.edit),
+              ),
+            ],
         ),
         body: SingleChildScrollView(
           physics: const ScrollPhysics(),
