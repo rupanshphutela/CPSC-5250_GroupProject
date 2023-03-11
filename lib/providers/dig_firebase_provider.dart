@@ -341,7 +341,7 @@ class DigFirebaseProvider extends ChangeNotifier {
  ///Fetching images.
  ///
  
- Future<List<String>> getImagesFromFirestoreAndStorage(String email) async {
+ Future<String> getImagesFromFirestoreAndStorage(String email) async {
   final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('profile').where("email", isEqualTo: email).get();
   
   final List<String> imageUrls = [];
@@ -352,6 +352,6 @@ class DigFirebaseProvider extends ChangeNotifier {
     imageUrls.addAll(urls);
   }
 
-  return imageUrls;
+  return imageUrls.join();
  }
 }
