@@ -72,6 +72,24 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
   int profileId = UniqueKey().hashCode;
   int ownerId = UniqueKey().hashCode;
   String? ownerfName;
+  String? ownerlName;
+  int? phone;
+  String? city;
+  String? fName;
+  String? lName;
+  String? bio;
+  String? breed;
+  String? color;
+  String? size;
+  int? socialHumans;
+  int? socialDogs;
+  int? favfoodIndex;
+  String? activityName;
+  String? foodName;
+  String? skillName;
+  String? skillProficiency;
+  int? activityIndex;
+
   final alphabetsPattern = RegExp(r'^[a-zA-Z]+$');
   final digitsPattern = RegExp(r'^[1-9]|10$');
 
@@ -196,7 +214,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         ),
                       ),
                       TextFormField(
-                        controller: _ownerlNameController,
+                        initialValue: profiles[0].ownerlName,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your last name';
@@ -209,6 +227,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         decoration: const InputDecoration(
                           labelText: 'Your Last Name',
                         ),
+                        onChanged: (value) {
+                          ownerlName = value;
+                        },
                       ),
                       TextFormField(
                         key: const ValueKey("email"),
@@ -221,7 +242,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         ),
                       ),
                       TextFormField(
-                        controller: _phoneController,
+                        initialValue: profiles[0].phone.toString(),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter phone number';
@@ -234,9 +255,12 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         decoration: const InputDecoration(
                           labelText: 'Phone number',
                         ),
+                        onChanged: (value) {
+                          phone = value as int;
+                        },
                       ),
                       TextFormField(
-                        controller: _cityController,
+                        initialValue: profiles[0].city,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your city';
@@ -249,6 +273,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         decoration: const InputDecoration(
                           labelText: 'City',
                         ),
+                        onChanged: (value) {
+                          city = value;
+                        },
                       ),
                       ElevatedButton(
                         onPressed: _selectAndUploadOwnerImage,
@@ -270,7 +297,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                       ),
                       const Text("Pet Profile"),
                       TextFormField(
-                        controller: _fNameController,
+                        initialValue: profiles[0].fName,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your pets First Name';
@@ -283,9 +310,12 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         decoration: const InputDecoration(
                           labelText: 'Pets First Name',
                         ),
+                        onChanged: (value) {
+                          fName = value;
+                        },
                       ),
                       TextFormField(
-                        controller: _lNameController,
+                        initialValue: profiles[0].lName,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your pets Last Name';
@@ -298,6 +328,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         decoration: const InputDecoration(
                           labelText: 'Pets Last Name',
                         ),
+                        onChanged: (value) {
+                          lName = value;
+                        },
                       ),
                       ElevatedButton(
                         onPressed: _selectAndUploadImage,
@@ -318,7 +351,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         endIndent: 5,
                       ),
                       TextFormField(
-                        controller: _bioController,
+                        initialValue: profiles[0].biography,
                         validator: (value) {
                           if (value!.isNotEmpty) {
                             if (!alphabetsPattern.hasMatch(value)) {
@@ -330,6 +363,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         decoration: const InputDecoration(
                           labelText: 'Pets Biography',
                         ),
+                        onChanged: (value) {
+                          bio = value;
+                        },
                       ),
                       const Text(
                         'Gender:',
@@ -359,7 +395,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         },
                       ),
                       TextFormField(
-                        controller: _breedController,
+                        initialValue: profiles[0].breed,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your breed';
@@ -372,9 +408,12 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         decoration: const InputDecoration(
                           labelText: 'Pets Breed',
                         ),
+                        onChanged: (value) {
+                          breed = value;
+                        },
                       ),
                       TextFormField(
-                        controller: _colorController,
+                        initialValue: profiles[0].color,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your pets color';
@@ -387,6 +426,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         decoration: const InputDecoration(
                           labelText: 'Pets Color',
                         ),
+                        onChanged: (value) {
+                          color = value;
+                        },
                       ),
                       CheckboxListTile(
                         title: const Text('Is Vaccinated?'),
@@ -442,7 +484,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         },
                       ),
                       TextFormField(
-                        controller: _sizeController,
+                        initialValue: profiles[0].size,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your pets size';
@@ -455,6 +497,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         decoration: const InputDecoration(
                           labelText: 'Pets Size',
                         ),
+                        onChanged: (value) {
+                          size = value;
+                        },
                       ),
                       const Divider(
                         color: Colors.black,
@@ -468,11 +513,16 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         key: const ValueKey("socialHumans"),
                         maxLines: 1,
                         maxLength: 2,
-                        controller: _socialHumansController,
+                        initialValue: profiles[0].socialIndexHumans != null ? 
+                          profiles[0].socialIndexHumans.toString()
+                          : "",
                         inputFormatters: [LengthLimitingTextInputFormatter(20)],
                         decoration: const InputDecoration(
                           labelText: 'Rate for Socializing with humans',
                         ),
+                        onChanged: (value) {
+                          socialHumans = value as int;
+                        },
                         validator: (value) {
                           if (value!.isNotEmpty) {
                             if (!digitsPattern.hasMatch(value)) {
@@ -485,11 +535,16 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         key: const ValueKey("socialDogs"),
                         maxLines: 1,
                         maxLength: 2,
-                        controller: _socialDogsController,
+                        initialValue: profiles[0].socialIndexDogs != null?
+                         profiles[0].socialIndexDogs.toString():
+                         "",
                         inputFormatters: [LengthLimitingTextInputFormatter(20)],
                         decoration: const InputDecoration(
                           labelText: 'Rate for Socializing with dogs',
                         ),
+                        onChanged: (value) {
+                          socialDogs = value as int;
+                        },
                          validator: (value) {
                           if (value!.isNotEmpty) {
                             if (!digitsPattern.hasMatch(value)) {
@@ -564,11 +619,14 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         key: const ValueKey("Favorite Food"),
                         maxLines: 1,
                         maxLength: 20,
-                        controller: _favoriteFoodController,
+                        initialValue: profiles[0].foodName,
                         inputFormatters: [LengthLimitingTextInputFormatter(20)],
                         decoration: const InputDecoration(
                           labelText: 'Favorite Food',
                         ),
+                        onChanged: (value) {
+                          foodName = value;
+                        },
                         validator: (value) {
                           if (value!.isNotEmpty) {
                             if (!alphabetsPattern.hasMatch(value)) {
@@ -582,11 +640,16 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                             "Rate the food liking on scale of 10"),
                         maxLines: 1,
                         maxLength: 2,
-                        controller: _favoriteFoodRatingController,
+                        initialValue: profiles[0].foodLikingIndex != null?
+                        profiles[0].foodLikingIndex.toString():
+                        "",
                         inputFormatters: [LengthLimitingTextInputFormatter(20)],
                         decoration: const InputDecoration(
                           labelText: 'Favorite Food Rate',
                         ),
+                        onChanged: (value) {
+                          favfoodIndex = value as int;
+                        },
                         validator: (value) {
                           if (value!.isNotEmpty) {
                             if (!digitsPattern.hasMatch(value)) {
@@ -607,11 +670,14 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         key: const ValueKey("Favorite Activity"),
                         maxLines: 1,
                         maxLength: 20,
-                        controller: _favoriteActivityController,
+                        initialValue: profiles[0].activityName,
                         inputFormatters: [LengthLimitingTextInputFormatter(20)],
                         decoration: const InputDecoration(
                           labelText: 'Favorite Activity',
                         ),
+                        onChanged: (value) {
+                          activityName = value;
+                        },
                         validator: (value) {
                           if (value!.isNotEmpty) {
                             if (!alphabetsPattern.hasMatch(value)) {
@@ -625,11 +691,16 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                             "Rate the activity liking on scale of 10"),
                         maxLines: 1,
                         maxLength: 2,
-                        controller: _favoriteActivityRatingController,
+                        initialValue: profiles[0].activityLikingIndex != null ?
+                        profiles[0].activityLikingIndex.toString():
+                        "",
                         inputFormatters: [LengthLimitingTextInputFormatter(20)],
                         decoration: const InputDecoration(
                           labelText: 'Favorite Activity Rate',
                         ),
+                        onChanged: (value) {
+                          activityIndex = value as int;
+                        },
                         validator: (value) {
                           if (value!.isNotEmpty) {
                             if (!digitsPattern.hasMatch(value)) {
@@ -650,11 +721,14 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         key: const ValueKey("skillName"),
                         maxLines: 1,
                         maxLength: 20,
-                        controller: _skillNameController,
+                        initialValue: profiles[0].skillName,
                         inputFormatters: [LengthLimitingTextInputFormatter(20)],
                         decoration: const InputDecoration(
                           labelText: 'Skill Name',
                         ),
+                        onChanged: (value) {
+                          skillName = value;
+                        },
                         validator: (value) {
                           if (value!.isNotEmpty) {
                             if (!alphabetsPattern.hasMatch(value)) {
@@ -667,11 +741,14 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         key: const ValueKey("skillProficiency"),
                         maxLines: 1,
                         maxLength: 20,
-                        controller: _skillProficienctController,
+                        initialValue: profiles[0].skillProficiency,
                         inputFormatters: [LengthLimitingTextInputFormatter(20)],
                         decoration: const InputDecoration(
                           labelText: 'Skill Proficiency',
                         ),
+                        onChanged: (value) {
+                          skillProficiency = value;
+                        },
                         validator: (value) {
                           if (value!.isNotEmpty) {
                             if (!alphabetsPattern.hasMatch(value)) {
