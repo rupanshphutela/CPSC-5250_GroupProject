@@ -154,7 +154,8 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
         initialDate: _selectedDate,
         initialDatePickerMode: DatePickerMode.day,
         firstDate: DateTime(2015),
-        lastDate: DateTime(2101));
+        lastDate: DateTime(
+            DateTime.now().year, DateTime.now().month, DateTime.now().day));
     if (picked != null)
       // ignore: curly_braces_in_flow_control_structures
       setState(() {
