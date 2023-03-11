@@ -770,30 +770,64 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               // form is valid, do something
-                              final profile = Profile(
-                                id: profileId,
-                                ownerId: ownerId,
-                                ownerfName: _ownerfNameController.text,
-                                ownerlName: _ownerlNameController.text,
-                                email: widget.email,
-                                phone: int.parse(_phoneController.text),
-                                city: _cityController.text,
-                                ownerprofilePicture:
-                                    _ownerpictureController.text,
-                                fName: _fNameController.text,
-                                lName: _lNameController.text,
-                                profilePicture: _pictureController.text,
-                                gender: _gender,
-                                breed: _breedController.text,
-                                color: _colorController.text,
-                                isVaccinated: _isChecked,
-                                registrationDate: _dateController.text,
-                                joiningDate: DateTime.now().toString(),
-                                size: _sizeController.text,
-                              );
-                              provider.createProfile(
-                                  profile, profileId.toString());
-                              context.pop();
+                              // final profile = Profile(
+                              //   id: profileId,
+                              //   ownerId: ownerId,
+                              //   ownerfName: _ownerfNameController.text,
+                              //   ownerlName: _ownerlNameController.text,
+                              //   email: widget.email,
+                              //   phone: int.parse(_phoneController.text),
+                              //   city: _cityController.text,
+                              //   ownerprofilePicture:
+                              //       _ownerpictureController.text,
+                              //   fName: _fNameController.text,
+                              //   lName: _lNameController.text,
+                              //   profilePicture: _pictureController.text,
+                              //   gender: _gender,
+                              //   breed: _breedController.text,
+                              //   color: _colorController.text,
+                              //   isVaccinated: _isChecked,
+                              //   registrationDate: _dateController.text,
+                              //   joiningDate: DateTime.now().toString(),
+                              //   size: _sizeController.text,
+                              // );
+                              // provider.createProfile(
+                              //     profile, profileId.toString());
+                              // context.pop();
+                              final docId = profiles[0].id;
+                              final docProfile = FirebaseFirestore.instance
+                              .collection("profile").doc(docId.toString());
+                              docProfile.update({
+                                'activityLikingIndex': activityIndex ?? profiles[0].activityLikingIndex,
+                                'activityName': activityName ?? profiles[0].activityName,
+                                'biography': bio ?? profiles[0].biography,
+                                'breed': breed ?? profiles[0].breed,
+                                'city': city ?? profiles[0].city,
+                                'color': color ?? profiles[0].color,
+                                'email': widget.email,
+                                'fName': fName ?? profiles[0].fName,
+                                'foodLikingIndex': favfoodIndex ?? profiles[0].foodLikingIndex,
+                                'foodName': foodName ?? profiles[0].foodName,
+                                'gender': _gender,
+                                'isFoodAggressive': _aggressionController.text,
+                                'isNeutered': sterilization,
+                                'isNewDogAggressive': _dogAggressionController.text,
+                                'isNewHumanAggressive': _humanAggressionController.text,
+                                'isSpayed': sterilization,
+                                'isVaccinated': isVaccinated ?? profiles[0].isVaccinated,
+                                'joiningDate': profiles[0].joiningDate,
+                                'lName': lName ?? profiles[0].lName,
+                                'ownerfName': ownerfName ?? profiles[0].ownerfName,
+                                'ownerlName': ownerlName ?? profiles[0].ownerlName,
+                                'phone': phone ?? profiles[0].phone,
+                                'registrationDate': profiles[0].registrationDate,
+                                'size': size ?? profiles[0].size,
+                                'skillName': skillName ?? profiles[0].skillName,
+                                'skillProficiency': skillProficiency ?? profiles[0].skillProficiency,
+                                'socialIndexDogs': socialDogs ?? profiles[0].socialIndexDogs,
+                                'socialIndexHumans': socialHumans ?? profiles[0].socialIndexHumans
+                            });
+                            context.pop();
                             }
                           },
                           child: const Text('Submit'),
