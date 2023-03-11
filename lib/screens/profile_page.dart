@@ -195,7 +195,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 ListTile(
                                                   leading: const Icon(Icons.date_range),
                                                   title: const Text('Joining Date'),
-                                                  subtitle: Text(profileList[index].joiningDate.toString()),
+                                                  subtitle: Text(profileList[index].joiningDate.toString().substring(0, 10)),
                                                 ),
                                                 const Divider(),
                                                 ListTile(
