@@ -45,17 +45,14 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-
-
   void _showImagePicker(BuildContext context) {
-   showModalBottomSheet(
-    context: context,
-    builder: (BuildContext context) {
-      return Container();
-    },
-  );
-}
-
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,219 +63,217 @@ class _ProfilePageState extends State<ProfilePage> {
         appBar: AppBar(
           title: const Text('Profile'),
           actions: [
-              IconButton(
-                onPressed: () {
-                  provider.readProfiles(widget.email);
-                  context.push("/add/owner/profile?email=${widget.email}");
-                },
-                icon: const Icon(Icons.edit),
-              ),
-            ],
+            IconButton(
+              onPressed: () {
+                provider.readProfiles(widget.email);
+                context.push("/add/owner/profile?email=${widget.email}");
+              },
+              icon: const Icon(Icons.edit),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           physics: const ScrollPhysics(),
           child: Column(
-                children: [
-                  Center(
-                    child: FutureBuilder<String>(
-                    future: provider.getImagesFromFirestoreAndStorage(widget.email),
-                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-                        final imageUrl = snapshot.data!;
-                        return Stack(
-                          children: [
-                            CircleAvatar(
-                              radius: 150,
-                              backgroundImage: NetworkImage(imageUrl),
-                            ),
-                            Positioned(
-                              top: 210,
-                              right: 0,
-                              child: InkWell(
-                                onTap: () {
-                                  // handle edit button tap
-                                },
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                    color: Colors.teal,
-                                    shape: BoxShape.circle,
-                                    
-                                  ),
-                                  padding: const EdgeInsets.all(8),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      _showImagePicker(context);
-                                    },
-                                    icon: const Icon(Icons.camera_alt,
-                                                    color: Colors.white,),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+            children: [
+              Center(
+                child: FutureBuilder<List<Profile>>(
+                    future: provider.readProfiles(widget.email),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text('${snapshot.error}'),
                         );
-                      } else {
-                        return const CircularProgressIndicator();
-                      }
-                    },
-                  )
-                    // child: FutureBuilder<List<String>>(
-                    //   future: provider.getImagesFromFirestoreAndStorage(widget.email),
-                    //   builder: (context, snapshot) {
-                    //     if(snapshot.hasError) {
-                    //       return Center(child: Text('${snapshot.error}'),);
-                    //     } else if(snapshot.hasData  && snapshot.data!.isNotEmpty){
-                    //       var imageList = snapshot.data as List<String>;
-                    //       return ListView.builder(
-                    //               physics: const NeverScrollableScrollPhysics(),
-                    //               shrinkWrap: true,
-                    //               itemCount: imageList.length,
-                    //               itemBuilder: (context, index) {
-                    //                 return Center(
-                    //                   child: Image.network(imageList[index]),
-                    //                 );
-                    //             });
-                    //     }
-                    //     else {
-                    //       return const Center(child: Text('No profile Picture yet'));
-                    //     }
-                    // })
-                  ),
-                  Center(
-                    child: FutureBuilder<List<Profile>>(
-                      future: provider.readProfiles(widget.email),
-                      builder: (context, snapshot) {
-                        if(snapshot.hasError) {
-                          return Center(child: Text('${snapshot.error}'),);
-                        } else if(snapshot.hasData  && snapshot.data!.isNotEmpty){
-                          var profileList = snapshot.data as List<Profile>;
-                          return ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: profileList.length,
-                                  itemBuilder: (context, index) {
-                                    return Card(
+                      } else if (snapshot.hasData &&
+                          snapshot.data!.isNotEmpty) {
+                        var profileList = snapshot.data as List<Profile>;
+                        return ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: profileList.length,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(16.0),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(16.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                 const Padding(
-                                                  padding: EdgeInsets.only(top: 25, bottom: 25),
-                                                  child: Text(
-                                                    'Owner Details',
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 20),
-                                                    textAlign: TextAlign.center,
+                                          Stack(
+                                            children: [
+                                              CircleAvatar(
+                                                radius: 150,
+                                                backgroundImage: NetworkImage(profileList[index].profilePicture),
+                                              ),
+                                              Positioned(
+                                                top: 210,
+                                                right: 0,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    // handle edit button tap
+                                                  },
+                                                  child: Container(
+                                                    decoration: const BoxDecoration(
+                                                      color: Colors.teal,
+                                                      shape: BoxShape.circle,
+                                                      
+                                                    ),
+                                                    padding: const EdgeInsets.all(8),
+                                                    child: IconButton(
+                                                      onPressed: () {
+                                                        _showImagePicker(context);
+                                                      },
+                                                      icon: const Icon(Icons.camera_alt,
+                                                                      color: Colors.white,),
+                                                    ),
                                                   ),
                                                 ),
-                                                const Divider(),
-                                                ListTile(
-                                                  leading: const Icon(Icons.person),
-                                                  title: const Text('Name'),
-                                                  subtitle: Text("${profileList[index].ownerfName} ${profileList[index].ownerlName}"),
+                                              ),
+                                                  ],
                                                 ),
-                                                const Divider(),
-                                                ListTile(
-                                                  leading: const Icon(Icons.email),
-                                                  title: const Text('Email'),
-                                                  subtitle: Text(profileList[index].email),
-                                                ),
-                                                const Divider(),
-                                                ListTile(
-                                                  leading: const Icon(Icons.phone),
-                                                  title: const Text('Phone'),
-                                                  subtitle: Text(profileList[index].phone.toString()),
-                                                ),
-                                                const Divider(),
-                                                ListTile(
-                                                  leading: const Icon(Icons.location_city),
-                                                  title: const Text('City'),
-                                                  subtitle: Text(profileList[index].city),
-                                                ),
-                                                const Divider(),
-                                                const Padding(
-                                                  padding: EdgeInsets.only(top: 25, bottom: 25),
-                                                  child: Text(
-                                                    'Furry Friend Details',
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 20),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                                const Divider(),
-                                                ListTile(
-                                                  leading: const Icon(Icons.pets),
-                                                  title: const Text('Name'),
-                                                  subtitle: Text("${profileList[index].fName} ${profileList[index].lName}"),
-                                                ),
-                                                const Divider(),
-                                                ListTile(
-                                                  leading: profileList[index].gender == "male"? const Icon(Icons.male): const Icon(Icons.female),
-                                                  title: const Text('Gender'),
-                                                  subtitle: Text(profileList[index].gender),
-                                                ),
-                                                const Divider(),
-                                                ListTile(
-                                                  leading: const Icon(Icons.pets),
-                                                  title: const Text('Breed'),
-                                                  subtitle: Text(profileList[index].breed),
-                                                ),
-                                                const Divider(),
-                                                ListTile(
-                                                  leading: const Icon(Icons.color_lens),
-                                                  title: const Text('Color'),
-                                                  subtitle: Text(profileList[index].color),
-                                                ),
-                                                const Divider(),
-                                                ListTile(
-                                                  leading: const Icon(Icons.vaccines),
-                                                  title: const Text('Vaccinated'),
-                                                  subtitle: Text(profileList[index].isVaccinated.toString()),
-                                                ),
-                                                const Divider(),
-                                                ListTile(
-                                                  leading: const Icon(Icons.date_range),
-                                                  title: const Text('Registration Date'),
-                                                  subtitle: Text(profileList[index].registrationDate.toString()),
-                                                ),
-                                                const Divider(),
-                                                ListTile(
-                                                  leading: const Icon(Icons.date_range),
-                                                  title: const Text('Joining Date'),
-                                                  subtitle: Text(profileList[index].joiningDate.toString().substring(0, 10)),
-                                                ),
-                                                const Divider(),
-                                                ListTile(
-                                                  leading: const Icon(Icons.rule_rounded),
-                                                  title: const Text('Size'),
-                                                  subtitle: Text(profileList[index].size),
-                                                ),
-                                              ],
+                                          const Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 25, bottom: 25),
+                                            // child: Container(),
+                                            child: Text(
+                                              'Owner Details',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                              textAlign: TextAlign.center,
                                             ),
+                                          ),
+                                          const Divider(),
+                                          ListTile(
+                                            leading: const Icon(Icons.person),
+                                            title: const Text('Name'),
+                                            subtitle: Text(
+                                                "${profileList[index].ownerfName} ${profileList[index].ownerlName}"),
+                                          ),
+                                          const Divider(),
+                                          ListTile(
+                                            leading: const Icon(Icons.email),
+                                            title: const Text('Email'),
+                                            subtitle:
+                                                Text(profileList[index].email),
+                                          ),
+                                          const Divider(),
+                                          ListTile(
+                                            leading: const Icon(Icons.phone),
+                                            title: const Text('Phone'),
+                                            subtitle: Text(profileList[index]
+                                                .phone
+                                                .toString()),
+                                          ),
+                                          const Divider(),
+                                          ListTile(
+                                            leading:
+                                                const Icon(Icons.location_city),
+                                            title: const Text('City'),
+                                            subtitle:
+                                                Text(profileList[index].city),
+                                          ),
+                                          const Divider(),
+                                          const Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 25, bottom: 25),
+                                            child: Text(
+                                              'Furry Friend Details',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          const Divider(),
+                                          ListTile(
+                                            leading: const Icon(Icons.pets),
+                                            title: const Text('Name'),
+                                            subtitle: Text(
+                                                "${profileList[index].fName} ${profileList[index].lName}"),
+                                          ),
+                                          const Divider(),
+                                          ListTile(
+                                            leading:
+                                                profileList[index].gender ==
+                                                        "male"
+                                                    ? const Icon(Icons.male)
+                                                    : const Icon(Icons.female),
+                                            title: const Text('Gender'),
+                                            subtitle:
+                                                Text(profileList[index].gender),
+                                          ),
+                                          const Divider(),
+                                          ListTile(
+                                            leading: const Icon(Icons.pets),
+                                            title: const Text('Breed'),
+                                            subtitle:
+                                                Text(profileList[index].breed),
+                                          ),
+                                          const Divider(),
+                                          ListTile(
+                                            leading:
+                                                const Icon(Icons.color_lens),
+                                            title: const Text('Color'),
+                                            subtitle:
+                                                Text(profileList[index].color),
+                                          ),
+                                          const Divider(),
+                                          ListTile(
+                                            leading: const Icon(Icons.vaccines),
+                                            title: const Text('Vaccinated'),
+                                            subtitle: Text(profileList[index]
+                                                .isVaccinated
+                                                .toString()),
+                                          ),
+                                          const Divider(),
+                                          ListTile(
+                                            leading:
+                                                const Icon(Icons.date_range),
+                                            title:
+                                                const Text('Registration Date'),
+                                            subtitle: Text(profileList[index]
+                                                .registrationDate
+                                                .toString()),
+                                          ),
+                                          const Divider(),
+                                          ListTile(
+                                            leading:
+                                                const Icon(Icons.date_range),
+                                            title: const Text('Joining Date'),
+                                            subtitle: Text(profileList[index]
+                                                .joiningDate
+                                                .toString()
+                                                .substring(0, 10)),
+                                          ),
+                                          const Divider(),
+                                          ListTile(
+                                            leading:
+                                                const Icon(Icons.rule_rounded),
+                                            title: const Text('Size'),
+                                            subtitle:
+                                                Text(profileList[index].size),
                                           ),
                                         ],
                                       ),
-                                    );
-                                });
-                        }
-                        else {
-                          return const Center(child: Text('No profile yet'));
-                        }
+                                    ),
+                                  ],
+                                ),
+                              );
+                            });
+                      } else {
+                        return const Center(child: Text('No profile yet'));
+                      }
                     }),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      context.push("/add/owner/profile?email=${widget.email}");
-                    },
-                    child: const Text("Edit Profile")
-                  ),
-                  ],
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    context.push("/add/owner/profile?email=${widget.email}");
+                  },
+                  child: const Text("Edit Profile")),
+            ],
           ),
         ),
         // body: Column(children: [
