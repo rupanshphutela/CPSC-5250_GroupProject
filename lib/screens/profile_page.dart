@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/providers/dig_firebase_provider.dart';
@@ -21,6 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
   late Profile profile;
 
   List<String> _imageUrls = [];
+  File? _imageFile;
 
   @override
   void initState() {
@@ -41,6 +45,16 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
+
+
+  void _showImagePicker(BuildContext context) {
+   showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return Container();
+    },
+  );
+}
 
 
   @override
@@ -78,8 +92,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               backgroundImage: NetworkImage(imageUrl),
                             ),
                             Positioned(
-                              top: 250,
-                              right: 42,
+                              top: 210,
+                              right: 0,
                               child: InkWell(
                                 onTap: () {
                                   // handle edit button tap
@@ -88,11 +102,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                   decoration: const BoxDecoration(
                                     color: Colors.teal,
                                     shape: BoxShape.circle,
+                                    
                                   ),
                                   padding: const EdgeInsets.all(8),
-                                  child: const Icon(
-                                    Icons.camera_alt,
-                                    color: Colors.white,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      _showImagePicker(context);
+                                    },
+                                    icon: const Icon(Icons.camera_alt,
+                                                    color: Colors.white,),
                                   ),
                                 ),
                               ),
@@ -100,7 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         );
                       } else {
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       }
                     },
                   )
