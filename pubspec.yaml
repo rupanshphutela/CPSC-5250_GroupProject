@@ -55,6 +55,8 @@ dependencies:
   # simple_permissions: ^0.1.9
   # table_calendar: ^3.0.9
   intl: 
+  firebase_messaging: ^14.2.6
+  rxdart: ^0.27.7
 
 dev_dependencies:
   build_runner:
