@@ -21,8 +21,8 @@ class ProfileCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           image: DecorationImage(
-            image: AssetImage(card.profilePicture == ""
-                ? "assets/images/sample_image.jpg"
+            image: NetworkImage(card.profilePicture == ""
+                ? "https://firebasestorage.googleapis.com/v0/b/the-dig-app-c3c6d.appspot.com/o/images%2Fsample_image.jpg?alt=media&token=76274cb8-2be8-4f4e-bb88-f825e7a6d1e7"
                 : card.profilePicture),
             fit: BoxFit.fitWidth,
           ),
