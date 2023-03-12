@@ -32,19 +32,6 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     _storage = FirebaseStorage.instance;
-    _getImagesFromFirebaseStorage();
-  }
-
-  Future<void> _getImagesFromFirebaseStorage() async {
-    Reference ref = _storage.ref().child('images/');
-    ListResult result = await ref.listAll();
-
-    result.items.forEach((Reference ref) async {
-      String imageUrl = await ref.getDownloadURL();
-      setState(() {
-        _imageUrls.add(imageUrl);
-      });
-    });
   }
 
   Future<String?> _takePhotoWithCamera(int profileId) async {
