@@ -20,6 +20,12 @@ class _LoginScreen extends State<LoginScreen> {
   String? _password;
   String? _errorMessage;
 
+  @override
+  void initState() {
+    setState(() {});
+    super.initState();
+  }
+
   StreamSubscription<User?>? _authSubscription;
 
   @override
