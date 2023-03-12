@@ -10,6 +10,7 @@ import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/providers/dig_firebase_provider.dart';
 import 'package:the_dig_app/screens/login_page.dart';
 import 'package:the_dig_app/screens/owner_profile_form.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({super.key, required this.email});
@@ -25,6 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   List<String> _imageUrls = [];
   File? _imageFile;
+  String? _imagePath;
 
   @override
   void initState() {
@@ -45,11 +47,93 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  void _showImagePicker(BuildContext context) {
+  Future<String?> _takePhotoWithCamera(int profileId) async {
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.camera);
+    if (pickedFile == null) return null;
+
+    final imageFile = File(pickedFile.path);
+    final fileName = '${profileId}_profile.jpg';
+    final destination = 'images/$profileId/$fileName';
+
+    try {
+      await firebase_storage.FirebaseStorage.instance
+          .ref(destination)
+          .putFile(imageFile);
+      final url = await firebase_storage.FirebaseStorage.instance
+          .ref(destination)
+          .getDownloadURL();
+      setState(() {
+        _imagePath = destination;
+      });
+      //update profile picture path in firestore profile doc
+      final DocumentReference documentReference = FirebaseFirestore.instance
+          .collection('profile')
+          .doc(profileId.toString());
+      await documentReference.update({
+        'profilePicture': url,
+      }).then((value) {
+        debugPrint('Update picture to main profile successful');
+      }).catchError((error) {
+        debugPrint('Update failed: $error');
+      });
+      return url;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  void _showImagePicker(BuildContext context, int profileId) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return Container();
+        return Container(
+          height: 200,
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            const Text(
+              'Profile Picture',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      _takePhotoWithCamera(profileId);
+                      context.pop();
+                    },
+                    child: Column(
+                      children:const <Widget>[
+                        Icon(
+                          Icons.camera_alt,
+                          size: 50,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Camera',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        );
       },
     );
   }
@@ -111,9 +195,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 top: 210,
                                                 right: 0,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    // handle edit button tap
-                                                  },
                                                   child: Container(
                                                     decoration: const BoxDecoration(
                                                       color: Colors.teal,
@@ -123,7 +204,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     padding: const EdgeInsets.all(8),
                                                     child: IconButton(
                                                       onPressed: () {
-                                                        _showImagePicker(context);
+                                                        _showImagePicker(context, profileList[index].id);
                                                       },
                                                       icon: const Icon(Icons.camera_alt,
                                                                       color: Colors.white,),
