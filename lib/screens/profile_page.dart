@@ -64,7 +64,8 @@ class _ProfilePageState extends State<ProfilePage> {
           .ref(destination)
           .getDownloadURL();
       setState(() {
-        _imagePath = destination;
+        // _imagePath = destination;
+        _imagePath = url;
       });
       //update profile picture path in firestore profile doc
       final DocumentReference documentReference = FirebaseFirestore.instance
@@ -189,7 +190,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             children: [
                                               CircleAvatar(
                                                 radius: 150,
-                                                backgroundImage: NetworkImage(profileList[index].profilePicture),
+                                                backgroundImage: _imagePath != null? NetworkImage(_imagePath!): NetworkImage(profileList[index].profilePicture),
                                               ),
                                               Positioned(
                                                 top: 210,
