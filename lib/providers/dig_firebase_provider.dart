@@ -8,7 +8,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:the_dig_app/models/contact.dart';
 import 'package:the_dig_app/models/owner.dart';
 import 'package:the_dig_app/models/profile.dart';
@@ -31,10 +30,6 @@ class DigFirebaseProvider extends ChangeNotifier {
 
   bool get isLoggedIn => _isLoggedIn;
 
-  final GoogleSignIn googleSignIn = GoogleSignIn(
-    scopes: <String>['email', 'profile'],
-  );
-
   void checkFirebaseAuth() {
     _authSubscription = FirebaseAuth.instance.authStateChanges().listen((user) {
       _isLoggedIn = user != null;
@@ -53,6 +48,8 @@ class DigFirebaseProvider extends ChangeNotifier {
   }
 
   storeNotificationToken(String profileId) async {
+    // Register with FCM
+    // It requests a registration token for sending messages to users from your App server or other trusted server environment.
     String? token = await FirebaseMessaging.instance.getToken();
     FirebaseFirestore.instance
         .collection('profile')
@@ -430,11 +427,13 @@ class DigFirebaseProvider extends ChangeNotifier {
               ));
 
       if (response.statusCode == 200) {
-        print("Notification is sent");
+        debugPrint("Notification is sent");
       } else {
-        print("Error");
+        Exception("Encounted Exception");
       }
-    } catch (e) {}
+    } catch (e) {
+      Exception("Encounted Exception: $e");
+    }
   }
 
   ///Notification

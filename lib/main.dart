@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -63,14 +62,6 @@ void main() async {
 
   if (kDebugMode) {
     print('Permission granted: ${settings.authorizationStatus}');
-  }
-
-  // Register with FCM
-  // It requests a registration token for sending messages to users from your App server or other trusted server environment.
-  String? token = await messaging.getToken();
-
-  if (kDebugMode) {
-    print('Registration Token=$token');
   }
 
   // Set up foreground message handler

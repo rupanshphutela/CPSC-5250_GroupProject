@@ -7,7 +7,6 @@ import 'package:the_dig_app/screens/profile_page.dart';
 import 'package:the_dig_app/screens/registration_page.dart';
 import 'package:the_dig_app/screens/swipes_page.dart';
 import '../screens/profiles_page.dart';
-import '../screens/chat.dart';
 import '../screens/login_page.dart';
 import '../screens/settings_page.dart';
 
@@ -85,10 +84,15 @@ final routes = [
   GoRoute(
     path: '/chat_screen',
     builder: (context, state) {
-      final String destinationFName = state.queryParams['destinationFName'].toString();
-      final String destinationId = state.queryParams['destinationId'].toString();
+      final String destinationFName =
+          state.queryParams['destinationFName'].toString();
+      final String destinationId =
+          state.queryParams['destinationId'].toString();
       final String profileId = state.queryParams['profileId'].toString();
-      return Chat_Screen(destinationFName: destinationFName, destinationId: destinationId, profileId: profileId);
+      return Chat_Screen(
+          destinationFName: destinationFName,
+          destinationId: destinationId,
+          profileId: profileId);
     },
   ),
 ];
