@@ -108,10 +108,12 @@ class _Chat_ScreenState extends State<Chat_Screen> {
                 ),
                 IconButton(
                     onPressed: () {
-                      sendChat(message: _messageController.text);
-                      _messageController.text = "";
-                      _scrollDown();
-                      FocusManager.instance.primaryFocus?.unfocus();
+                      if (_messageController.text.isNotEmpty && _messageController.text.trim().isNotEmpty){
+                        sendChat(message: _messageController.text);
+                        _messageController.text = "";
+                        _scrollDown();
+                        FocusManager.instance.primaryFocus?.unfocus();
+                      }
                     },
                     icon: const Icon(Icons.send))
               ],
