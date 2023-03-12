@@ -70,6 +70,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             .createProfile(
                 Profile(
                     id: userId,
+                    token: "",
                     ownerId: ownerId,
                     ownerfName: _ownerFNameController.text,
                     ownerlName: _ownerLNameController.text,

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Profile {
   int id;
+  String? token;
   String ownerfName;
   String ownerlName;
   String email;
@@ -36,6 +37,7 @@ class Profile {
 
   Profile({
     required this.id,
+    this.token,
     required this.ownerId,
     required this.ownerfName,
     required this.ownerlName,
@@ -72,6 +74,7 @@ class Profile {
   static Profile fromJson(QueryDocumentSnapshot data) {
     return Profile(
       id: data['id'],
+      token: data['token'],
       ownerId: data['ownerId'],
       ownerfName: data['ownerfName'],
       ownerlName: data['ownerlName'],
@@ -94,6 +97,7 @@ class Profile {
 
   Map<String, dynamic> toJson() => {
         'id': id,
+        'token': token,
         'ownerId': ownerId,
         'ownerfName': ownerfName,
         'ownerlName': ownerlName,
