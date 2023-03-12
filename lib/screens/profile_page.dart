@@ -11,6 +11,7 @@ import 'package:the_dig_app/providers/dig_firebase_provider.dart';
 import 'package:the_dig_app/screens/login_page.dart';
 import 'package:the_dig_app/screens/owner_profile_form.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:the_dig_app/util/bottom_navigation_bar.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({super.key, required this.email});
@@ -32,19 +33,6 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     _storage = FirebaseStorage.instance;
-    _getImagesFromFirebaseStorage();
-  }
-
-  Future<void> _getImagesFromFirebaseStorage() async {
-    Reference ref = _storage.ref().child('images/');
-    ListResult result = await ref.listAll();
-
-    result.items.forEach((Reference ref) async {
-      String imageUrl = await ref.getDownloadURL();
-      setState(() {
-        _imageUrls.add(imageUrl);
-      });
-    });
   }
 
   Future<String?> _takePhotoWithCamera(int profileId) async {
@@ -415,31 +403,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       }
                     }),
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    context.push("/add/owner/profile?email=${widget.email}");
-                  },
-                  child: const Text("Edit Profile")),
             ],
           ),
         ),
-        // body: Column(children: [
-        //   Expanded(
-        //     child: GridView.count(
-        //       crossAxisCount: 2,
-        //       children: List.generate(_imageUrls.length, (index) {
-        //         return Center(
-        //           child: Image.network(_imageUrls[index]),
-        //         );
-        //       }),
-        //     ),
-        //   ),
-        //   ElevatedButton(
-        //       onPressed: () {
-        //         context.push("/add/owner/profile?email=${widget.email}");
-        //       },
-        //       child: const Text("Edit Profile")),
-        // ]),
+        bottomNavigationBar: DigBottomNavBar(email: widget.email),
       );
     } else {
       const CircularProgressIndicator();

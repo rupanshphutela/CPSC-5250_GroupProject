@@ -19,7 +19,7 @@ import 'package:the_dig_app/screens/login_page.dart';
 
 enum RadioValue { Male, Female }
 
-const List<String> aggression = ['Yes', 'No'];
+// const List<String> aggression = ['Yes', 'No'];
 
 class OwnerProfileForm extends StatefulWidget {
   final String email;
@@ -63,13 +63,16 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
   final TextEditingController _skillProficienctController =
       TextEditingController();
 
-  String _gender = 'male';
-  bool? isVaccinated = false;
-  String sterilization = "Spayed";
+  String? _gender;
+  String? genderRadio;
+  bool? isVaccinated;
+  bool? isSterilized;
   File? _imageFile;
   String? _imagePath;
   String? _ownerImagePath;
-  bool _isChecked = false;
+  bool? _isChecked;
+  bool? _isSpayed;
+  bool? _isNeutered;
   DateTime _selectedDate = DateTime.now();
   String? ownerfName;
   String? ownerlName;
@@ -89,6 +92,9 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
   String? skillName;
   String? skillProficiency;
   int? activityIndex;
+  bool? _isFoodAggressive;
+  bool? _isHumanAggressive;
+  bool? _isDogAggressive;
 
   final alphabetsPattern = RegExp(r'^[a-zA-Z]+$');
   final digitsPattern = RegExp(r'^[1-9]|10$');
@@ -115,6 +121,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
   Widget build(BuildContext context) {
     final provider = Provider.of<DigFirebaseProvider>(context);
     final profileList = provider.readProfiles(widget.email);
+    // String? _gender = profileList.gender;
     bool isLoggedIn = provider.isLoggedIn;
     if (isLoggedIn) {
       return Scaffold(
@@ -136,6 +143,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                 builder: (context, snapshot) {
                 if (snapshot.hasData  && snapshot.data!.isNotEmpty) {
                   var profiles = snapshot.data as List<Profile>;
+                  // _gender = profiles[0].gender;
                   return Form(
                     key: _formKey,
                     child: Column(
@@ -210,7 +218,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                           labelText: 'Phone number',
                         ),
                         onChanged: (value) {
-                          phone = value as int;
+                          phone = int.tryParse(value);
                         },
                       ),
                       TextFormField(
@@ -309,21 +317,23 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                       const SizedBox(height: 8.0),
                       RadioListTile(
                         title: const Text('Male'),
-                        value: 'male',
-                        groupValue: _gender,
+                        value: "Male",
+                        groupValue: _gender?? profiles[0].gender,
                         onChanged: (value) {
                           setState(() {
                             _gender = value!;
+                            profiles[0].gender = value;
                           });
                         },
                       ),
                       RadioListTile(
                         title: const Text('Female'),
-                        value: 'female',
-                        groupValue: _gender,
+                        value: "Female",
+                        groupValue: _gender ?? profiles[0].gender,
                         onChanged: (value) {
                           setState(() {
                             _gender = value!;
+                            profiles[0].gender = value;
                           });
                         },
                       ),
@@ -365,7 +375,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                       ),
                       CheckboxListTile(
                         title: const Text('Is Vaccinated?'),
-                        value: _isChecked,
+                        value: _isChecked ?? profiles[0].isVaccinated,
                         onChanged: (checked) {
                           setState(() {
                             _isChecked = checked!;
@@ -373,7 +383,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         },
                       ),
                       const Text(
-                        'Date of birth:',
+                        'Registeration Date:',
                         style: TextStyle(fontSize: 16),
                       ),
                       const SizedBox(height: 8),
@@ -396,26 +406,15 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         ),
                       ),
                       const SizedBox(height: 8.0),
-                      RadioListTile(
-                        title: const Text('Spayed'),
-                        value: 'spayed',
-                        groupValue: sterilization,
-                        onChanged: (value) {
-                          setState(() {
-                            sterilization = value!;
-                          });
-                        },
-                      ),
-                      RadioListTile(
-                        title: const Text('Neutered'),
-                        value: 'neutered',
-                        groupValue: sterilization,
-                        onChanged: (value) {
-                          setState(() {
-                            sterilization = value!;
-                          });
-                        },
-                      ),
+                      CheckboxListTile(
+                          title: const Text('Is Sterilized?'),
+                          value: isSterilized ?? profiles[0].isSterilized ?? false,
+                          onChanged: (checked) {
+                            setState(() {
+                              isSterilized = checked!;
+                            });
+                          },
+                        ),
                       TextFormField(
                         initialValue: profiles[0].size,
                         validator: (value) {
@@ -454,7 +453,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                           labelText: 'Rate for Socializing with humans',
                         ),
                         onChanged: (value) {
-                          socialHumans = value as int;
+                          socialHumans = int.tryParse(value);
                         },
                         validator: (value) {
                           if (value!.isNotEmpty) {
@@ -476,7 +475,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                           labelText: 'Rate for Socializing with dogs',
                         ),
                         onChanged: (value) {
-                          socialDogs = value as int;
+                          socialDogs = int.tryParse(value);
                         },
                          validator: (value) {
                           if (value!.isNotEmpty) {
@@ -486,60 +485,33 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                           }
                         },
                       ),
-                      DropdownButtonFormField(
-                        key: const ValueKey("aggressionDropDown"),
-                        value: _aggressionController.text.isNotEmpty
-                            ? _aggressionController.text
-                            : aggression[0],
-                        decoration: const InputDecoration(
-                          labelText: 'Gets aggressive when hungry',
+                      CheckboxListTile(
+                          title: const Text('Is Food Aggressive?'),
+                          value: _isFoodAggressive ?? profiles[0].isFoodAggressive ?? false,
+                          onChanged: (checked) {
+                            setState(() {
+                              _isFoodAggressive = checked!;
+                            });
+                          },
                         ),
-                        items: aggression
-                            .map(((e) => DropdownMenuItem(
-                                  value: e,
-                                  child: Text(e),
-                                )))
-                            .toList(),
-                        onChanged: (value) {
-                          _aggressionController.text = value as String;
-                        },
-                      ),
-                      DropdownButtonFormField(
-                        key: const ValueKey("humanAggressionDropDown"),
-                        value: _humanAggressionController.text.isNotEmpty
-                            ? _humanAggressionController.text
-                            : aggression[0],
-                        decoration: const InputDecoration(
-                          labelText: 'Gets aggressive when meets new Humans',
+                      CheckboxListTile(
+                          title: const Text('Is Human Aggressive?'),
+                          value: _isHumanAggressive ?? profiles[0].isNewHumanAggressive ?? false,
+                          onChanged: (checked) {
+                            setState(() {
+                              _isHumanAggressive = checked!;
+                            });
+                          },
                         ),
-                        items: aggression
-                            .map(((e) => DropdownMenuItem(
-                                  value: e,
-                                  child: Text(e),
-                                )))
-                            .toList(),
-                        onChanged: (value) {
-                          _humanAggressionController.text = value as String;
-                        },
-                      ),
-                      DropdownButtonFormField(
-                        key: const ValueKey("dogAggressionDropDown"),
-                        value: _dogAggressionController.text.isNotEmpty
-                            ? _dogAggressionController.text
-                            : aggression[0],
-                        decoration: const InputDecoration(
-                          labelText: 'Gets aggressive when meets new Dogs',
+                      CheckboxListTile(
+                          title: const Text('Is Dog Aggressive?'),
+                          value: _isDogAggressive ?? profiles[0].isNewDogAggressive ?? false,
+                          onChanged: (checked) {
+                            setState(() {
+                              _isDogAggressive = checked!;
+                            });
+                          },
                         ),
-                        items: aggression
-                            .map(((e) => DropdownMenuItem(
-                                  value: e,
-                                  child: Text(e),
-                                )))
-                            .toList(),
-                        onChanged: (value) {
-                          _dogAggressionController.text = value as String;
-                        },
-                      ),
                       const Divider(
                         color: Colors.black,
                         height: 25,
@@ -581,7 +553,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                           labelText: 'Favorite Food Rate',
                         ),
                         onChanged: (value) {
-                          favfoodIndex = value as int;
+                          favfoodIndex = int.tryParse(value);
                         },
                         validator: (value) {
                           if (value!.isNotEmpty) {
@@ -631,15 +603,15 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         decoration: const InputDecoration(
                           labelText: 'Favorite Activity Rate',
                         ),
-                        onChanged: (value) {
-                          activityIndex = value as int;
-                        },
                         validator: (value) {
                           if (value!.isNotEmpty) {
                             if (!digitsPattern.hasMatch(value)) {
                               return 'Please enter only digits between 1 to 10';
                             }
                           }
+                        },
+                        onChanged: (value) {
+                          activityIndex = int.tryParse(value);
                         },
                       ),
                       const Divider(
@@ -695,31 +667,6 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                         child: ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              // form is valid, do something
-                              // final profile = Profile(
-                              //   id: profileId,
-                              //   ownerId: ownerId,
-                              //   ownerfName: _ownerfNameController.text,
-                              //   ownerlName: _ownerlNameController.text,
-                              //   email: widget.email,
-                              //   phone: int.parse(_phoneController.text),
-                              //   city: _cityController.text,
-                              //   ownerprofilePicture:
-                              //       _ownerpictureController.text,
-                              //   fName: _fNameController.text,
-                              //   lName: _lNameController.text,
-                              //   profilePicture: _pictureController.text,
-                              //   gender: _gender,
-                              //   breed: _breedController.text,
-                              //   color: _colorController.text,
-                              //   isVaccinated: _isChecked,
-                              //   registrationDate: _dateController.text,
-                              //   joiningDate: DateTime.now().toString(),
-                              //   size: _sizeController.text,
-                              // );
-                              // provider.createProfile(
-                              //     profile, profileId.toString());
-                              // context.pop();
                               final docId = profiles[0].id;
                               final docProfile = FirebaseFirestore.instance
                               .collection("profile").doc(docId.toString());
@@ -734,13 +681,12 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                                 'fName': fName ?? profiles[0].fName,
                                 'foodLikingIndex': favfoodIndex ?? profiles[0].foodLikingIndex,
                                 'foodName': foodName ?? profiles[0].foodName,
-                                'gender': _gender,
-                                'isFoodAggressive': _aggressionController.text,
-                                'isNeutered': sterilization,
-                                'isNewDogAggressive': _dogAggressionController.text,
-                                'isNewHumanAggressive': _humanAggressionController.text,
-                                'isSpayed': sterilization,
-                                'isVaccinated': isVaccinated ?? profiles[0].isVaccinated,
+                                'gender': _gender ?? profiles[0].gender,
+                                'isFoodAggressive': _isFoodAggressive ?? profiles[0].isFoodAggressive,
+                                'isSterilized': isSterilized ?? profiles[0].isSterilized,
+                                'isNewDogAggressive': _isDogAggressive ?? profiles[0].isNewDogAggressive,
+                                'isNewHumanAggressive': _isHumanAggressive ?? profiles[0].isNewHumanAggressive,
+                                'isVaccinated': _isChecked ?? profiles[0].isVaccinated,
                                 'joiningDate': profiles[0].joiningDate,
                                 'lName': lName ?? profiles[0].lName,
                                 'ownerfName': ownerfName ?? profiles[0].ownerfName,
