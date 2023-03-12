@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +10,7 @@ import 'package:the_dig_app/routes/routes.dart';
 
 //firebase
 import 'package:firebase_core/firebase_core.dart';
+import 'package:the_dig_app/services/local_notification_service.dart';
 import 'firebase_options.dart';
 
 // FlutterFire's Firebase Cloud Messaging plugin
@@ -17,6 +21,9 @@ import 'package:flutter/foundation.dart';
 
 //Add stream controller
 import 'package:rxdart/rxdart.dart';
+
+//http for notification API
+import 'package:http/http.dart' as http;
 
 // used to pass messages from event handler to the UI
 final _messageStreamController = BehaviorSubject<RemoteMessage>();
@@ -40,6 +47,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  LocalNotificationService.initialize();
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   firestore.settings = const Settings(
@@ -72,12 +80,13 @@ void main() async {
 
   // Set up foreground message handler
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    if (kDebugMode) {
-      print('Handling a foreground message: ${message.messageId}');
-      print('Message data: ${message.data}');
-      print('Message notification: ${message.notification?.title}');
-      print('Message notification: ${message.notification?.body}');
-    }
+    // if (kDebugMode) {
+    //   print('Handling a foreground message: ${message.messageId}');
+    //   print('Message data: ${message.data}');
+    //   print('Message notification: ${message.notification?.title}');
+    //   print('Message notification: ${message.notification?.body}');
+    // }
+    LocalNotificationService.display(message);
 
     _messageStreamController.sink.add(message);
   });
