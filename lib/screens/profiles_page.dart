@@ -69,10 +69,10 @@ class ProfilesPage extends StatelessWidget {
           bottomNavigationBar: DigBottomNavBar(email: email),
         );
       } else {
-        provider.getCurrentUserProfile(email).then((value) {
-          provider
+        provider.getCurrentUserProfile(email).then((value) async {
+          await provider
               .storeNotificationToken(provider.currentProfile[0].id.toString());
-        });
+        }).then((value) async => await provider.getCurrentUserProfile(email));
         provider.getProfiles(email);
         return Scaffold(
           appBar: AppBar(
