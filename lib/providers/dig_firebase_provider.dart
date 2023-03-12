@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
@@ -71,6 +72,19 @@ class DigFirebaseProvider extends ChangeNotifier {
 
   List<ProfileCard> get cards {
     return _cards.toList();
+  }
+
+  late List<Profile> currentProfile;
+
+  Future<void> getCurrentUserProfile(String email) async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection("profile")
+        .where("email", isEqualTo: email)
+        .get();
+    if (snapshot.docs.isNotEmpty) {
+      currentProfile =
+          snapshot.docs.map((doc) => Profile.fromJson(doc)).toList();
+    }
   }
 
   Future<void> getProfiles(String email) async {
@@ -326,32 +340,37 @@ class DigFirebaseProvider extends ChangeNotifier {
   }
 
   ///Sign Up/Login End
-  
+
   ///Fetching user profile
   Future<List<Profile>> readProfiles(String email) async {
     final snapshot = await FirebaseFirestore.instance
-      .collection("profile")
-      .where("email", isEqualTo: email)
-      .get();
+        .collection("profile")
+        .where("email", isEqualTo: email)
+        .get();
     final profiles = snapshot.docs.map((doc) => Profile.fromJson(doc)).toList();
     return profiles;
-}
-
- ///
- ///Fetching images.
- ///
- 
- Future<String> getImagesFromFirestoreAndStorage(String email) async {
-  final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('profile').where("email", isEqualTo: email).get();
-  
-  final List<String> imageUrls = [];
-  for (final DocumentSnapshot doc in snapshot.docs) {
-    final String storagePath = 'images/${doc.id}';
-    final ListResult result = await FirebaseStorage.instance.ref(storagePath).listAll();
-    final List<String> urls = await Future.wait(result.items.map((ref) => ref.getDownloadURL()).toList());
-    imageUrls.addAll(urls);
   }
 
-  return imageUrls.join();
- }
+  ///
+  ///Fetching images.
+  ///
+
+  Future<String> getImagesFromFirestoreAndStorage(String email) async {
+    final QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('profile')
+        .where("email", isEqualTo: email)
+        .get();
+
+    final List<String> imageUrls = [];
+    for (final DocumentSnapshot doc in snapshot.docs) {
+      final String storagePath = 'images/${doc.id}';
+      final ListResult result =
+          await FirebaseStorage.instance.ref(storagePath).listAll();
+      final List<String> urls = await Future.wait(
+          result.items.map((ref) => ref.getDownloadURL()).toList());
+      imageUrls.addAll(urls);
+    }
+
+    return imageUrls.join();
+  }
 }
