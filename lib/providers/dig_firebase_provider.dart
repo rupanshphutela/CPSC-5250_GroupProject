@@ -48,6 +48,14 @@ class DigFirebaseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  storeNotificationToken(String profileId) async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    FirebaseFirestore.instance
+        .collection('profile')
+        .doc(profileId)
+        .set({'token': token}, SetOptions(merge: true));
+  }
+
   /// Login End
 
   ///Profiles Page Start
