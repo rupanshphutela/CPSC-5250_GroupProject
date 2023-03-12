@@ -118,6 +118,14 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+
+  storeNotificationToken() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    FirebaseFirestore.instance
+        .collection('profile')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .set({'token': token}, SetOptions(merge: true));
+  }
 }
 
 class MyHomePage extends StatelessWidget {
