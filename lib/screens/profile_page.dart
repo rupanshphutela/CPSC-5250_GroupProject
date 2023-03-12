@@ -251,7 +251,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                             children: [
                                               CircleAvatar(
                                                 radius: 150,
-                                                backgroundImage: _imagePath != null? NetworkImage(_imagePath!): NetworkImage(profileList[index].profilePicture),
+                                                backgroundImage: _imagePath != null? 
+                                                NetworkImage(_imagePath!): 
+                                                profileList[index].profilePicture != "" ?
+                                                NetworkImage(profileList[index].profilePicture): 
+                                                const NetworkImage("https://firebasestorage.googleapis.com/v0/b/the-dig-app-c3c6d.appspot.com/o/images%2Fsample_image.jpg?alt=media&token=76274cb8-2be8-4f4e-bb88-f825e7a6d1e7"),
                                               ),
                                               Positioned(
                                                 top: 210,
