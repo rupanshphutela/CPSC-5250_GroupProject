@@ -35,8 +35,7 @@ class _LoginScreen extends State<LoginScreen> {
       final provider = Provider.of<DigFirebaseProvider>(context, listen: false);
       provider.checkFirebaseAuth();
     } on FirebaseAuthException catch (e) {
-      setState(() =>
-          {_errorMessage = 'Incorrect email or password, error detail: $e'});
+      setState(() => {_errorMessage = 'Incorrect email or password'});
     }
   }
 

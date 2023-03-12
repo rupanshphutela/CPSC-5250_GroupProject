@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class LocalNotificationService {
@@ -15,7 +16,7 @@ class LocalNotificationService {
 
   static void display(RemoteMessage message) async {
     try {
-      print("In Notification method");
+      debugPrint("In Notification method");
       // int id = DateTime.now().microsecondsSinceEpoch ~/1000000;
       Random random = Random();
       int id = random.nextInt(1000);
@@ -26,7 +27,7 @@ class LocalNotificationService {
         importance: Importance.max,
         priority: Priority.high,
       ));
-      print("my id is ${id.toString()}");
+      debugPrint("my id is ${id.toString()}");
       await _flutterLocalNotificationsPlugin.show(
         id,
         message.notification!.title,
@@ -34,7 +35,7 @@ class LocalNotificationService {
         notificationDetails,
       );
     } on Exception catch (e) {
-      print('Error>>>$e');
+      debugPrint('Error>>>$e');
     }
   }
 }
