@@ -99,10 +99,13 @@ class _Chat_ScreenState extends State<Chat_Screen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width/1.2,
                   child: TextField(
-                    decoration: const InputDecoration(label: Text("Enter message")),
+                    decoration: InputDecoration(label: const Text("Enter message"),
+                        enabledBorder: OutlineInputBorder(borderSide: const BorderSide(width: 2, color: Colors.grey), borderRadius: BorderRadius.circular(15.0)),
+                        focusedBorder: OutlineInputBorder(borderSide: const BorderSide(width: 2, color: Colors.grey), borderRadius: BorderRadius.circular(15.0))
+                    ),
                     controller: _messageController,
                   ),
                 ),
