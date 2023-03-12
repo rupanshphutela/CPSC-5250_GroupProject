@@ -119,14 +119,6 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  storeNotificationToken() async {
-    String? token = await FirebaseMessaging.instance.getToken();
-    FirebaseFirestore.instance
-        .collection('profile')
-        .doc(FirebaseAuth.instance.currentUser!.email)
-        .set({'token': token}, SetOptions(merge: true));
-  }
-
   sendNotification(String title, String token) async {
     final data = {
       'click_action': 'FLUTTER_NOTIFICATION_CLICK',
