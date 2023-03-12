@@ -11,6 +11,7 @@ import 'package:the_dig_app/providers/dig_firebase_provider.dart';
 import 'package:the_dig_app/screens/login_page.dart';
 import 'package:the_dig_app/screens/owner_profile_form.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:the_dig_app/util/bottom_navigation_bar.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({super.key, required this.email});
@@ -427,6 +428,7 @@ class _ProfilePageState extends State<ProfilePage> {
         //       },
         //       child: const Text("Edit Profile")),
         // ]),
+        bottomNavigationBar: DigBottomNavBar(email: widget.email),
       );
     } else {
       const CircularProgressIndicator();
