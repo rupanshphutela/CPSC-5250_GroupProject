@@ -201,6 +201,10 @@ class DigFirebaseProvider extends ChangeNotifier {
         Map<String, dynamic> dataToSave = swipeObject.toJson(swipeObject);
 
         await FirebaseFirestore.instance.collection("swipe").add(dataToSave);
+        if (direction.name == 'right' || direction.name == 'top') {
+          sendNotification(currentProfile[0].fName, direction.name,
+              'Friend Request', _profiles[index].token!);
+        }
       }
       notifyListeners();
     }
@@ -387,7 +391,8 @@ class DigFirebaseProvider extends ChangeNotifier {
   }
 
   ///Notification start
-  sendNotification(String title, String token) async {
+  sendNotification(
+      String name, String direction, String title, String token) async {
     final data = {
       'click_action': 'FLUTTER_NOTIFICATION_CLICK',
       'id': '1',
@@ -395,26 +400,34 @@ class DigFirebaseProvider extends ChangeNotifier {
       'message': title,
     };
 
+    String notificationTitle = "";
+    String swipeType = direction == "right" ? "Liked" : "Superliked";
+
+    if (title == 'Friend Request') {
+      notificationTitle = '$name $direction swiped your profile';
+    }
+
     try {
-      http.Response response = await http.post(
-          Uri.parse(
-              'fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send'),
-          headers: <String, String>{
-            'Content-Type': 'application/json',
-            'Authorization':
-                'Bearer nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC9vmATeG9QqKbU\n3yLsE/AUVWUU5vJheJUEdmvMK7w7fXch8Rm7kOSfSXLIg/Rt9bOLiZfyXRpfNC6k\npS4VAl7ei/eppM3qRazN7uvgrLAiHM7muhhEFUEEBbQnLvuGz6zTQfVRq59IQxWs\nPJmm1PkXeaQ3ghHgoqY93nv621ChcSrsSWMYkcnHMsQaosGIMLGCrDpEH1wUuUgL\nuPSaxL0B8fXDxfhCQqMXuXiEXh07Tl+retJgQ1wQuMoj64KOxAwhGROxRUlG6oj5\nKDRd8ci30sKWb+adtTPtJKKkg8ngxKJ6ihFQl/hMloQuIILZ+2nLXva7/yAfIczL\neEGrtPONAgMBAAECggEACthw4WwG4NNjBdPjSR8yn9bpujIhNJUR33ltW/Q8BCJ9\nxsDjOadkif5Gw1NXi1l588Xfm4ja0wpGiD6wzZ6fEZVqiJXU90kYQYUgkm0MfEat\nRN7qOCoG11YEICE9W01PkZu5i/uFVToQaRHlrnWJ71+SlWGn5/EkE3E+IO6cQz39\nd/4xGOa20RJf+zZxdU6LxToORGWV+6YYMIeijifjkFnAeso7LNZ6SBbX8i83HQeM\nxmZHQIqae/NmpkQ+P3pu48hY7dt4egRWmb6697lo3jyvM+jz85kcQO5XlKCOJ9wG\nmkF8to5TEJaVm563D6EQh48l3mRmqA6dq3OGaxfseQKBgQDrcgAIYVqD2bItmjc1\npBglNpolI9jKeX7/ULuANKLf2dEbXiAa2NP3SqHkQVJKy9XjUnLAKboJe6qY0b7q\nEYoM+APLhnmjAHDrKJw1Pu3ZRmEoniQTdt9ltGq0NqQQ2DI0Q//6DhGyrbhRuYoH\nR7KkwxBpCTKzBW1eB/tGkBajFwKBgQDOTvuCaiRLRdotbG+Z2W9EAmmXfK5IQxB4\nqYHSlc2NUdy67IBqzTtXBXa0laheGtIpHRgWHuaatgDB0ESds7cIcJ5SinGOHjxX\njk2fRyxaE7ZjquzXn9w9VsFG7lfPa6bmm60DtjiHBwqaukWopuoKSUBgwy59eHkh\n8gOeZazU+wKBgGojcjBU8uENem1kYA8mclwUSVkE1+4u5zlhw6UAFYykPMgBnqd7\np9KLKoAjkl11lm5r9J78MIml3joWE+KhFYLTK6LMdHku8biRDhpSzBZuy83rvIep\nxvuqYY/sMfoF/Fvja7nmLcRG3Bi7c6XkhHwSE4vGQbzCbZM+NeCRhCLxAoGBAIBy\nVk7tDKm81MjBIX6VDJw4MEu7ubqN3pxxVL2qvO6GkDnk81MLci2M3koyf0APzNcC\nITPsi0C5niENLRtOf9+GVlwni+mi04jjtVo8ctWmPkExcwIQqouaDv29ePhQGvqq\n4/5SnkEbVjPdU29cdIxw7N8RxkkiD7Ddv/kHbqKvAoGAdvKxdSOhDTMsJVOrir4x\nb5wUcS0qP96tDk58BeyvomU3dMhadYVXFwod362rtMyF+KbZFl4hbY6Z0IhifT1x\nXJ3FrmZH5lQqBW2PRc/kNBBNLmB6nSs2xZxsgBvZ2MWPhrtwQD1npahUSK6bImoG\nnmB4CzvI/gFjTjueUw4AX5s='
-          },
-          body: jsonEncode(<String, dynamic>{
-            'message': <String, dynamic>{
-              'notification': <String, dynamic>{
-                'title': title,
-                'body': 'You are followed by someone'
+      http.Response response =
+          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+              headers: <String, String>{
+                'Content-Type': 'application/json',
+                'Authorization':
+                    'key=AAAAEkL8k0c:APA91bFhnXFCyJUhsYJox3vSqD-L-fHhvW9SIhZ6feFHooxKvOW6ex8lDkShpkY7Bvu4nBc1G0gB8HeEkKUVX-w-4cpWPyq0GPYODyTKsDlCmx6eBubcHCMdAC3oMvLmYp2kdufW1LBw'
               },
-              'priority': 'high',
-              'data': data,
-              'token': token
-            },
-          }));
+              body: jsonEncode(
+                <String, dynamic>{
+                  'notification': <String, dynamic>{
+                    'title': 'Your profile was $swipeType',
+                    'body': notificationTitle.isNotEmpty
+                        ? notificationTitle
+                        : "You got a friend request",
+                  },
+                  'priority': 'high',
+                  'data': data,
+                  'to': token
+                },
+              ));
 
       if (response.statusCode == 200) {
         print("Notification is sent");
