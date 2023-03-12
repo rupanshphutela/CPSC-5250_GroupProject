@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
@@ -10,7 +9,6 @@ import 'package:the_dig_app/screens/profiles_page.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
   @override
   createState() => _LoginScreen();
 }
@@ -19,14 +17,16 @@ class _LoginScreen extends State<LoginScreen> {
   String? _email;
   String? _password;
   String? _errorMessage;
-
-  @override
-  void initState() {
-    setState(() {});
-    super.initState();
-  }
-
   StreamSubscription<User?>? _authSubscription;
+
+  bool _isLoggedIn = false;
+  @override
+  initState() {
+    super.initState();
+    _authSubscription = FirebaseAuth.instance.authStateChanges().listen((user) {
+      setState(() => {_isLoggedIn = user != null});
+    });
+  }
 
   @override
   void dispose() {
@@ -38,8 +38,6 @@ class _LoginScreen extends State<LoginScreen> {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: _email!, password: _password!);
-      final provider = Provider.of<DigFirebaseProvider>(context, listen: false);
-      provider.checkFirebaseAuth();
     } on FirebaseAuthException catch (e) {
       setState(() => {_errorMessage = 'Incorrect email or password'});
     }
@@ -48,9 +46,7 @@ class _LoginScreen extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final disableButtons = _email == null || _password == null;
-    final provider = Provider.of<DigFirebaseProvider>(context);
-    bool isLoggedIn = provider.isLoggedIn;
-    if (!isLoggedIn) {
+    if (!_isLoggedIn) {
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -58,7 +54,7 @@ class _LoginScreen extends State<LoginScreen> {
             Icons.pets_outlined,
           ),
           actions: [
-            if (isLoggedIn)
+            if (_isLoggedIn)
               IconButton(
                   onPressed: () {
                     FirebaseAuth.instance.signOut();
@@ -164,6 +160,7 @@ class _LoginScreen extends State<LoginScreen> {
     } else {
       const CircularProgressIndicator();
       String email = FirebaseAuth.instance.currentUser!.email.toString();
+      Provider.of<DigFirebaseProvider>(context).setFirebaseAuth();
       return ProfilesPage(
         email: email,
       );

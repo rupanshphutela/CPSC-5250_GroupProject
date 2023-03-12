@@ -25,13 +25,16 @@ class DigFirebaseProvider extends ChangeNotifier {
   Owner? _ownerProfile;
 
   /// Login Start
-  StreamSubscription<User?>? _authSubscription;
-  bool _isLoggedIn = false;
+  late bool _isLoggedIn;
 
   bool get isLoggedIn => _isLoggedIn;
 
+  void setFirebaseAuth() {
+    _isLoggedIn = true;
+  }
+
   void checkFirebaseAuth() {
-    _authSubscription = FirebaseAuth.instance.authStateChanges().listen((user) {
+    FirebaseAuth.instance.authStateChanges().listen((user) {
       _isLoggedIn = user != null;
       notifyListeners();
     });
