@@ -5,9 +5,10 @@ import 'package:the_dig_app/models/message.dart';
 import 'package:the_dig_app/screens/chat_bubble.dart';
 
 class Chat_Screen extends StatefulWidget {
+  final String destinationFName;
   final String destinationId;
   final String profileId;
-  Chat_Screen({Key? key, required this.destinationId, required this.profileId}) : super(key: key);
+  Chat_Screen({Key? key, required this.destinationFName, required this.destinationId, required this.profileId}) : super(key: key);
 
   @override
   State<Chat_Screen> createState() => _Chat_ScreenState();
@@ -86,7 +87,7 @@ class _Chat_ScreenState extends State<Chat_Screen> {
               onPressed: () {
                 onBackPress();
               }),
-          title: const Text("Your Chats"),
+          title: Text(widget.destinationFName),
           centerTitle: true,
         ),
         bottomNavigationBar: SafeArea(
@@ -118,7 +119,7 @@ class _Chat_ScreenState extends State<Chat_Screen> {
                         FocusManager.instance.primaryFocus?.unfocus();
                       }
                     },
-                    icon: const Icon(Icons.send))
+                    icon: const Icon(Icons.send, color: Colors.blue,))
               ],
             ),
           ),

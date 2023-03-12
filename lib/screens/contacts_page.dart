@@ -51,7 +51,7 @@ class ContactsPage extends StatelessWidget {
                           child: IconButton(
                             icon: const Icon(Icons.chat),
                             onPressed: () {
-                              context.push('/chat_screen?destinationId=${contacts[index].destinationProfileId}&profileId=${contacts[index].profileId}');
+                              context.push('/chat_screen?destinationFName=${contacts[index].destinationFName}&destinationId=${contacts[index].destinationProfileId}&profileId=${contacts[index].profileId}');
                             },
                           ),
                         ),
