@@ -85,6 +85,46 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Future<String?> _getImageFromGallery(int profileId) async {
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+    if (pickedFile == null) return null;
+
+    final imageFile = File(pickedFile.path);
+    final fileName = '${profileId}_profile.jpg';
+    final destination = 'images/$profileId/$fileName';
+
+    try {
+      await firebase_storage.FirebaseStorage.instance
+          .ref(destination)
+          .putFile(imageFile);
+      final url = await firebase_storage.FirebaseStorage.instance
+          .ref(destination)
+          .getDownloadURL();
+      setState(() {
+        // _imagePath = destination;
+        _imagePath = url;
+      });
+      //update profile picture path in firestore profile doc
+      final DocumentReference documentReference = FirebaseFirestore.instance
+          .collection('profile')
+          .doc(profileId.toString());
+      await documentReference.update({
+        'profilePicture': url,
+      }).then((value) {
+        debugPrint('Update picture to main profile successful');
+      }).catchError((error) {
+        debugPrint('Update failed: $error');
+      });
+      return url;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  
+
   void _showImagePicker(BuildContext context, int profileId) {
     showModalBottomSheet(
       context: context,
@@ -108,6 +148,27 @@ class _ProfilePageState extends State<ProfilePage> {
               child: GridView.count(
                 crossAxisCount: 2,
                 children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      _getImageFromGallery(profileId);
+                      Navigator.pop(context);
+                    },
+                    child: Column(
+                      children: const <Widget>[
+                        Icon(
+                          Icons.photo_library,
+                          size: 50,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Gallery',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   GestureDetector(
                     onTap: () {
                       _takePhotoWithCamera(profileId);
