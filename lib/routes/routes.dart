@@ -85,9 +85,10 @@ final routes = [
   GoRoute(
     path: '/chat_screen',
     builder: (context, state) {
+      final String destinationFName = state.queryParams['destinationFName'].toString();
       final String destinationId = state.queryParams['destinationId'].toString();
       final String profileId = state.queryParams['profileId'].toString();
-      return Chat_Screen(destinationId: destinationId, profileId: profileId);
+      return Chat_Screen(destinationFName: destinationFName, destinationId: destinationId, profileId: profileId);
     },
   ),
 ];

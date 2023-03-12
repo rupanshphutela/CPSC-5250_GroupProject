@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 class ChatBubble extends StatelessWidget {
   const ChatBubble({
@@ -30,11 +31,11 @@ class ChatBubble extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.all(12),
-            child: Text(
-              text,
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  color: isCurrentUser ? Colors.white : Colors.black87),
-            ),
+              child: Text(
+                text,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: isCurrentUser ? Colors.white : Colors.black87),
+              ),
           ),
         ),
       ),
