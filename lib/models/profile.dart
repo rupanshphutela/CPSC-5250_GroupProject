@@ -19,8 +19,7 @@ class Profile {
   String color;
   bool isVaccinated;
   String registrationDate;
-  bool? isSpayed;
-  bool? isNeutered;
+  bool? isSterilized;
   String joiningDate;
   String size;
   int? socialIndexHumans;
@@ -54,8 +53,7 @@ class Profile {
     required this.color,
     required this.isVaccinated,
     required this.registrationDate,
-    this.isSpayed,
-    this.isNeutered,
+    this.isSterilized,
     required this.joiningDate,
     required this.size,
     this.socialIndexHumans,
@@ -85,13 +83,26 @@ class Profile {
       fName: data['fName'],
       lName: data['lName'],
       profilePicture: data['profilePicture'],
+      biography: data['biography'],
       gender: data['gender'],
       breed: data['breed'],
       color: data['color'],
       isVaccinated: data['isVaccinated'],
       registrationDate: data['registrationDate'],
       joiningDate: data['joiningDate'],
+      isSterilized: data['isSterilized'],
       size: data['size'],
+      socialIndexHumans: data['socialIndexHumans'],
+      socialIndexDogs: data['socialIndexDogs'],
+      isFoodAggressive: data['isFoodAggressive'],
+      isNewHumanAggressive: data['isNewHumanAggressive'],
+      isNewDogAggressive: data['isNewDogAggressive'],
+      foodName: data['foodName'],
+      foodLikingIndex: data['foodLikingIndex'],
+      activityName: data['activityName'],
+      activityLikingIndex: data['activityLikingIndex'],
+      skillName: data['skillName'],
+      skillProficiency: data['skillProficiency'],
     );
   }
 
@@ -114,8 +125,7 @@ class Profile {
         'color': color,
         'isVaccinated': isVaccinated,
         'registrationDate': registrationDate,
-        'isSpayed': isSpayed,
-        'isNeutered': isNeutered,
+        'isSterilized': isSterilized,
         'joiningDate': joiningDate,
         'size': size,
         'socialIndexHumans': socialIndexHumans,
