@@ -85,7 +85,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     breed: _breedController.text,
                     color: _colorController.text,
                     isVaccinated: _isVaccinated,
-                    registrationDate: _registrationDateController.text,
+                    registrationDate:
+                        _registrationDateController.text.isNotEmpty
+                            ? _registrationDateController.text
+                            : DateTime.now().toString(),
                     joiningDate: DateTime.now().toString(),
                     size: _sizeController.text),
                 userId.toString())
