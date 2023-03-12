@@ -403,31 +403,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       }
                     }),
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    context.push("/add/owner/profile?email=${widget.email}");
-                  },
-                  child: const Text("Edit Profile")),
             ],
           ),
         ),
-        // body: Column(children: [
-        //   Expanded(
-        //     child: GridView.count(
-        //       crossAxisCount: 2,
-        //       children: List.generate(_imageUrls.length, (index) {
-        //         return Center(
-        //           child: Image.network(_imageUrls[index]),
-        //         );
-        //       }),
-        //     ),
-        //   ),
-        //   ElevatedButton(
-        //       onPressed: () {
-        //         context.push("/add/owner/profile?email=${widget.email}");
-        //       },
-        //       child: const Text("Edit Profile")),
-        // ]),
         bottomNavigationBar: DigBottomNavBar(email: widget.email),
       );
     } else {
