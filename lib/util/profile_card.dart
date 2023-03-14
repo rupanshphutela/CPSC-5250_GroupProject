@@ -51,7 +51,6 @@ class ProfileCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     buildUserInfo(card: card),
-                    buildLikeBadge(direction: direction),
                     const Padding(
                       padding: EdgeInsets.only(bottom: 16, right: 8),
                       child: Icon(Icons.info, color: Colors.white),
@@ -62,72 +61,6 @@ class ProfileCard extends StatelessWidget {
             ],
           ),
         ));
-  }
-
-  Widget buildLikeBadge({required CardSwiperDirection? direction}) {
-    if (direction?.name == 'right') {
-      return Positioned(
-          child: Transform.rotate(
-        angle: 0.5,
-        child: Container(
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.green, width: 2),
-          ),
-          child: const Text(
-            'DIG',
-            style: TextStyle(
-              color: Colors.green,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ));
-    } else if (direction?.name == 'left') {
-      return Positioned(
-          child: Transform.rotate(
-        angle: 0.5,
-        child: Container(
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.pink, width: 2),
-          ),
-          child: const Text(
-            'WOOF',
-            style: TextStyle(
-              color: Colors.pink,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ));
-    } else if (direction?.name == 'top') {
-      return Positioned(
-          child: Transform.rotate(
-        angle: 0.5,
-        child: Container(
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.pink, width: 2),
-          ),
-          child: const Text(
-            'SUPER DIG',
-            style: TextStyle(
-              color: Colors.pink,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ));
-    } else {
-      return Visibility(
-        visible: false,
-        child: Container(),
-      );
-    }
   }
 
   Widget buildUserInfo({required Profile card}) => Padding(
