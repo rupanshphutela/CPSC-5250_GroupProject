@@ -31,7 +31,7 @@ class SettingsPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Welcome, ${FirebaseAuth.instance.currentUser!.email.toString()}',
+                        'Welcome, ${provider.currentProfile[0].fName}\'s owner',
                         style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w200,
@@ -47,40 +47,46 @@ class SettingsPage extends StatelessWidget {
                 SettingsTile(
                   title: const Text('Left Swipes'),
                   leading: const Icon(Icons.arrow_back_ios),
-                  onPressed: (BuildContext context) {
-                    context.push('/swipes?email=$email&direction=left');
+                  onPressed: (BuildContext context) async {
+                    provider.swipesList.clear();
+                    await provider.getSwipesList(email, 'left').then((value) =>
+                        context.push('/swipes?email=$email&direction=left'));
                   },
                 ),
                 SettingsTile(
                   title: const Text('Right Swipes'),
                   leading: const Icon(Icons.arrow_forward_ios),
-                  onPressed: (BuildContext context) {
+                  onPressed: (BuildContext context) async {
                     provider.swipesList.clear();
-                    context.push('/swipes?email=$email&direction=right');
+                    await provider.getSwipesList(email, 'right').then((value) =>
+                        context.push('/swipes?email=$email&direction=right'));
                   },
                 ),
                 SettingsTile(
                   title: const Text('Top Swipes'),
                   leading: const Icon(Icons.arrow_upward_outlined),
-                  onPressed: (BuildContext context) {
+                  onPressed: (BuildContext context) async {
                     provider.swipesList.clear();
-                    context.push('/swipes?email=$email&direction=top');
+                    await provider.getSwipesList(email, 'top').then((value) =>
+                        context.push('/swipes?email=$email&direction=top'));
                   },
                 ),
                 SettingsTile(
                   title: const Text('My Requests'),
                   leading: const Icon(Icons.person_add),
-                  onPressed: (BuildContext context) {
+                  onPressed: (BuildContext context) async {
                     provider.incomingSwipesList.clear();
-                    context.push('/incoming/swipes?email=$email');
+                    await provider.getIncomingSwipesList(email).then((value) =>
+                        context.push('/incoming/swipes?email=$email'));
                   },
                 ),
                 SettingsTile(
                   title: const Text('My Contacts'),
                   leading: const Icon(Icons.group),
-                  onPressed: (BuildContext context) {
+                  onPressed: (BuildContext context) async {
                     provider.contacts.clear();
-                    context.push('/contacts?email=$email');
+                    await provider.getContacts(email).then(
+                        (value) => context.push('/contacts?email=$email'));
                   },
                 ),
               ],
