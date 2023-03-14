@@ -59,8 +59,12 @@ dependencies:
   rxdart: ^0.27.7
   flutter_local_notifications: ^13.0.0
   http: ^0.13.5
+<<<<<<< HEAD
   mockito: ^5.3.2
   firebase_auth_mocks: ^0.11.0
+=======
+  fake_cloud_firestore: ^2.4.1+1
+>>>>>>> f9c25d2b3a8b17ee54f7eaef0ce11853e311df5a
 
 dev_dependencies:
   build_runner:

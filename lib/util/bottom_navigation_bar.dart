@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:the_dig_app/providers/dig_firebase_provider.dart';
 
 class DigBottomNavBar extends StatelessWidget {
   final String email;
@@ -11,6 +13,7 @@ class DigBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<DigFirebaseProvider>(context);
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       items: const [
@@ -43,16 +46,19 @@ class DigBottomNavBar extends StatelessWidget {
           label: 'Settings',
         ),
       ],
-      onTap: (index) {
+      onTap: (index) async {
         var route = ModalRoute.of(context);
         if (route?.settings.name != '/profiles' && index == 0) {
           context.push('/profiles?email=$email');
         } else if (route?.settings.name != '/contacts' && index == 1) {
-          context.push('/contacts?email=$email');
-        } else if (route?.settings.name != '/edit/profile' && index == 2){
-            context.push('/edit/profile?email=$email');
-        // } else if (route?.settings.name != '/add/owner/profile' && index == 2) {
-        //   context.push('/add/owner/profile?email=$email');
+          provider.contacts.clear();
+          await provider
+              .getContacts(email)
+              .then((value) => context.push('/contacts?email=$email'));
+        } else if (route?.settings.name != '/edit/profile' && index == 2) {
+          context.push('/edit/profile?email=$email');
+          // } else if (route?.settings.name != '/add/owner/profile' && index == 2) {
+          //   context.push('/add/owner/profile?email=$email');
         } else if (route?.settings.name != '/settings' && index == 3) {
           context.push('/settings?email=$email');
         } else {}
