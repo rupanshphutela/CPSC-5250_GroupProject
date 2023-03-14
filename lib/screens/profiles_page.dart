@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/providers/dig_firebase_provider.dart';
@@ -19,10 +20,6 @@ class ProfilesPage extends StatelessWidget {
     List<ProfileCard> cards = provider.cards;
     if (isLoggedIn) {
       bool isLastCard = provider.isLastCard;
-      void onLastSwipe() {
-        provider.onLastSwipe();
-      }
-
       if (profiles.isNotEmpty) {
         return Scaffold(
           appBar: AppBar(
@@ -36,6 +33,10 @@ class ProfilesPage extends StatelessWidget {
                   child: CardSwiper(
                     scale: 0,
                     cards: cards,
+                    onEnd: () async {
+                      await provider.getProfiles(email).then(
+                          (value) => context.push('/profiles?email=$email'));
+                    },
                     isDisabled: isLastCard,
                     onSwipe: (int index, CardSwiperDirection direction) async {
                       if (direction.name == 'top') {
@@ -59,7 +60,6 @@ class ProfilesPage extends StatelessWidget {
                       }
                       await provider.insertSwipe(index, direction);
                     },
-                    onEnd: onLastSwipe,
                     padding: const EdgeInsets.all(24.0),
                   ),
                 ),

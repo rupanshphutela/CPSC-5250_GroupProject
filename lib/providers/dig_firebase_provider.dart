@@ -70,13 +70,6 @@ class DigFirebaseProvider extends ChangeNotifier {
   bool created = false;
   bool isLastCard = false;
 
-  void onLastSwipe() {
-    isLastCard = true;
-    // _profiles.clear();
-    // _cards.clear();
-    notifyListeners();
-  }
-
   List<Profile> get profiles {
     // getProfiles();
     return _profiles.toList();
