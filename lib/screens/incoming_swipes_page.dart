@@ -12,7 +12,7 @@ class IncomingSwipesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<DigFirebaseProvider>(context);
+    final provider = Provider.of<DigFirebaseProvider>(context, listen: false);
     bool isLoggedIn = provider.isLoggedIn;
     if (isLoggedIn) {
       List<Swipe> incomingSwipesList = provider.incomingSwipesList;
@@ -69,10 +69,12 @@ class IncomingSwipesPage extends StatelessWidget {
                                             filteredIncomingSwipesList[index]
                                                 .id,
                                             'Accepted')
+                                        .then((value) async =>
+                                            await provider.createContact(swipe))
                                         .then((value) =>
                                             provider.contacts.clear())
                                         .then((value) async =>
-                                            await provider.createContact(swipe))
+                                            await provider.getContacts(email))
                                         .then((value) => context
                                             .push('/contacts?email=$email'));
                                   },
@@ -83,9 +85,17 @@ class IncomingSwipesPage extends StatelessWidget {
                                 child: IconButton(
                                   icon: const Icon(Icons.highlight_off),
                                   onPressed: () async {
-                                    await provider.respondToRequest(
-                                        filteredIncomingSwipesList[index].id,
-                                        'Rejected');
+                                    await provider
+                                        .respondToRequest(
+                                            filteredIncomingSwipesList[index]
+                                                .id,
+                                            'Rejected')
+                                        .then((value) =>
+                                            provider.clearIncomingSwipesList())
+                                        .then((value) => provider
+                                            .getIncomingSwipesList(email))
+                                        .then((value) => context.push(
+                                            '/incoming/swipes?email=$email'));
                                   },
                                 ),
                               ),
