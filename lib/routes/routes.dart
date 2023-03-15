@@ -89,7 +89,7 @@ final routes = [
       final String destinationId =
           state.queryParams['destinationId'].toString();
       final String profileId = state.queryParams['profileId'].toString();
-      return Chat_Screen(
+      return ChatScreen(
           destinationFName: destinationFName,
           destinationId: destinationId,
           profileId: profileId);

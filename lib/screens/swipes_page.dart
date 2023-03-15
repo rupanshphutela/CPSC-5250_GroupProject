@@ -22,7 +22,7 @@ class SwipesPage extends StatelessWidget {
       filteredSwipesList =
           swipesList.where((x) => x.direction.contains(direction)).toList();
 
-      if (filteredSwipesList.isNotEmpty && filteredSwipesList != null) {
+      if (filteredSwipesList.isNotEmpty && filteredSwipesList.isNotEmpty) {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,

@@ -1,20 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:the_dig_app/models/message.dart';
 import 'package:the_dig_app/screens/chat_bubble.dart';
 
-class Chat_Screen extends StatefulWidget {
+class ChatScreen extends StatefulWidget {
   final String destinationFName;
   final String destinationId;
   final String profileId;
-  Chat_Screen({Key? key, required this.destinationFName, required this.destinationId, required this.profileId}) : super(key: key);
+  const ChatScreen(
+      {Key? key,
+      required this.destinationFName,
+      required this.destinationId,
+      required this.profileId})
+      : super(key: key);
 
   @override
-  State<Chat_Screen> createState() => _Chat_ScreenState();
+  State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _Chat_ScreenState extends State<Chat_Screen> {
+class _ChatScreenState extends State<ChatScreen> {
   String groupChatId = "";
   String currentUserId = "";
   String peerId = "";
@@ -69,7 +73,6 @@ class _Chat_ScreenState extends State<Chat_Screen> {
   }
 
   Future<bool> onBackPress() {
-
     Navigator.pop(context);
 
     return Future.value(false);
@@ -101,25 +104,35 @@ class _Chat_ScreenState extends State<Chat_Screen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width/1.2,
+                  width: MediaQuery.of(context).size.width / 1.2,
                   child: TextField(
-                    decoration: InputDecoration(label: const Text("Enter message"),
-                        enabledBorder: OutlineInputBorder(borderSide: const BorderSide(width: 2, color: Colors.grey), borderRadius: BorderRadius.circular(15.0)),
-                        focusedBorder: OutlineInputBorder(borderSide: const BorderSide(width: 2, color: Colors.grey), borderRadius: BorderRadius.circular(15.0))
-                    ),
+                    decoration: InputDecoration(
+                        label: const Text("Enter message"),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(width: 2, color: Colors.grey),
+                            borderRadius: BorderRadius.circular(15.0)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(width: 2, color: Colors.grey),
+                            borderRadius: BorderRadius.circular(15.0))),
                     controller: _messageController,
                   ),
                 ),
                 IconButton(
                     onPressed: () {
-                      if (_messageController.text.isNotEmpty && _messageController.text.trim().isNotEmpty){
+                      if (_messageController.text.isNotEmpty &&
+                          _messageController.text.trim().isNotEmpty) {
                         sendChat(message: _messageController.text);
                         _messageController.text = "";
                         _scrollDown();
                         FocusManager.instance.primaryFocus?.unfocus();
                       }
                     },
-                    icon: const Icon(Icons.send, color: Colors.blue,))
+                    icon: const Icon(
+                      Icons.send,
+                      color: Colors.blue,
+                    ))
               ],
             ),
           ),
@@ -146,11 +159,11 @@ class _Chat_ScreenState extends State<Chat_Screen> {
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
                   Message chat =
-                  Message.fromDocument(snapshot.data!.docs[index]);
+                      Message.fromDocument(snapshot.data!.docs[index]);
                   return ChatBubble(
                       text: chat.content,
                       isCurrentUser:
-                      chat.idFrom == currentUserId ? true : false);
+                          chat.idFrom == currentUserId ? true : false);
                 },
               );
             }),

@@ -39,6 +39,7 @@ class _LoginScreen extends State<LoginScreen> {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: _email!, password: _password!);
     } on FirebaseAuthException catch (e) {
+      debugPrint("Error received: $e");
       setState(() => {_errorMessage = 'Incorrect email or password'});
     }
   }

@@ -2,15 +2,11 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:file_picker/file_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 // import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:the_dig_app/models/owner.dart';
 import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/providers/dig_firebase_provider.dart';
 import 'package:intl/intl.dart';
@@ -32,47 +28,14 @@ class EditProfileForm extends StatefulWidget {
 class _EditProfileForm extends State<EditProfileForm> {
   final sizes = ['Small', 'Medium', 'Large'];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _ownerfNameController = TextEditingController();
-  final TextEditingController _ownerlNameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _cityController = TextEditingController();
-  final TextEditingController _ownerpictureController = TextEditingController();
-  final TextEditingController _pictureController = TextEditingController();
-  final TextEditingController _fNameController = TextEditingController();
-  final TextEditingController _lNameController = TextEditingController();
-  final TextEditingController _bioController = TextEditingController();
-  final TextEditingController _breedController = TextEditingController();
-  final TextEditingController _colorController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _sizeController = TextEditingController();
-  final TextEditingController _socialHumansController = TextEditingController();
-  final TextEditingController _socialDogsController = TextEditingController();
-  final TextEditingController _aggressionController = TextEditingController();
-  final TextEditingController _humanAggressionController =
-      TextEditingController();
-  final TextEditingController _dogAggressionController =
-      TextEditingController();
-  final TextEditingController _favoriteFoodController = TextEditingController();
-  final TextEditingController _favoriteFoodRatingController =
-      TextEditingController();
-  final TextEditingController _favoriteActivityController =
-      TextEditingController();
-  final TextEditingController _favoriteActivityRatingController =
-      TextEditingController();
-  final TextEditingController _skillNameController = TextEditingController();
-  final TextEditingController _skillProficienctController =
-      TextEditingController();
 
   String? _gender;
   String? genderRadio;
   bool? isVaccinated;
   bool? isSterilized;
-  File? _imageFile;
-  String? _imagePath;
-  String? _ownerImagePath;
   bool? _isChecked;
-  bool? _isSpayed;
-  bool? _isNeutered;
   DateTime _selectedDate = DateTime.now();
   String? ownerfName;
   String? ownerlName;

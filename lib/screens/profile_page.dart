@@ -2,37 +2,31 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/providers/dig_firebase_provider.dart';
 import 'package:the_dig_app/screens/login_page.dart';
-import 'package:the_dig_app/screens/edit_profile_form.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:the_dig_app/util/bottom_navigation_bar.dart';
 
 class ProfilePage extends StatefulWidget {
-  ProfilePage({super.key, required this.email});
-  String email;
+  const ProfilePage({super.key, required this.email});
+  final String email;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late FirebaseStorage _storage;
   late Profile profile;
 
-  List<String> _imageUrls = [];
-  File? _imageFile;
   String? _imagePath;
 
   @override
   void initState() {
     super.initState();
-    _storage = FirebaseStorage.instance;
   }
 
   Future<String?> _takePhotoWithCamera(int profileId) async {
@@ -67,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
       });
       return url;
     } catch (e) {
-      print(e);
+      debugPrint('$e');
       return null;
     }
   }
@@ -105,7 +99,7 @@ class _ProfilePageState extends State<ProfilePage> {
       });
       return url;
     } catch (e) {
-      print(e);
+      debugPrint('$e');
       return null;
     }
   }
