@@ -584,12 +584,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                       10), // set the button shape
                                 ),
                               ),
-                              child: const Text(
+                              child: Text(
                                 'Register',
-                                style: TextStyle(
-                                  color: Colors.white, // set the text color
-                                  fontSize: 25, // set the text size
-                                ),
+                                style: Theme.of(context).textTheme.labelSmall,
                               ),
                             ),
                           ]),

@@ -42,7 +42,7 @@ class ContactsPage extends StatelessWidget {
                         ),
                         title: Text(
                           '${contacts[index].destinationFName} ${contacts[index].destinationLName}',
-                          style: const TextStyle(fontSize: 20),
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         subtitle: Text(
                             '${contacts[index].destinationBreed}, ${contacts[index].destinationColor}'),
@@ -51,7 +51,8 @@ class ContactsPage extends StatelessWidget {
                           child: IconButton(
                             icon: const Icon(Icons.chat),
                             onPressed: () {
-                              context.push('/chat_screen?destinationFName=${contacts[index].destinationFName}&destinationId=${contacts[index].destinationProfileId}&profileId=${contacts[index].profileId}');
+                              context.push(
+                                  '/chat_screen?destinationFName=${contacts[index].destinationFName}&destinationId=${contacts[index].destinationProfileId}&profileId=${contacts[index].profileId}');
                             },
                           ),
                         ),
@@ -74,12 +75,12 @@ class ContactsPage extends StatelessWidget {
           body: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[
+              children: <Widget>[
                 Text(
                   "No contacts found, but we'll keep checking...",
-                  style: TextStyle(fontSize: 16),
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
-                Center(
+                const Center(
                   child: CircularProgressIndicator(),
                 ),
               ],

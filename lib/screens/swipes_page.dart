@@ -22,7 +22,7 @@ class SwipesPage extends StatelessWidget {
       filteredSwipesList =
           swipesList.where((x) => x.direction.contains(direction)).toList();
 
-      if (filteredSwipesList.isNotEmpty && filteredSwipesList != null) {
+      if (filteredSwipesList.isNotEmpty && filteredSwipesList.isNotEmpty) {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -46,7 +46,7 @@ class SwipesPage extends StatelessWidget {
                           ),
                           title: Text(
                             '${filteredSwipesList[index].destinationProfileFName} ${filteredSwipesList[index].destinationProfileLName}',
-                            style: const TextStyle(fontSize: 20),
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           subtitle: Text(
                               '${filteredSwipesList[index].destinationBreed}, ${filteredSwipesList[index].destinationColor}'),
@@ -73,7 +73,7 @@ class SwipesPage extends StatelessWidget {
               children: <Widget>[
                 Text(
                   "No $direction swipes found, but we'll keep checking...",
-                  style: const TextStyle(fontSize: 16),
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const Center(
                   child: CircularProgressIndicator(),

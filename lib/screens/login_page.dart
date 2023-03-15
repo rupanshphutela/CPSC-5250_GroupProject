@@ -26,6 +26,11 @@ class _LoginScreen extends State<LoginScreen> {
     _authSubscription = FirebaseAuth.instance.authStateChanges().listen((user) {
       setState(() => {_isLoggedIn = user != null});
     });
+    setState(() {
+      _email = null;
+      _password = null;
+      _errorMessage = null;
+    });
   }
 
   @override
@@ -39,6 +44,7 @@ class _LoginScreen extends State<LoginScreen> {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: _email!, password: _password!);
     } on FirebaseAuthException catch (e) {
+      debugPrint("Error received: $e");
       setState(() => {_errorMessage = 'Incorrect email or password'});
     }
   }
@@ -53,17 +59,6 @@ class _LoginScreen extends State<LoginScreen> {
           title: const Icon(
             Icons.pets_outlined,
           ),
-          actions: [
-            if (_isLoggedIn)
-              IconButton(
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(
-                            'User: ${FirebaseAuth.instance.currentUser!.email} logged out')));
-                  },
-                  icon: const Icon(Icons.power_settings_new_outlined))
-          ],
         ),
         body: Center(
           child: Column(
@@ -99,6 +94,17 @@ class _LoginScreen extends State<LoginScreen> {
                         setState(() => {_password = password})
                       },
                     ),
+                    Row(
+                      children: <Widget>[
+                        Center(
+                            child: InkWell(
+                          child: const Text('Forgot Password?'),
+                          onTap: () {
+                            _showResetPassword();
+                          },
+                        )),
+                      ],
+                    ),
                     Padding(
                       padding: EdgeInsets.all(
                           (MediaQuery.of(context).size.width).toDouble() *
@@ -118,30 +124,24 @@ class _LoginScreen extends State<LoginScreen> {
                                       10), // set the button shape
                                 ),
                               ),
-                              child: const Text(
+                              child: Text(
                                 'Sign Up',
-                                style: TextStyle(
-                                  color: Colors.white, // set the text color
-                                  fontSize: 25, // set the text size
-                                ),
+                                style: Theme.of(context).textTheme.labelSmall,
                               ),
                             ),
                             ElevatedButton(
                               onPressed: disableButtons ? null : _logIn,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Colors.teal, // set the button color
+                                backgroundColor: Theme.of(context)
+                                    .primaryColor, // set the button color
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
                                       10), // set the button shape
                                 ),
                               ),
-                              child: const Text(
+                              child: Text(
                                 'Log in',
-                                style: TextStyle(
-                                  color: Colors.white, // set the text color
-                                  fontSize: 25, // set the text size
-                                ),
+                                style: Theme.of(context).textTheme.labelSmall,
                               ),
                             )
                           ]),
@@ -165,5 +165,89 @@ class _LoginScreen extends State<LoginScreen> {
         email: email,
       );
     }
+  }
+
+  void _showResetPassword() {
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    final TextEditingController emailController = TextEditingController();
+    String errorMessagePasswordReset = '';
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Form(
+                key: formKey,
+                child: TextFormField(
+                  maxLines: 1,
+                  maxLength: 40,
+                  controller: emailController,
+                  inputFormatters: [LengthLimitingTextInputFormatter(40)],
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your Email address';
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                    labelText: 'Email address',
+                    hintText: 'Enter Email address',
+                  ),
+                ),
+              ),
+              Text(
+                errorMessagePasswordReset,
+                style: const TextStyle(color: Colors.red),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  if (formKey.currentState!.validate()) {
+                    try {
+                      await FirebaseAuth.instance
+                          .sendPasswordResetEmail(email: emailController.text)
+                          .then((value) => context.pop())
+                          .then((value) => ScaffoldMessenger.of(context)
+                              .showSnackBar(SnackBar(
+                                  content: Text(
+                                      'Password reset email sent for email: ${emailController.text}'))));
+                    } on FirebaseAuthException catch (e) {
+                      debugPrint("Error received: $e");
+                      if (e.code == 'user-not-found') {
+                        setState(() => {
+                              errorMessagePasswordReset =
+                                  'There is no user record corresponding to this identifier. The user may have been deleted.'
+                            });
+                      } else if (e.code == 'invalid-email') {
+                        setState(() => {
+                              errorMessagePasswordReset =
+                                  'The email address is badly formatted'
+                            });
+                      }
+                    }
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue, // set the button color
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(10), // set the button shape
+                  ),
+                ),
+                child: Text(
+                  'Send Email',
+                  style: Theme.of(context).textTheme.labelSmall,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
