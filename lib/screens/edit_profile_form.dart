@@ -21,17 +21,18 @@ enum RadioValue { Male, Female }
 
 // const List<String> aggression = ['Yes', 'No'];
 
-class OwnerProfileForm extends StatefulWidget {
+class EditProfileForm extends StatefulWidget {
   final String email;
-  OwnerProfileForm({super.key, required this.email});
+  EditProfileForm({super.key, required this.email});
 
   @override
-  createState() => _OwnerProfileForm();
+  createState() => _EditProfileForm();
 }
 
-class _OwnerProfileForm extends State<OwnerProfileForm> {
+class _EditProfileForm extends State<EditProfileForm> {
+  final sizes = ['Small', 'Medium', 'Large'];
   final GlobalKey<FormState> _formKey =
-      GlobalKey<FormState>(); //???? check why is it not working
+      GlobalKey<FormState>();
   final TextEditingController _ownerfNameController = TextEditingController();
   final TextEditingController _ownerlNameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -97,7 +98,7 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
   bool? _isDogAggressive;
 
   final alphabetsPattern = RegExp(r'^[a-zA-Z]+$');
-  final digitsPattern = RegExp(r'^[1-9]|10$');
+  final digitsPattern = RegExp(r'^[1-9]$|^10$');
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -209,11 +210,12 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                           if (value == null || value.isEmpty) {
                             return 'Please enter phone number';
                           }
-                          if (!digitsPattern.hasMatch(value)) {
+                          if (!RegExp(r'^\+?[0-9]{10}$').hasMatch(value)) {
                             return 'Please enter valid phone number';
                           }
                           return null;
                         },
+                        maxLength: 10,
                         decoration: const InputDecoration(
                           labelText: 'Phone number',
                         ),
@@ -415,24 +417,46 @@ class _OwnerProfileForm extends State<OwnerProfileForm> {
                             });
                           },
                         ),
-                      TextFormField(
-                        initialValue: profiles[0].size,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your pets size';
-                          }
-                          if (!alphabetsPattern.hasMatch(value)) {
-                            return 'Please enter valid size';
-                          }
-                          return null;
-                        },
-                        decoration: const InputDecoration(
-                          labelText: 'Pets Size',
-                        ),
-                        onChanged: (value) {
-                          size = value;
-                        },
-                      ),
+                      // TextFormField(
+                      //   initialValue: profiles[0].size,
+                      //   validator: (value) {
+                      //     if (value == null || value.isEmpty) {
+                      //       return 'Please enter your pets size';
+                      //     }
+                      //     if (!alphabetsPattern.hasMatch(value)) {
+                      //       return 'Please enter valid size';
+                      //     }
+                      //     return null;
+                      //   },
+                      //   decoration: const InputDecoration(
+                      //     labelText: 'Pets Size',
+                      //   ),
+                      //   onChanged: (value) {
+                      //     size = value;
+                      //   },
+                      // ),
+                      DropdownButtonFormField(
+                            value: profiles[0].size,
+                            validator: (value) {
+                              if (value == null) {
+                                return 'Please select a value';
+                              }
+                              return null;
+                            },
+                            items: sizes
+                                .map(((e) => DropdownMenuItem(
+                                      value: e,
+                                      child: Text(e),
+                                    )))
+                                .toList(),
+                            onChanged: (value) {
+                              _sizeController.text = value as String;
+                            },
+                            decoration: const InputDecoration(
+                              labelText: 'Size',
+                              hintText: 'Enter Size',
+                            ),
+                          ),
                       const Divider(
                         color: Colors.black,
                         height: 25,
