@@ -16,32 +16,32 @@ class DigBottomNavBar extends StatelessWidget {
     final provider = Provider.of<DigFirebaseProvider>(context);
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      items: const [
+      items: [
         BottomNavigationBarItem(
           icon: Icon(
             Icons.home,
-            color: Colors.teal,
+            color: Theme.of(context).primaryColor,
           ),
           label: 'Home',
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.chat,
-            color: Colors.teal,
+            color: Theme.of(context).primaryColor,
           ),
           label: 'Chats',
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.person,
-            color: Colors.teal,
+            color: Theme.of(context).primaryColor,
           ),
           label: 'Profile',
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.settings,
-            color: Colors.teal,
+            color: Theme.of(context).primaryColor,
           ),
           label: 'Settings',
         ),
