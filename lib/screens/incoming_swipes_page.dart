@@ -50,7 +50,7 @@ class IncomingSwipesPage extends StatelessWidget {
                           ),
                           title: Text(
                             '${filteredIncomingSwipesList[index].sourceProfileFName} ${filteredIncomingSwipesList[index].sourceProfileLName}',
-                            style: const TextStyle(fontSize: 20),
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           subtitle: Text(
                               '${filteredIncomingSwipesList[index].sourceBreed}, ${filteredIncomingSwipesList[index].sourceColor} \nAction: ${filteredIncomingSwipesList[index].direction == "top" ? "Superlike" : filteredIncomingSwipesList[index].direction == "right" ? "Like" : "Invalid"}'),
@@ -121,12 +121,12 @@ class IncomingSwipesPage extends StatelessWidget {
           body: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[
+              children: <Widget>[
                 Text(
                   "No incoming Likes/Superlikes found, but we'll keep checking...",
-                  style: TextStyle(fontSize: 16),
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
-                Center(
+                const Center(
                   child: CircularProgressIndicator(),
                 ),
               ],
