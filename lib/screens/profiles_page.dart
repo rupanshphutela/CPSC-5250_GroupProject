@@ -82,12 +82,12 @@ class ProfilesPage extends StatelessWidget {
           body: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[
+              children: <Widget>[
                 Text(
                   "No more profiles found, but we'll keep checking...",
-                  style: TextStyle(fontSize: 16),
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
-                Center(
+                const Center(
                   child: CircularProgressIndicator(),
                 ),
               ],

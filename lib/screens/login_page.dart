@@ -118,30 +118,24 @@ class _LoginScreen extends State<LoginScreen> {
                                       10), // set the button shape
                                 ),
                               ),
-                              child: const Text(
+                              child: Text(
                                 'Sign Up',
-                                style: TextStyle(
-                                  color: Colors.white, // set the text color
-                                  fontSize: 25, // set the text size
-                                ),
+                                style: Theme.of(context).textTheme.labelSmall,
                               ),
                             ),
                             ElevatedButton(
                               onPressed: disableButtons ? null : _logIn,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Colors.teal, // set the button color
+                                backgroundColor: Theme.of(context)
+                                    .primaryColor, // set the button color
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
                                       10), // set the button shape
                                 ),
                               ),
-                              child: const Text(
+                              child: Text(
                                 'Log in',
-                                style: TextStyle(
-                                  color: Colors.white, // set the text color
-                                  fontSize: 25, // set the text size
-                                ),
+                                style: Theme.of(context).textTheme.labelSmall,
                               ),
                             )
                           ]),
