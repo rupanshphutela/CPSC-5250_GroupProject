@@ -26,6 +26,11 @@ class _LoginScreen extends State<LoginScreen> {
     _authSubscription = FirebaseAuth.instance.authStateChanges().listen((user) {
       setState(() => {_isLoggedIn = user != null});
     });
+    setState(() {
+      _email = null;
+      _password = null;
+      _errorMessage = null;
+    });
   }
 
   @override
@@ -54,17 +59,6 @@ class _LoginScreen extends State<LoginScreen> {
           title: const Icon(
             Icons.pets_outlined,
           ),
-          actions: [
-            if (_isLoggedIn)
-              IconButton(
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(
-                            'User: ${FirebaseAuth.instance.currentUser!.email} logged out')));
-                  },
-                  icon: const Icon(Icons.power_settings_new_outlined))
-          ],
         ),
         body: Center(
           child: Column(
