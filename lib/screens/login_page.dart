@@ -100,6 +100,17 @@ class _LoginScreen extends State<LoginScreen> {
                         setState(() => {_password = password})
                       },
                     ),
+                    Row(
+                      children: <Widget>[
+                        Center(
+                            child: InkWell(
+                          child: const Text('Forgot Password?'),
+                          onTap: () {
+                            _showResetPassword();
+                          },
+                        )),
+                      ],
+                    ),
                     Padding(
                       padding: EdgeInsets.all(
                           (MediaQuery.of(context).size.width).toDouble() *
@@ -160,5 +171,89 @@ class _LoginScreen extends State<LoginScreen> {
         email: email,
       );
     }
+  }
+
+  void _showResetPassword() {
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    final TextEditingController emailController = TextEditingController();
+    String errorMessagePasswordReset = '';
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Form(
+                key: formKey,
+                child: TextFormField(
+                  maxLines: 1,
+                  maxLength: 40,
+                  controller: emailController,
+                  inputFormatters: [LengthLimitingTextInputFormatter(40)],
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your Email address';
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                    labelText: 'Email address',
+                    hintText: 'Enter Email address',
+                  ),
+                ),
+              ),
+              Text(
+                errorMessagePasswordReset,
+                style: const TextStyle(color: Colors.red),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  if (formKey.currentState!.validate()) {
+                    try {
+                      await FirebaseAuth.instance
+                          .sendPasswordResetEmail(email: emailController.text)
+                          .then((value) => context.pop())
+                          .then((value) => ScaffoldMessenger.of(context)
+                              .showSnackBar(SnackBar(
+                                  content: Text(
+                                      'Password reset email sent for email: ${emailController.text}'))));
+                    } on FirebaseAuthException catch (e) {
+                      debugPrint("Error received: $e");
+                      if (e.code == 'user-not-found') {
+                        setState(() => {
+                              errorMessagePasswordReset =
+                                  'There is no user record corresponding to this identifier. The user may have been deleted.'
+                            });
+                      } else if (e.code == 'invalid-email') {
+                        setState(() => {
+                              errorMessagePasswordReset =
+                                  'The email address is badly formatted'
+                            });
+                      }
+                    }
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue, // set the button color
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(10), // set the button shape
+                  ),
+                ),
+                child: Text(
+                  'Send Email',
+                  style: Theme.of(context).textTheme.labelSmall,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
