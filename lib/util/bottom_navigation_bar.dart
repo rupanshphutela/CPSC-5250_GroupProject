@@ -55,8 +55,8 @@ class DigBottomNavBar extends StatelessWidget {
           await provider
               .getContacts(email)
               .then((value) => context.push('/contacts?email=$email'));
-        } else if (route?.settings.name != '/edit/profile' && index == 2) {
-          context.push('/edit/profile?email=$email');
+        } else if (route?.settings.name != '/profile' && index == 2) {
+          context.push('/profile?email=$email');
           // } else if (route?.settings.name != '/add/owner/profile' && index == 2) {
           //   context.push('/add/owner/profile?email=$email');
         } else if (route?.settings.name != '/settings' && index == 3) {

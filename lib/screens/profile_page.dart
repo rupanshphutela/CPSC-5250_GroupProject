@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:the_dig_app/models/profile.dart';
 import 'package:the_dig_app/providers/dig_firebase_provider.dart';
 import 'package:the_dig_app/screens/login_page.dart';
-import 'package:the_dig_app/screens/owner_profile_form.dart';
+import 'package:the_dig_app/screens/edit_profile_form.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:the_dig_app/util/bottom_navigation_bar.dart';
 
@@ -200,7 +200,7 @@ class _ProfilePageState extends State<ProfilePage> {
             IconButton(
               onPressed: () {
                 provider.readProfiles(widget.email);
-                context.push("/add/owner/profile?email=${widget.email}");
+                context.push("/edit/owner/profile?email=${widget.email}");
               },
               icon: const Icon(Icons.edit),
             ),
@@ -386,10 +386,100 @@ class _ProfilePageState extends State<ProfilePage> {
                                           const Divider(),
                                           ListTile(
                                             leading:
-                                                const Icon(Icons.rule_rounded),
+                                                const Icon(Icons.stacked_bar_chart),
                                             title: const Text('Size'),
                                             subtitle:
                                                 Text(profileList[index].size),
+                                          ),
+                                          const Divider(),
+                                          const Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 25, bottom: 25),
+                                            child: Text(
+                                              'Additional Details',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          const Divider(),
+                                          if(profileList[index].socialIndexHumans != null)
+                                              ListTile(
+                                                leading: const Icon(Icons.hotel_class),
+                                                title: const Text('Rate for social with Humans'),
+                                                subtitle:
+                                                    Text(profileList[index].socialIndexHumans.toString()),
+                                          ),
+                                          if(profileList[index].socialIndexDogs != null)
+                                              ListTile(
+                                                leading: const Icon(Icons.hotel_class),
+                                                title: const Text('Rate for social with Dogs'),
+                                                subtitle:
+                                                    Text(profileList[index].socialIndexDogs.toString()),
+                                          ),
+                                          if(profileList[index].isFoodAggressive != null)
+                                              ListTile(
+                                                leading: const Icon(Icons.sick),
+                                                title: const Text('Aggressive When Hungry'),
+                                                subtitle:
+                                                    Text(profileList[index].isFoodAggressive.toString()),
+                                          ),
+                                          if(profileList[index].isNewHumanAggressive != null)
+                                              ListTile(
+                                                leading: const Icon(Icons.sick),
+                                                title: const Text('Aggressive when meets new humans'),
+                                                subtitle:
+                                                    Text(profileList[index].isNewHumanAggressive.toString()),
+                                          ),
+                                          if(profileList[index].isNewDogAggressive != null)
+                                              ListTile(
+                                                leading: const Icon(Icons.sick),
+                                                title: const Text('Aggressive when meets new dogs'),
+                                                subtitle:
+                                                    Text(profileList[index].isNewDogAggressive.toString()),
+                                          ),
+                                          if(profileList[index].foodName != null)
+                                              ListTile(
+                                                leading: const Icon(Icons.cookie),
+                                                title: const Text('Favorite Food'),
+                                                subtitle:
+                                                    Text(profileList[index].foodName.toString()),
+                                          ),
+                                          if(profileList[index].foodLikingIndex != null)
+                                              ListTile(
+                                                leading: const Icon(Icons.hotel_class),
+                                                title: const Text('Rating for food'),
+                                                subtitle:
+                                                    Text(profileList[index].foodLikingIndex.toString()),
+                                          ),
+                                          if(profileList[index].activityName != null)
+                                              ListTile(
+                                                leading: const Icon(Icons.local_activity),
+                                                title: const Text('Favortie activity'),
+                                                subtitle:
+                                                    Text(profileList[index].activityName!),
+                                          ),
+                                          if(profileList[index].activityLikingIndex != null)
+                                              ListTile(
+                                                leading: const Icon(Icons.hotel_class),
+                                                title: const Text('Rate for favortie activity'),
+                                                subtitle:
+                                                    Text(profileList[index].activityLikingIndex.toString()),
+                                          ),
+                                          if(profileList[index].skillName != null)
+                                              ListTile(
+                                                leading: const Icon(Icons.pets),
+                                                title: const Text('Skill Name'),
+                                                subtitle:
+                                                    Text(profileList[index].skillName.toString()),
+                                          ),
+                                          if(profileList[index].skillProficiency != null)
+                                              ListTile(
+                                                leading: const Icon(Icons.hotel_class),
+                                                title: const Text('Skill Proficiency'),
+                                                subtitle:
+                                                    Text(profileList[index].skillProficiency!),
                                           ),
                                         ],
                                       ),
